@@ -18,7 +18,7 @@
 - Able to avoid sharp corners when simplifying polylines.
 - Support phase selection before meshing.
 - Two mesh generators are available for selection: [MESH2D](https://github.com/dengwirda/mesh2d), and [generateMesh](https://www.mathworks.com/help/pde/ug/pde.pdemodel.generatemesh.html).
-- Generated mesh can be exported as inp file (Abaqus) and bdf file (Nastran bulk data, compatible with COMSOL).
+- Generated mesh can be exported as `inp` file (Abaqus) and `bdf` file (Nastran bulk data, compatible with COMSOL).
 - Graphical user interface (GUI) version is available as a MATLAB app.
 
 ### How to start
@@ -29,14 +29,14 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 
 Examples:
 
-- demo01 - Demonstrate function im2mesh, which use MESH2D as mesh generator.
-- demo02 - Demonstrate function im2meshBuiltIn, which use matlab built-in function generateMesh as mesh generator.
-- demo03 - Demonstrate how to export mesh as inp, bdf, and .node/.ele file
-- demo04 - Demonstrate what is inside function im2mesh.
-- demo05 - Demonstrate parameter tf_avoid_sharp_corner
+- demo01 - Demonstrate function `im2mesh`, which use MESH2D as mesh generator.
+- demo02 - Demonstrate function `im2meshBuiltIn`, which use MATLAB built-in function `generateMesh` as mesh generator.
+- demo03 - Demonstrate how to export mesh as `inp`, `bdf`, and `node`/`ele` file
+- demo04 - Demonstrate what is inside function `im2mesh`.
+- demo05 - Demonstrate parameter `tf_avoid_sharp_corner`
 - demo06 - Demonstrate thresholds in polyline smoothing
-- demo07 - Demonstrate parameter grad_limit for mesh generation
-- demo08 - Demonstrate parameter hmax for mesh generation
+- demo07 - Demonstrate parameter `grad_limit` for mesh generation
+- demo08 - Demonstrate parameter `hmax` for mesh generation
 - demo09 - Demonstrate how to select phases for meshing
 - demo10 - Demonstrate different polyline smoothing techniques
 - demo11 - Demonstrate how to find node sets at the interface and boundary
