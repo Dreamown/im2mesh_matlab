@@ -13,7 +13,7 @@
 </p>
 
 
-Features:
+### Features:
 
 Exactly reserve the contact detail between different phases.
 Incorporating polyline smoothing and simplification
@@ -22,7 +22,7 @@ Support phase selection before meshing.
 Two mesh generators are available for selection.
 Generated mesh can be exported as inp file (Abaqus) and bdf file (Nastran bulk data, compatible with COMSOL).
 
-Examples
+### Examples
 
 demo01 - Demonstrate function im2mesh, which use MESH2D as mesh generator.
 demo02 - Demonstrate function im2meshBuiltIn, which use matlab built-in function generateMesh as mesh generator.
