@@ -34,3 +34,5 @@ demo07 - Demonstrate parameter grad_limit for mesh generation
 demo08 - Demonstrate parameter hmax for mesh generation
 demo09 - Demonstrate how to select phases for meshing
 demo10 - Demonstrate different polyline smoothing techniques
+
+demo11 - Demonstrate how to find node sets at the interface and boundary
