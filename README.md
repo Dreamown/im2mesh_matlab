@@ -2,7 +2,7 @@
 
 
 
-**Im2mesh** is a MATLAB/Octave package for generating finite element mesh based on 2D segmented multi-phase image. It provides a robust workflow capable of processing various input images, such as microstructure images of engineering materials. Due to its generalized framework, Im2mesh can handle segmented image with more than 10 phases.  Im2mesh is originally released on MathWorks File Exchange in 2019.
+**Im2mesh** is a MATLAB/Octave package for generating finite element mesh based on 2D segmented multi-phase image. It provides a robust workflow capable of processing various input images, such as microstructure images of engineering materials. Due to its generalized framework, Im2mesh can handle segmented image with more than 10 phases.  Im2mesh is originally released on [MathWorks File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/71772-im2mesh-2d-image-to-finite-element-meshes) in 2019.
 
 <p align="center">
   <img src = "https://github.com/mjx888/im2mesh/blob/main/example_kumamon.png" height="100"> &nbsp
@@ -21,7 +21,7 @@
 - Generated mesh can be exported as `inp` file (Abaqus) and `bdf` file (Nastran bulk data, compatible with COMSOL).
 - Graphical user interface (GUI) version is available as a MATLAB app.
 
-### How to start
+## How to start
 
 After downloading Im2mesh, I suggest you start with Im2mesh_GUI app in the folder, which will help you understand the workflow and parameters of Im2mesh. A detailed tutorial is provided in "[`Im2mesh_GUI Tutorial.pdf`](https://github.com/mjx888/im2mesh/blob/main/Im2mesh_GUI%20Tutorial.pdf)". 
 
@@ -43,7 +43,7 @@ Examples:
 
 
 
-### Cite As
+## Cite As
 
 Jiexian Ma (2025). Im2mesh (2D image to finite element meshes) (https://www.mathworks.com/matlabcentral/fileexchange/71772-im2mesh-2d-image-to-finite-element-meshes), MATLAB Central File Exchange. Retrieved January 30, 2025.
 
