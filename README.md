@@ -9,7 +9,9 @@
   <img src = "https://github.com/mjx888/im2mesh/blob/main/example_shape.png" height="100"> &nbsp
   <img src = "https://github.com/mjx888/im2mesh/blob/main/example_concrete.png" height="100"> 
 </p>
+**News:**
 
+The version 2.10 is a huge update. Im2mesh package can run on GNU Octave now!
 
 **Features:**
 
@@ -46,6 +48,8 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 When the mesh with second order element are exported to Abaqus, the mesh may have error.
 
 ## Cite as
+
+You can cite this work as follows for now. I will probably put a DOI here in March.
 
 Jiexian Ma (2025). Im2mesh (2D image to finite element meshes) (https://www.mathworks.com/matlabcentral/fileexchange/71772-im2mesh-2d-image-to-finite-element-meshes), MATLAB Central File Exchange. Retrieved January 30, 2025.
 
