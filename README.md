@@ -11,9 +11,9 @@
 <img src="https://github.com/mjx888/im2mesh/blob/main/four_examples.png" height=220>
 
 <p align="center">
-  <img src = "https://ik.imagekit.io/ikmedia/women-dress-2.jpg"> &nbsp &nbsp &nbsp &nbsp
-  <img src = "https://ik.imagekit.io/ikmedia/women-dress-2.jpg"> &nbsp &nbsp &nbsp &nbsp
-  <img src = "https://ik.imagekit.io/ikmedia/women-dress-2.jpg"> 
+  <img src = "https://ik.imagekit.io/ikmedia/women-dress-2.jpg" height="200"> &nbsp &nbsp &nbsp &nbsp
+  <img src = "https://ik.imagekit.io/ikmedia/women-dress-2.jpg" height="200"> &nbsp &nbsp &nbsp &nbsp
+  <img src = "https://ik.imagekit.io/ikmedia/women-dress-2.jpg" height="200"> 
 </p>
 
 Features:
