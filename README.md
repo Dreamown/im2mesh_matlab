@@ -2,9 +2,7 @@
 
 
 
-**Im2mesh** is a MATLAB/Octave package for generating finite element mesh based on 2D segmented multi-phase image. Im2mesh provides a robust workflow to handle different kinds of input images, such as microstructure images of engineering materials. Due to its generalized framework, Im2mesh can handle segmented image with more than 10 phases.  Im2mesh is first released on MathWorks File Exchange in 2019.
-
-
+**Im2mesh** is a MATLAB/Octave package for generating finite element mesh based on 2D segmented multi-phase image. It provides a robust workflow capable of processing various input images, such as microstructure images of engineering materials. Due to its generalized framework, Im2mesh can handle segmented image with more than 10 phases.  Im2mesh is originally released on MathWorks File Exchange in 2019.
 
 <p align="center">
   <img src = "https://github.com/mjx888/im2mesh/blob/main/example_kumamon.png" height="100"> &nbsp
@@ -21,17 +19,15 @@
 - Support phase selection before meshing.
 - Two mesh generators are available for selection: MESH2D, and generateMesh.
 - Generated mesh can be exported as inp file (Abaqus) and bdf file (Nastran bulk data, compatible with COMSOL).
-- GUI version is available as a Matlab App.
+- Graphical user interface (GUI) version is available as a MATLAB app.
 
 ### How to start
 
-After downloading Im2mesh package 
+After downloading Im2mesh, I suggest you start with Im2mesh_GUI app in the folder, which will help you understand the workflow and parameters of Im2mesh. A detailed tutorial is provided in "Im2mesh_GUI Tutorial.pdf". 
 
- With graphical user interface, Im2mesh_GUI will help you better understand the workflow and parameters of Im2mesh package.
+Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im2mesh_Octave". 11 examples are provided.  If you're using MATLAB ,  examples are live script mlx files (demo1.mlx ~ demo11.mlx). If you're using Octave,  examples are m files (demo1.m ~ demo10.m). 
 
-
-
-11 examples are 
+Examples:
 
 - demo01 - Demonstrate function im2mesh, which use MESH2D as mesh generator.
 - demo02 - Demonstrate function im2meshBuiltIn, which use matlab built-in function generateMesh as mesh generator.
