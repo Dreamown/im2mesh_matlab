@@ -11,7 +11,7 @@
 </p>
 
 
-### Features:
+Features:
 
 - Accurately preserve the contact details between different phases.
 - Incorporates polyline smoothing and simplification
@@ -47,6 +47,6 @@ Examples:
 
 Jiexian Ma (2025). Im2mesh (2D image to finite element meshes) (https://www.mathworks.com/matlabcentral/fileexchange/71772-im2mesh-2d-image-to-finite-element-meshes), MATLAB Central File Exchange. Retrieved January 30, 2025.
 
-### Acknowledgments
+## Acknowledgments
 
 Great thanks Dr. Yang Lu (Boise State University) providing valuable advice on Im2mesh.  
