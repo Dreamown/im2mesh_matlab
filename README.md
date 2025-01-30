@@ -41,7 +41,9 @@ Examples:
 - demo10 - Demonstrate different polyline smoothing techniques
 - demo11 - Demonstrate how to find node sets at the interface and boundary
 
+## Known bugs:
 
+When the mesh with second order element are exported to Abaqus, the mesh may have error.
 
 ## Cite As
 
