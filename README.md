@@ -6,9 +6,9 @@
 
 ![four_examples](C:\Users\Jason\Downloads\GitHub\im2mesh\four_examples.png)
 
-<img src="C:\Users\Jason\Downloads\GitHub\im2mesh\four_examples.png" width=400>
+<img src="C:\Users\Jason\Downloads\GitHub\im2mesh\four_examples.png" width=500>
 
-<img src="https://github.com/mjx888/im2mesh/blob/main/four_examples.png" width=500>
+<img src="https://github.com/mjx888/im2mesh/blob/main/four_examples.png" height=200>
 
 Features:
 
