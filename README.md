@@ -4,17 +4,14 @@
 
 **Im2mesh** is a MATLAB/Octave package for generating finite element mesh based on 2D segmented multi-phase image. Im2mesh provides a robust workflow to handle different kinds of input images, such as microstructure images of engineering materials. Due to its generalized framework, Im2mesh can handle segmented image with more than 10 phases. 
 
-![four_examples](C:\Users\Jason\Downloads\GitHub\im2mesh\four_examples.png)
 
-<img src="C:\Users\Jason\Downloads\GitHub\im2mesh\four_examples.png" width=500>
-
-<img src="https://github.com/mjx888/im2mesh/blob/main/four_examples.png" height=220>
 
 <p align="center">
-  <img src = "https://github.com/mjx888/im2mesh/blob/main/example_kumamon.png" height="100"> &nbsp &nbsp &nbsp &nbsp
-  <img src = "https://github.com/mjx888/im2mesh/blob/main/example_shape.png" height="100"> &nbsp &nbsp &nbsp &nbsp
-  <img src = "https://github.com/mjx888/im2mesh/blob/main/example_concrete.png" height="100"> 
+  <img src = "https://github.com/mjx888/im2mesh/blob/main/example_kumamon.png" height="130"> &nbsp
+  <img src = "https://github.com/mjx888/im2mesh/blob/main/example_shape.png" height="130"> &nbsp
+  <img src = "https://github.com/mjx888/im2mesh/blob/main/example_concrete.png" height="130"> 
 </p>
+
 
 Features:
 
