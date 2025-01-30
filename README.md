@@ -7,9 +7,9 @@
 
 
 <p align="center">
-  <img src = "https://github.com/mjx888/im2mesh/blob/main/example_kumamon.png" height="130"> &nbsp
-  <img src = "https://github.com/mjx888/im2mesh/blob/main/example_shape.png" height="130"> &nbsp
-  <img src = "https://github.com/mjx888/im2mesh/blob/main/example_concrete.png" height="130"> 
+  <img src = "https://github.com/mjx888/im2mesh/blob/main/example_kumamon.png" height="120"> &nbsp
+  <img src = "https://github.com/mjx888/im2mesh/blob/main/example_shape.png" height="120"> &nbsp
+  <img src = "https://github.com/mjx888/im2mesh/blob/main/example_concrete.png" height="120"> 
 </p>
 
 
