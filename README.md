@@ -13,7 +13,7 @@
 
 **News:**
 
-The version 2.10 is a huge update. Im2mesh package can run on GNU Octave now!
+The version 2.1.0 is a huge update. Im2mesh package can run on GNU Octave now!
 
 **Features:**
 
