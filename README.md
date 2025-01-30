@@ -8,7 +8,7 @@ Im2mesh is a MATLAB/Octave package for generating finite element mesh based on 2
 
 <img src="C:\Users\Jason\Downloads\GitHub\im2mesh\four_examples.png" width=400>
 
-<img src="[C:\Users\Jason\Downloads\GitHub\im2mesh\four_examples.png](https://github.com/mjx888/im2mesh/blob/main/four_examples.png)" width=400>
+<img src="https://github.com/mjx888/im2mesh/blob/main/four_examples.png" width=400>
 
 Features:
 
