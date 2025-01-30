@@ -11,7 +11,7 @@
 </p>
 
 
-**Features**:
+**Features:**
 
 - Accurately preserve the contact details between different phases.
 - Incorporates polyline smoothing and simplification
@@ -27,7 +27,7 @@ After downloading Im2mesh, I suggest you start with [Im2mesh_GUI app](https://gi
 
 Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im2mesh_Octave". 11 examples are provided.  If you're using MATLAB ,  examples are live script `mlx` files (`demo1.mlx` ~ `demo11.mlx`). If you're using Octave,  examples are `m` files (`demo1.m` ~ `demo10.m`).  Examples are also available as `html` files in the folder "demo_html".
 
-Examples:
+**Examples:**
 
 - demo01 - Demonstrate function `im2mesh`, which use MESH2D as mesh generator.
 - demo02 - Demonstrate function `im2meshBuiltIn`, which use MATLAB built-in function `generateMesh` as mesh generator.
