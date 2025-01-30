@@ -41,14 +41,14 @@ Examples:
 - demo10 - Demonstrate different polyline smoothing techniques
 - demo11 - Demonstrate how to find node sets at the interface and boundary
 
-## Potential bugs:
+## Potential bugs
 
 When the mesh with second order element are exported to Abaqus, the mesh may have error.
 
-## Cite As
+## Cite as
 
 Jiexian Ma (2025). Im2mesh (2D image to finite element meshes) (https://www.mathworks.com/matlabcentral/fileexchange/71772-im2mesh-2d-image-to-finite-element-meshes), MATLAB Central File Exchange. Retrieved January 30, 2025.
 
 ## Acknowledgments
 
-Great thanks Dr. Yang Lu (Boise State University) providing valuable advice on Im2mesh.  
+Great thanks Dr. Yang Lu (Boise State University) providing valuable advice on Im2mesh. 
