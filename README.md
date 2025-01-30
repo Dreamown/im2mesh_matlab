@@ -11,7 +11,7 @@
 </p>
 
 
-Features:
+**Features**:
 
 - Accurately preserve the contact details between different phases.
 - Incorporates polyline smoothing and simplification
