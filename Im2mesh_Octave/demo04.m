@@ -69,9 +69,9 @@ totalNumCtrlPnt(boundsCtrlP)
 %% Smooth boundary
 % We use function smoothBounds to smooth boundary.
 
-lambda = 0.7;
-mu = -0.4;
-iters = 10;
+lambda = 0.5;
+mu = -0.5;
+iters = 100;
 threshold_num_turning = 0;
 threshold_num_vert_Smo = 0;
 
