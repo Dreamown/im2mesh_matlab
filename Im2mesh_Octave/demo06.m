@@ -52,9 +52,9 @@ plotBounds(boundsCtrlP);
 %% Smooth boundary
 % Set thresholds to zero.
 
-lambda = 0.7;
-mu = -0.4;
-iters = 10;
+lambda = 0.5;
+mu = -0.5;
+iters = 100;
 threshold_num_turning = 0;
 threshold_num_vert_Smo = 0;
 
@@ -135,9 +135,9 @@ ylim([44.2 64.8])
 %% Set threshold
 % Now, we set thresholds.
 
-lambda = 0.7;
-mu = -0.4;
-iters = 10;
+lambda = 0.5;
+mu = -0.5;
+iters = 100;
 threshold_num_turning = 10;
 threshold_num_vert_Smo = 20;
 
