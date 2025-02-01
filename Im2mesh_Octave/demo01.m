@@ -98,21 +98,21 @@ plotMeshes( vert, tria, tnum )
 % parameters for function. We can take a look at the default value of opt.
 %%
 %   % opt is a structure array for parameters
-%   opt.tf_avoid_sharp_corner = false;
-%   opt.lambda = 0.7;
-%   opt.mu = -0.4;
-%   opt.iters = 10;
-%   opt.threshold_num_turning = 10;
-%   opt.threshold_num_vert_Smo = 10;
-%   opt.tolerance = 0.3;
-%   opt.threshold_num_vert_Sim = 10;
-%   opt.select_phase = [];
-%   opt.grad_limit = 0.25;
-%   opt.hmax = 500;
-%   opt.mesh_kind = 'delaunay';
+%     opt.tf_avoid_sharp_corner = false;
+%     opt.lambda = 0.5;
+%     opt.mu = -0.5;
+%     opt.iters = 100;
+%     opt.threshold_num_turning = 10;
+%     opt.threshold_num_vert_Smo = 10;
+%     opt.tolerance = 0.3;
+%     opt.threshold_num_vert_Sim = 10;
+%     opt.grad_limit = 0.25;
+%     opt.hmax = 500;
+%     opt.mesh_kind = 'delaunay';
+%     opt.select_phase = [];
 %
 %%
-% The meaning of these parameters are listed the file "Im2mesh Function List and Parameters.pdf".
+% The meaning of these parameters are listed the file "Im2mesh functions and parameters.pdf".
 % Please refer to "Im2mesh_GUI Tutorial.pdf" about how to choose the value of
 % these parameters. You can change these default values by editting function setOption
 % in "im2mesh.m".

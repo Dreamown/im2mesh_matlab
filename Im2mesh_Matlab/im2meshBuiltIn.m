@@ -128,9 +128,9 @@ function new_opt = setOption( opt )
 
     % initialize new_opt with default field names & value 
     new_opt.tf_avoid_sharp_corner = false;
-    new_opt.lambda = 0.7;
-    new_opt.mu = -0.4;
-    new_opt.iters = 10;
+    new_opt.lambda = 0.5;
+    new_opt.mu = -0.5;
+    new_opt.iters = 100;
     new_opt.threshold_num_turning = 10;
     new_opt.threshold_num_vert_Smo = 10;
     new_opt.tolerance = 0.3;
