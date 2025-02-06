@@ -99,54 +99,12 @@ plotBounds(boundsCCMA);
 %% ------------------------------------------------------------------------
 %% Plot together
 
-figure;
-title('Blue - Taubin. Red - CCMA.')
-hold on
-axis image off;
-
-b = boundsTaubin;
-for i = 1: length(b)
-	for j = 1: length(b{i})
-		poly = b{i}{j};
-		plot( poly(:,1), poly(:,2), 'b' );
-	end
-end
-
-b = boundsCCMA;
-for i = 1: length(b)
-	for j = 1: length(b{i})
-		poly = b{i}{j};
-		plot( poly(:,1), poly(:,2), 'r' );
-	end
-end
-
-hold off
+plotBounds2( boundsTaubin, boundsCCMA );
 
 %% ------------------------------------------------------------------------
 %% Zoom in
 
-figure;
-title('Blue - Taubin. Red - CCMA.')
-hold on
-axis image off;
-
-b = boundsTaubin;
-for i = 1: length(b)
-	for j = 1: length(b{i})
-		poly = b{i}{j};
-		plot( poly(:,1), poly(:,2), 'b' );
-	end
-end
-
-b = boundsCCMA;
-for i = 1: length(b)
-	for j = 1: length(b{i})
-		poly = b{i}{j};
-		plot( poly(:,1), poly(:,2), 'r' );
-	end
-end
-
-hold off
+plotBounds2( boundsTaubin, boundsCCMA );
 
 xlim([32.6 58.5])
 ylim([45.7 68.2])
