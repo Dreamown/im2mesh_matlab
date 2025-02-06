@@ -1,4 +1,4 @@
-function [vert,tria,tnum,mesh] = poly2meshBuiltIn( poly_node, poly_edge, pcell, hgrad, hmax, hmin )
+function [vert,tria,tnum,vert2,tria2] = poly2meshBuiltIn( poly_node, poly_edge, pcell, hgrad, hmax, hmin )
 % poly2meshBuiltIn: generate meshes of parts defined by polygons using 
 %                   matlab built-in function generateMesh
 % 
