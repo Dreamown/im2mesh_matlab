@@ -48,6 +48,7 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 ## Potential bugs
 
 When the mesh with second order element are exported to Abaqus, the mesh may have error.
+I'll fix this bug in Feb 2025.
 
 ## Cite as
 
