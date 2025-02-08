@@ -1,8 +1,12 @@
-function [ vert, tria, tnum ] = im2mesh( im, opt )
+function [ vert, tria, tnum, vert2, tria2 ] = im2mesh( im, opt )
 % im2mesh: generate triangular mesh based on grayscale segmented image
+%
 % usage:
-%   [ vert, tria, tnum ] = im2mesh( im );   % this use default opt setting
+%   [ vert, tria, tnum ] = im2mesh( im );   % default opt setting
 %   [ vert, tria, tnum ] = im2mesh( im, opt );
+%
+%   [ vert, tria, tnum, vert2, tria2 ] = im2mesh( im );  % default opt setting
+%   [ vert, tria, tnum, vert2, tria2 ] = im2mesh( im, opt );
 %
 % input
 %   im        % grayscale segmented image
@@ -71,7 +75,9 @@ function [ vert, tria, tnum ] = im2mesh( im, opt )
 %                   % and 240 will be chosen to perform meshing.   
 %   
 % output:
-%   verrt - Node data. N-by-2 array.
+%   vert, tria define linear elements. vert2, tria2 define 2nd order elements.
+%
+%   vert - Node data. N-by-2 array.
 %       vert(i,1:2) = [x_coordinate, y_coordinate] of the i-th node
 %
 %   tria - Node numbering for each triangle. M-by-3 array.
@@ -79,6 +85,14 @@ function [ vert, tria, tnum ] = im2mesh( im, opt )
 %
 %   tnum - Label of material phase. P-by-1 array.
 %       tnum(j,1) = k; means the j-th element is belong to the k-th phase
+%
+%   vert2 - Node data (2nd order element). P-by-2 array. 
+%       Due to new vertices, the length of vert2 is much longer than vert.
+%       vert2(i,1:2) = [x_coordinate, y_coordinate] of the i-th node
+%
+%   tria2 - Node numbering for each triangle (2nd order element). M-by-6 array.
+%       tria2(j,1:6) = [node_numbering_of_6_nodes] of the j-th element
+%
 %
 % You can use function plotMeshes( vert, tria, tnum ) to view mesh.
 %
@@ -135,7 +149,7 @@ function [ vert, tria, tnum ] = im2mesh( im, opt )
     % get nodes and edges of polygonal boundary
     [ poly_node, poly_edge ] = getPolyNodeEdge( boundsClear );
     % generate triangular mesh
-    [ vert,tria,tnum ] = poly2mesh( poly_node, poly_edge, ...
+    [ vert,tria,tnum,vert2,tria2 ] = poly2mesh( poly_node, poly_edge, ...
                                 opt.hmax, opt.mesh_kind, opt.grad_limit );
     
 end
