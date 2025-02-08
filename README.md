@@ -13,9 +13,9 @@
 
 **News:**
 
-​    Version 2.1.5 fixed bugs for quadratic elements.
+Version 2.1.5 fixed bugs for quadratic elements.
 
-​    Version 2.1.0 is a huge update. Im2mesh package can run on GNU Octave now! 
+Version 2.1.0 is a huge update. Im2mesh package can run on GNU Octave now! 
 
 **Features:**
 
