@@ -29,7 +29,7 @@
 - Graphical user interface (GUI) version is available as a MATLAB app.
 
 <p align="center">
-  <img src = "https://github.com/mjx888/im2mesh/blob/main/GUI.PNG" height="200"> 
+  <img src = "https://github.com/mjx888/im2mesh/blob/main/GUI.PNG" height="400"> 
 </p>
 
 ## How to start
