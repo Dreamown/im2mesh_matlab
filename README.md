@@ -13,7 +13,9 @@
 
 **News:**
 
-The version 2.1.0 is a huge update. Im2mesh package can run on GNU Octave now!
+Version 2.1.5 fixed bugs for quadratic elements.
+
+Version 2.1.0 is a huge update. Im2mesh package can run on GNU Octave now! 
 
 **Features:**
 
@@ -27,7 +29,7 @@ The version 2.1.0 is a huge update. Im2mesh package can run on GNU Octave now!
 
 ## How to start
 
-After downloading Im2mesh, I suggest you start with [Im2mesh_GUI app](https://github.com/mjx888/im2mesh/tree/main/Im2mesh_GUI%20app) in the folder, which will help you understand the workflow and parameters of Im2mesh. A detailed tutorial is provided in [Im2mesh_GUI Tutorial.pdf](https://github.com/mjx888/im2mesh/blob/main/Im2mesh_GUI%20Tutorial.pdf). 
+After downloading Im2mesh package ([releases](https://github.com/mjx888/im2mesh/releases)), I suggest you start with [Im2mesh_GUI app](https://github.com/mjx888/im2mesh/tree/main/Im2mesh_GUI%20app) in the folder, which will help you understand the workflow and parameters of Im2mesh. A detailed tutorial is provided in [Im2mesh_GUI Tutorial.pdf](https://github.com/mjx888/im2mesh/blob/main/Im2mesh_GUI%20Tutorial.pdf). 
 
 Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im2mesh_Octave". 11 examples are provided.  If you're using MATLAB ,  examples are live script `mlx` files (`demo1.mlx` ~ `demo11.mlx`). If you're using Octave,  examples are `m` files (`demo1.m` ~ `demo10.m`).  Examples are also available as `html` files in the folder "demo_html".
 
@@ -45,10 +47,10 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 - [demo10](https://mjx888.github.io/im2mesh_demo_html/demo10.html) - Demonstrate different polyline smoothing techniques
 - [demo11](https://mjx888.github.io/im2mesh_demo_html/demo11.html) - Demonstrate how to find node sets at the interface and boundary
 
-## Potential bugs
+## Other related projects
 
-When the mesh with second order element are exported to Abaqus, the mesh may have error.
-I'll fix this bug in Feb 2025.
+- [pixelMesh (pixel-based mesh)](https://www.mathworks.com/matlabcentral/fileexchange/104715-pixelmesh-pixel-based-mesh?s_tid=srchtitle)
+- [voxelMesh (voxel-based mesh)](https://www.mathworks.com/matlabcentral/fileexchange/104720-voxelmesh-voxel-based-mesh)
 
 ## Cite as
 
