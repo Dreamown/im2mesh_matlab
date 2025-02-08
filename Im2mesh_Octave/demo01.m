@@ -118,6 +118,19 @@ plotMeshes( vert, tria, tnum )
 % in "im2mesh.m".
 
 %% ------------------------------------------------------------------------
+%% Quadratic element
+% Function im2mesh can also generate quadratic element via the following syntax.
+%%
+% 
+%   [ vert, tria, tnum, vert2, tria2 ] = im2mesh( im );     % this use default opt setting
+%   [ vert, tria, tnum, vert2, tria2 ] = im2mesh( im, opt );
+%
+%% 
+% Ouput variables - vert, tria, tnum define *linear elements.*
+% 
+% Ouput variables - vert2, tria2, tnum define *quadratic elements.*
+%
+%% ------------------------------------------------------------------------
 %% Example 1
 % Let's show some examples with different opt.
 
@@ -134,7 +147,7 @@ plotMeshes( vert, tria, tnum );
 opt = [];                       % reset opt
 opt.tolerance = 1;
 opt.select_phase = [1 2 4];     % select phase for meshing
-[ vert, tria, tnum ] = im2mesh( im, opt );
+[ vert, tria, tnum, vert2, tria2 ] = im2mesh( im, opt );
 plotMeshes( vert, tria, tnum );
 
 %% ------------------------------------------------------------------------

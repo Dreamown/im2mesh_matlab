@@ -75,54 +75,12 @@ ylim([44.2 64.8])
 %% Compare
 % We can compare boundsSmooth with boundsRaw.
 
-figure;
-title('Red - Smoothed. Blue - Pristine')
-hold on
-axis image off;
-
-b = boundsRaw;
-for i = 1: length(b)
-	for j = 1: length(b{i})
-		poly = b{i}{j};
-		plot( poly(:,1), poly(:,2), 'b' );
-	end
-end
-
-b = boundsSmooth;
-for i = 1: length(b)
-	for j = 1: length(b{i})
-		poly = b{i}{j};
-		plot( poly(:,1), poly(:,2), 'r' );
-	end
-end
-
-hold off
+plotBounds2( boundsRaw, boundsSmooth );
 
 %% 
 % Let's zoom in.
 
-figure;
-title('Red - Smoothed. Blue - Pristine')
-hold on
-axis image off;
-
-b = boundsRaw;
-for i = 1: length(b)
-	for j = 1: length(b{i})
-		poly = b{i}{j};
-		plot( poly(:,1), poly(:,2), 'b' );
-	end
-end
-
-b = boundsSmooth;
-for i = 1: length(b)
-	for j = 1: length(b{i})
-		poly = b{i}{j};
-		plot( poly(:,1), poly(:,2), 'r' );
-	end
-end
-
-hold off
+plotBounds2( boundsRaw, boundsSmooth );
 
 xlim([34.5 55.5])
 ylim([44.2 64.8])
@@ -157,28 +115,7 @@ ylim([44.2 64.8])
 %% 
 % It seems new boundaries are better. We can compare with the pristine boundaries.
 
-figure;
-title('Red - Smoothed. Blue - Pristine')
-hold on
-axis image off;
-
-b = boundsRaw;
-for i = 1: length(b)
-	for j = 1: length(b{i})
-		poly = b{i}{j};
-		plot( poly(:,1), poly(:,2), 'b' );
-	end
-end
-
-b = boundsSmooth;
-for i = 1: length(b)
-	for j = 1: length(b{i})
-		poly = b{i}{j};
-		plot( poly(:,1), poly(:,2), 'r' );
-	end
-end
-
-hold off
+plotBounds2( boundsRaw, boundsSmooth );
 
 xlim([34.5 55.5])
 ylim([44.2 64.8])

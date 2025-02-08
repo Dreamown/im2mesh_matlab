@@ -1,12 +1,17 @@
-function [ nodecoor_list, nodecoor_cell, ele_cell ] = getNodeEle( vert, tria, tnum, ele_order )
+function [ nodecoor_list, nodecoor_cell, ele_cell ] = getNodeEle( vert, tria, tnum, ~ )
 % get node coordinares and elements from mesh
+%
+% usage:
+%   [ nodecoor_list, nodecoor_cell, ele_cell ] = getNodeEle( vert, tria, tnum );
 %
 % input:
 %   verrt - Node data. N-by-2 array.
 %       vert(i,1:2) = [x_coordinate, y_coordinate] of the i-th node
 %
-%   tria - Node numbering for each triangle. M-by-3 array.
+%   tria - Node numbering for each triangle. 
+%       M-by-3 array (linear element) or M-by-6 array (2nd order element)
 %       tria(j,1:3) = [node_numbering_of_3_nodes] of the j-th element
+%       tria(j,1:6) = [node_numbering_of_6_nodes] of the j-th element
 %
 %   tnum - Label of material phase. P-by-1 array.
 %       tnum(j,1) = k; means the j-th element is belong to the k-th phase
@@ -21,12 +26,13 @@ function [ nodecoor_list, nodecoor_cell, ele_cell ] = getNodeEle( vert, tria, tn
 %
 %   ele_cell is a 1-by-P cell array. ele_cell{i} represent elements in the 
 %   i-th phase.
-%       % When the elements are linear
+%       % When the elements are linear, ele_cell{i} has 4 rows.
 %       ele_cell{i}(j,1:4) = [ element_numbering, node_numbering_of_node_1, ...
 %                                               node_numbering_of_node_2, ...
 %                                               node_numbering_of_node_3 
 %                             ];
-%       % When the elements are second order
+%
+%       % When the elements are second order, ele_cell{i} has 7 rows.
 %       ele_cell{i}(j,1:7) = [ element_numbering, node_numbering_of_all nodes ]
 %
 % Author:
@@ -38,16 +44,13 @@ function [ nodecoor_list, nodecoor_cell, ele_cell ] = getNodeEle( vert, tria, tn
 %   5.
 %   
 
-    if ele_order == 1
-        % do nothing
-    elseif ele_order == 2
-        % insert midpoint in each edges
-        % linear element to quadratic element
-        [ vert, tria ] = insertNode( vert, tria );
-        % size of tria will change after insertNode
-        % tria(m,1:6) = [node_numbering_of_6_nodes] of m-th element
+    % check the number of inputs
+    if nargin == 3
+        % normal case
+    elseif nargin == 4
+        warning("the 4th parameter - ele_order is no longer support.")
     else
-        error('ele_order should be 1 or 2')
+        error('check the number of inputs');
     end
     
     nodecoor_list = zeros( size(vert,1), 3 );
@@ -99,36 +102,5 @@ function [ nodecoor_cell, ele_cell ] = whole2phase( vert, tria, tnum )
         
         nodecoor_cell{i} = nodecoor_phase_i;
         ele_cell{i} = ele_phase_i;
-    end
-end
-
-
-function [ vert, tria ] = insertNode( vert, tria )
-% insertNode: insert a midpoint in each edges,
-%            linear element -> quadratic element (like CPS6M in abaqus)
-
-    num_node = size(vert,1);
-    num_ele = size(tria,1);
-    
-    % append first index to the end
-    tria_app = [ tria, tria(:,1) ];
-
-    for j = 1: num_ele
-        for k=1:3
-            % index of node numbering
-            idx1 = tria_app(j,k);
-            idx2 = tria_app(j,k+1);
-            % get coor
-            coor1 = vert( idx1, 1:2 );
-            coor2 = vert( idx2, 1:2 );
-            % get middle point
-            coor3 = (coor1 + coor2)/2;
-            
-            num_node = num_node + 1;
-            % add coordinates of new vertex into vert
-            vert( num_node, 1:2 ) = [ coor3(1) coor3(2) ];
-            % add node numbering of new vertex into tria
-            tria( j, k+3 ) = num_node;
-        end
     end
 end

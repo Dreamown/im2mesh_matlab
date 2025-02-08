@@ -84,10 +84,18 @@ function Bs = getExactBounds( bw )
 
 end
 
+
 function cellout = outerboundary( cellin )
-% outerboundary: get exact boundary of the outer contour of objects
+% outerboundary: get exact boundary of outer contour of objects
 % sub-function of getExactBounds.m
-% input - cellin is a cell (N*1), cellin{j} is clockwise polygonal boundary
+% A faster version of the original outerboundary function.
+%
+% INPUT:
+%   cellin : N-by-1 cell. Each cell is a polygon, M-by-2, in clockwise order.
+%
+% OUTPUT:
+%   cellout: N-by-1 cell. Each cell is the "outer boundary" polygon for the
+%            corresponding input polygon.
 %
 % an example:
 %     bw = [0 0 0 0 0;
@@ -110,174 +118,216 @@ function cellout = outerboundary( cellin )
 %             'outerboundary( bwboundaries() )');
 %
 %
+% Feb 2025 update note:
+% Preallocation of arrays so that we do not grow or shrink arrays repeatedly inside loops.
+% Single-pass insertions rather than [A(1:k), newValues, A(k+1:end)] in a loop. 
+% Repeated concatenation or slicing is notoriously costly in MATLAB. 
+% Instead, we collect any newly needed points in one pass, then add them all at once.
+% Minor vectorization and reduction in repeated checks where possible.
+% Removed a few redundant operations in places.
+%
 % Revision history:
-%   Jiexian Ma, mjx0799@gmail.com, May 2020
+%   Jiexian Ma, mjx0799@gmail.com, Feb 2025
 
-cellout = cell( length(cellin), 1 );
+nPolys = numel(cellin);
+cellout = cell(nPolys, 1);
 
-for j = 1: length(cellin)
-    if size( cellin{j}, 1 ) < 2
+for j = 1 : nPolys
+    currBoundary = cellin{j};
+    nPoints      = size(currBoundary, 1);
+    
+    % Quick sanity check
+    if nPoints < 2
         error('size error')
-    elseif size( cellin{j}, 1 ) == 2
-        % one pixel
-        % four corner
-        [cx,cy] = meshgrid( cellin{j}(1,1)+[-.5 .5], cellin{j}(1,2)+[-.5 .5] );
-        pnt_list = zeros( 5, 2 );
-        pnt_list( 1:4, : ) = [ cx(:), cy(:) ];
-        pnt_list( 3:4, : ) = flip( pnt_list(3:4,:), 1 );
-        pnt_list( 5, : ) = pnt_list( 1, : );
-        new_pnt_list = pnt_list;
+    elseif nPoints == 2
+        % Single pixel boundary
+        [cx, cy]        = meshgrid( currBoundary(1,1)+[-.5 .5], ...
+                                    currBoundary(1,2)+[-.5 .5] );
+        pnt_list        = zeros(5,2);
+        pnt_list(1:4,:) = [cx(:), cy(:)];
+        pnt_list(3:4,:) = flip( pnt_list(3:4,:), 1 );
+        pnt_list(5,:)   = pnt_list(1,:);
+        new_pnt_list    = pnt_list;
     else
-        % two or more pixels
-        % Step 1: obtain mid point of 2 neighbouring vertex. Treat mid 
-        % points as new vertex. If not skew line, offset by 0.5.
-        % Step 2: add special vertex since step 1 will miss some corners.
-        % Step 3: for the skew line, offset by sqrt(2)/2.
+        % More than one pixel
+        % -----------------------------------------------------------
+        % STEP 1 & STEP 2
+        % -----------------------------------------------------------
+        % We'll generate a set of "midpoints" (offset by +/- 0.5) and
+        % also add special corner vertices. We do so in a single pass.
         
-        poly = [ cellin{j}; cellin{j}(2,:) ];   % to make pnt_list be close
-        len_pnt_list = ( size( cellin{j}, 1 ) - 1 )*4;
-        pnt_list = zeros( len_pnt_list, 2 );    % initailize
-        count = 0;
-        % pnt_list = [];
+        % Add an extra row to close it easily
+        poly = [currBoundary; currBoundary(2,:)];
+
+        % The maximum number of points we can generate in step 1 & 2:
+        %   - We get 1 new "midpoint" for each edge (nPoints-1 edges)
+        %   - We might add up to 2 new corner points for each edge
+        % So let's be generous and preallocate for 3*(nPoints-1) + 1 
+        % (the +1 for closure).
         
-        % step 1 & step 2
-        for k = 1: length(poly)-1
-            % step 1
-            if poly(k,1) == poly(k+1,1)
+        maxSz   = 3*(nPoints-1) + 1;
+        pnt_list = zeros(maxSz, 2);
+        count    = 0;
+
+        for k = 1 : (size(poly,1) - 1)
+            p1 = poly(k,:);
+            p2 = poly(k+1,:);
+
+            % STEP 1: midpoints offset by +/- 0.5
+            if p1(1) == p2(1)
                 % vertical line
-                temp_y = 0.5*( poly(k,2) + poly(k+1,2) );
-                if poly(k+1,2) > poly(k,2)
-                    temp_x = poly(k,1) - 0.5;
+                tempY = 0.5*(p1(2)+p2(2));
+                if p2(2) > p1(2)
+                    tempX = p1(1) - 0.5;
                 else
-                    temp_x = poly(k,1) + 0.5;
+                    tempX = p1(1) + 0.5;
                 end
-                temp = [ temp_x, temp_y ];
+                midpt = [tempX, tempY];
 
-            elseif poly(k,2) == poly(k+1,2)
+            elseif p1(2) == p2(2)
                 % horizontal line
-                temp_x = 0.5*( poly(k,1) + poly(k+1,1) );
-                if poly(k+1,1) > poly(k,1)
-                    temp_y = poly(k,2) + 0.5;
+                tempX = 0.5*(p1(1)+p2(1));
+                if p2(1) > p1(1)
+                    tempY = p1(2) + 0.5;
                 else
-                    temp_y = poly(k,2) - 0.5;
+                    tempY = p1(2) - 0.5;
                 end
-                temp = [ temp_x, temp_y ];
+                midpt = [tempX, tempY];
+
             else
-                % skew line
-                temp = 0.5*( poly(k,:) + poly(k+1,:) );
-            end 	% end of step 1
-
-            % step 2
-            if count > 0
-                p1 = pnt_list(count,:);
-                p2 = temp;
-                if p1(1) == p2(1)
-                    % vertical line
-                    % pnt_list(end,:)  temp
-                    % poly(k,:)
-                    if p2(2) > p1(2)
-                        if poly(k,1) < p1(1)
-                            temp = [
-                                poly(k,:) + [-0.5 -0.5];
-                                poly(k,:) + [-0.5 +0.5];
-                                temp
-                                ];
-                        else
-                            % do nothing
-                        end
-                    else
-                        if poly(k,1) > p1(1)
-                            temp = [
-                                poly(k,:) + [+0.5 +0.5];
-                                poly(k,:) + [+0.5 -0.5];
-                                temp
-                                ];
-                        else
-                            % do nothing
-                        end
-                    end
-                elseif p1(2) == p2(2)
-                    % horizontal line
-                    if p2(1) > p1(1)
-                        if poly(k,2) > p1(2)
-                            temp = [
-                                poly(k,:) + [-0.5 +0.5];
-                                poly(k,:) + [+0.5 +0.5];
-                                temp
-                                ];
-                        else
-                            % do nothing
-                        end
-                    else
-                        if poly(k,2) < p1(2)
-                            temp = [
-                                poly(k,:) + [+0.5 -0.5];
-                                poly(k,:) + [-0.5 -0.5];
-                                temp
-                                ];
-                        else
-                            % do nothing
-                        end
-                    end
-                else
-                    % do nothing
-                end
-            end     % end of step 2
-            
-            % put temp into pnt_list
-            if ~isempty( temp )
-                len_temp = size( temp, 1 );
-                pnt_list( count+(1:len_temp), : ) = temp;
-                count = count + len_temp;
+                % skew line => just store midpoint for now
+                midpt = 0.5*(p1 + p2);
             end
-        end   	% end of step 1 & step 2
-        
-        % delete redudant zeros in pnt_list
-        pnt_list( count+1:end, : ) = [];
 
-        if ~isequal( pnt_list(1,:), pnt_list(end,:) )
-            error('polygon not close')
+            % STEP 2: handle "special corner" additions if the newly
+            % created point + previously created point form a
+            % horizontal or vertical line, we might add corners.
+            if count > 0
+                pLast = pnt_list(count,:);
+                pCurr = midpt;
+                
+                % vertical check
+                if abs(pLast(1)-pCurr(1)) < 1e-12
+                    % vertical line from pLast to midpt
+                    % We check poly(k,:) to see if we need corners
+                    if pCurr(2) > pLast(2)
+                        if p1(1) < pLast(1)
+                            corner = [ p1 + [-0.5 -0.5];
+                                       p1 + [-0.5 +0.5] ];
+                        else
+                            corner = [];
+                        end
+                    else
+                        if p1(1) > pLast(1)
+                            corner = [ p1 + [+0.5 +0.5];
+                                       p1 + [+0.5 -0.5] ];
+                        else
+                            corner = [];
+                        end
+                    end
+
+                    nC = size(corner,1);
+                    if nC>0
+                        pnt_list(count+1:count+nC,:) = corner;
+                        count = count + nC;
+                    end
+
+                % horizontal check
+                elseif abs(pLast(2)-pCurr(2)) < 1e-12
+                    % horizontal line from pLast to midpt
+                    if pCurr(1) > pLast(1)
+                        if p1(2) > pLast(2)
+                            corner = [ p1 + [-0.5 +0.5];
+                                       p1 + [+0.5 +0.5] ];
+                        else
+                            corner = [];
+                        end
+                    else
+                        if p1(2) < pLast(2)
+                            corner = [ p1 + [+0.5 -0.5];
+                                       p1 + [-0.5 -0.5] ];
+                        else
+                            corner = [];
+                        end
+                    end
+
+                    nC = size(corner,1);
+                    if nC>0
+                        pnt_list(count+1:count+nC,:) = corner;
+                        count = count + nC;
+                    end
+                end
+            end
+
+            % Put in the midpoint
+            count = count + 1;
+            pnt_list(count,:) = midpt;
         end
 
-        % step 3
-        new_pnt_list = pnt_list;
-        count = 0;
-        % pnt_list remain unchanged
-        % update new_pnt_list
-        for k = 1: size(pnt_list,1)-1
+        % Trim unused space
+        pnt_list = pnt_list(1:count,:);
+        
+        % Check closure
+        if ~isequal(pnt_list(1,:), pnt_list(end,:))
+            error('polygon not closed after step 1/2.')
+        end
+
+        % -----------------------------------------------------------
+        % STEP 3: For every pair of consecutive points in pnt_list,
+        % if they form a skew line (both x and y differ), we insert
+        % one extra corner point. We'll do a single pass and store
+        % new points in a second list, then combine them.
+        % -----------------------------------------------------------
+        nSegs         = size(pnt_list,1)-1;  % number of edges
+        cornerFlags   = false(nSegs,1);
+        cornerPoints  = zeros(nSegs,2);
+
+        for k = 1 : nSegs
             p1 = pnt_list(k,:);
             p2 = pnt_list(k+1,:);
 
-            if p1(1) ~= p2(1) && p1(2) ~= p2(2)
-                if p2(1) < p1(1) && p2(2) > p1(2)
-                    temp = [ p2(1) p1(2) ];
-                elseif p2(1) > p1(1) && p2(2) > p1(2)
-                    temp = [ p1(1) p2(2) ];
-                elseif p2(1) > p1(1) && p2(2) < p1(2)
-                    temp = [ p2(1) p1(2) ];
-                elseif p2(1) < p1(1) && p2(2) < p1(2)
-                    temp = [ p1(1) p2(2) ];
+            % If both x and y differ => skew
+            if (abs(p1(1)-p2(1)) > 1e-12) && (abs(p1(2)-p2(2)) > 1e-12)
+                cornerFlags(k) = true;
+                % figure out which corner
+                if (p2(1) < p1(1)) && (p2(2) > p1(2))
+                    cornerPoints(k,:) = [ p2(1), p1(2) ];
+                elseif (p2(1) > p1(1)) && (p2(2) > p1(2))
+                    cornerPoints(k,:) = [ p1(1), p2(2) ];
+                elseif (p2(1) > p1(1)) && (p2(2) < p1(2))
+                    cornerPoints(k,:) = [ p2(1), p1(2) ];
+                elseif (p2(1) < p1(1)) && (p2(2) < p1(2))
+                    cornerPoints(k,:) = [ p1(1), p2(2) ];
                 end
-
-                new_pnt_list = [
-                                new_pnt_list( 1: k+count, : );
-                                temp;
-                                new_pnt_list( k+count+1: end, : )
-                                ];
-                count = count + 1;
-            else
-                % do nothing
             end
-        end     % end of step 3
-        
-        if ~isequal( new_pnt_list(1,:), new_pnt_list(end,:) )
-            error('polygon not close')
+        end
+
+        % Now build the final new_pnt_list with inserted corners
+        % We'll have at most nSegs extra points
+        new_pnt_size = size(pnt_list,1) + sum(cornerFlags);
+        new_pnt_list = zeros(new_pnt_size,2);
+
+        idxNew = 1;
+        for k = 1 : nSegs
+            new_pnt_list(idxNew,:) = pnt_list(k,:);
+            idxNew = idxNew + 1;
+            if cornerFlags(k)
+                new_pnt_list(idxNew,:) = cornerPoints(k,:);
+                idxNew = idxNew + 1;
+            end
+        end
+        % close the polygon
+        new_pnt_list(idxNew,:) = pnt_list(end,:);
+
+        % final sanity check
+        if ~isequal(new_pnt_list(1,:), new_pnt_list(end,:))
+            error('polygon not closed after step 3.')
         end
     end
-    
+
     cellout{j} = new_pnt_list;
 end
-     
+
 end
 
 function cellout = holeboundary( cellin )
