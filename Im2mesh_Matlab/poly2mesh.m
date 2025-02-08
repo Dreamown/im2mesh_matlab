@@ -1,4 +1,4 @@
-function [vert,tria,tnum] = poly2mesh( poly_node, poly_edge, hmax, mesh_kind, grad_limit )
+function [vert,tria,tnum,vert2,tria2] = poly2mesh( poly_node, poly_edge, hmax, mesh_kind, grad_limit )
 % poly2mesh: generate meshes of parts defined by polygons, 
 %        	 adapted from the demo of mesh2d-master
 %            (Darren Engwirda, https://github.com/dengwirda/mesh2d) 
@@ -20,7 +20,9 @@ function [vert,tria,tnum] = poly2mesh( poly_node, poly_edge, hmax, mesh_kind, gr
 %   grad_limit - scalar gradient-limit for mesh
 %
 % output:
-%   verrt - Node data. N-by-2 array.
+%   vert, tria define linear elements. vert2, tria2 define 2nd order elements.
+%
+%   vert - Node data. N-by-2 array.
 %       vert(i,1:2) = [x_coordinate, y_coordinate] of the i-th node
 %
 %   tria - Node numbering for each triangle. M-by-3 array.
@@ -28,6 +30,14 @@ function [vert,tria,tnum] = poly2mesh( poly_node, poly_edge, hmax, mesh_kind, gr
 %
 %   tnum - Label of material phase. P-by-1 array.
 %       tnum(j,1) = k; means the j-th element is belong to the k-th phase
+%
+%   vert2 - Node data (2nd order element). P-by-2 array. 
+%       Due to new vertices, the length of vert2 is much longer than vert.
+%       vert2(i,1:2) = [x_coordinate, y_coordinate] of the i-th node
+%
+%   tria2 - Node numbering for each triangle (2nd order element). M-by-6 array.
+%       tria2(j,1:6) = [node_numbering_of_6_nodes] of the j-th element
+%
 %
 % You can use function plotMeshes( vert, tria, tnum ) to view mesh.
 %
@@ -85,7 +95,7 @@ function [vert,tria,tnum] = poly2mesh( poly_node, poly_edge, hmax, mesh_kind, gr
     % positions and mesh topology.
     [vert,~,tria,tnum] = smooth2(vert,etri,tria,tnum);
     
-    %---------------------------------------------- plot mesh
-    % plotMeshes( vert, tria, tnum );
+    %---------------------------------------------- get 2nd order element
+    [ vert2, tria2 ] = insertNode( vert, tria );
     
 end
