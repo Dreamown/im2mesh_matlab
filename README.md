@@ -13,9 +13,9 @@
 
 **News:**
 
-Version 2.1.5 fixed bugs for quadratic elements.
+​    Version 2.1.5 fixed bugs for quadratic elements.
 
-Version 2.1.0 is a huge update. Im2mesh package can run on GNU Octave now! 
+​    Version 2.1.0 is a huge update. Im2mesh package can run on GNU Octave now! 
 
 **Features:**
 
@@ -60,4 +60,4 @@ Jiexian Ma (2025). Im2mesh (2D image to finite element mesh) (https://www.mathwo
 
 ## Acknowledgments
 
-Great thanks Dr. Yang Lu (Boise State University) providing valuable advice on Im2mesh. 
+Great thanks Dr. Yang Lu providing valuable advice on Im2mesh. 
