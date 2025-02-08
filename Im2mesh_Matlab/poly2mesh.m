@@ -97,5 +97,5 @@ function [vert,tria,tnum,vert2,tria2] = poly2mesh( poly_node, poly_edge, hmax, m
     
     %---------------------------------------------- get 2nd order element
     [ vert2, tria2 ] = insertNode( vert, tria );
-    
+
 end
