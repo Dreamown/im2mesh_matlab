@@ -13,9 +13,10 @@
 
 **News:**
 
-Version 2.1.5 fixed bugs for quadratic elements.
+- Version 2.1.5 fixed bugs for quadratic elements.
 
-Version 2.1.0 is a huge update. Im2mesh package can run on GNU Octave now! 
+- Version 2.1.0 is a huge update. Im2mesh package can run on GNU Octave now! 
+
 
 **Features:**
 
@@ -26,6 +27,10 @@ Version 2.1.0 is a huge update. Im2mesh package can run on GNU Octave now!
 - Two mesh generators are available for selection: [MESH2D](https://github.com/dengwirda/mesh2d), and [generateMesh](https://www.mathworks.com/help/pde/ug/pde.pdemodel.generatemesh.html).
 - Generated mesh can be exported as `inp` file (Abaqus) and `bdf` file (Nastran bulk data, compatible with COMSOL).
 - Graphical user interface (GUI) version is available as a MATLAB app.
+
+<p align="center">
+  <img src = "https://github.com/mjx888/im2mesh/blob/main/example_shape.png" height="200"> 
+</p>
 
 ## How to start
 
@@ -47,11 +52,6 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 - [demo10](https://mjx888.github.io/im2mesh_demo_html/demo10.html) - Demonstrate different polyline smoothing techniques
 - [demo11](https://mjx888.github.io/im2mesh_demo_html/demo11.html) - Demonstrate how to find node sets at the interface and boundary
 
-## Other related projects
-
-- [pixelMesh (pixel-based mesh)](https://www.mathworks.com/matlabcentral/fileexchange/104715-pixelmesh-pixel-based-mesh?s_tid=srchtitle)
-- [voxelMesh (voxel-based mesh)](https://www.mathworks.com/matlabcentral/fileexchange/104720-voxelmesh-voxel-based-mesh)
-
 ## Cite as
 
 You can cite this work as follows for now. I will probably put a DOI here in March.
@@ -61,3 +61,8 @@ Jiexian Ma (2025). Im2mesh (2D image to finite element mesh) (https://www.mathwo
 ## Acknowledgments
 
 Great thanks Dr. Yang Lu providing valuable advice on Im2mesh. 
+
+## Other related projects
+
+- [pixelMesh (pixel-based mesh)](https://www.mathworks.com/matlabcentral/fileexchange/104715-pixelmesh-pixel-based-mesh?s_tid=srchtitle)
+- [voxelMesh (voxel-based mesh)](https://www.mathworks.com/matlabcentral/fileexchange/104720-voxelmesh-voxel-based-mesh)
