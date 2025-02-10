@@ -18,6 +18,11 @@ function [vertU, triaU] = insertNode(vert, tria)
 %           triaU(k,:) = [i1, i2, i3, i4, i5, i6],
 %           where the last 3 entries are the midpoint node indices on edges
 %
+% Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
+% the terms of the GNU General Public License (version 3).
+% 
+% Project website: https://github.com/mjx888/im2mesh
+%
 
     % Number of original vertices (nV) and triangles (nT)
     nV = size(vert,1);

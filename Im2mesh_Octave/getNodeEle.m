@@ -35,14 +35,11 @@ function [ nodecoor_list, nodecoor_cell, ele_cell ] = getNodeEle( vert, tria, tn
 %       % When the elements are second order, ele_cell{i} has 7 rows.
 %       ele_cell{i}(j,1:7) = [ element_numbering, node_numbering_of_all nodes ]
 %
-% Author:
-%   Jiexian Ma, mjx0799@gmail.com, Jan 2025
-% Cite As
-%   Jiexian Ma (2025). Im2mesh (2D image to triangular meshes) (https://ww
-%   w.mathworks.com/matlabcentral/fileexchange/71772-im2mesh-2d-image-to-t
-%   riangular-meshes), MATLAB Central File Exchange. Retrieved Jan 23, 202
-%   5.
-%   
+% Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
+% the terms of the GNU General Public License (version 3).
+% 
+% Project website: https://github.com/mjx888/im2mesh
+%
 
     % check the number of inputs
     if nargin == 3

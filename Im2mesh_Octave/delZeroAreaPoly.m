@@ -10,7 +10,11 @@ function bounds = delZeroAreaPoly( bounds )
 %          polygon. Use plotBounds( bounds ) to view all polygons, check
 %          plotBounds.m.
 %
-%   Jiexian Ma, mjx0799@gmail.com, Feb 2025
+% Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
+% the terms of the GNU General Public License (version 3).
+% 
+% Project website: https://github.com/mjx888/im2mesh
+%
 
     %----------------------------------------------------------------------
     % find sub-polygon in bounds{i}{j} with zero area

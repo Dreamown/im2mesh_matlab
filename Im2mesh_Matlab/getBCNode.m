@@ -3,14 +3,11 @@ function [ xmin_node_cell, xmax_node_cell, ...
 % get node set related to boundary condition (BC)
 % e.g., find xmin first, then get node number, whose x coordinate is equal 
 %       to xmin
-% Author:
-%   Jiexian Ma, mjx0799@gmail.com, Jan 2025
-% Cite As
-%   Jiexian Ma (2025). Im2mesh (2D image to triangular meshes) (https://ww
-%   w.mathworks.com/matlabcentral/fileexchange/71772-im2mesh-2d-image-to-t
-%   riangular-meshes), MATLAB Central File Exchange. Retrieved Jan 23, 202
-%   5.
-%   
+% Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
+% the terms of the GNU General Public License (version 3).
+% 
+% Project website: https://github.com/mjx888/im2mesh
+%
 
     num_phase = length( nodecoor_cell );
     

@@ -39,10 +39,10 @@ function [vert,tria,tnum,vert2,tria2] = poly2mesh( poly_node, poly_edge, hmax, m
 %       tria2(j,1:6) = [node_numbering_of_6_nodes] of the j-th element
 %
 %
-% You can use function plotMeshes( vert, tria, tnum ) to view mesh.
-%
-% Revision history:
-%   Jiexian Ma, mjx0799@gmail.com, Jan 2025
+% Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
+% the terms of the GNU General Public License (version 3).
+% 
+% Project website: https://github.com/mjx888/im2mesh
 %
 
     % assemble triangulations for multi-part geometry definitions.

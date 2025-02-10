@@ -4,8 +4,11 @@ function printTria( vert, tria, tnum, precision_nodecoor )
 %            Precision is number of digits behind decimal point, for node
 %            coordinates
 %            
-% Revision history:
-%   Jiexian Ma, mjx0799@gmail.com, Oct 2020
+% Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
+% the terms of the GNU General Public License (version 3).
+% 
+% Project website: https://github.com/mjx888/im2mesh
+%
     
     num_node = size( vert, 1 );
     num_ele = size( tria, 1 );

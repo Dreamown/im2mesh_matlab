@@ -43,8 +43,11 @@ function Bs = getExactBounds( bw )
 %     end
 %     hold off
 %
-% Author:
-%   Jiexian Ma, mjx0799@gmail.com, Jan 2025
+% Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
+% the terms of the GNU General Public License (version 3).
+% 
+% Project website: https://github.com/mjx888/im2mesh
+%
 
     % initialize
     Bs = cell(0);
