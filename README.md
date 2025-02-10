@@ -13,10 +13,9 @@
 
 **News:**
 
-- Version 2.1.5 fixed bugs for quadratic elements.
-
-- Version 2.1.0 is a huge update. Im2mesh package can run on GNU Octave now! 
-
+- Version 2.1.6 updates the DOI. Im2mesh is now citable!
+- Version 2.1.5 fixes bugs for quadratic elements.
+- Version 2.1.0 is a huge update. Im2mesh package can run on GNU Octave.
 
 **Features:**
 
@@ -54,9 +53,7 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 
 ## Cite as
 
-You can cite this work as follows for now. I will probably put a DOI here in March.
-
-Jiexian Ma (2025). Im2mesh (2D image to finite element mesh) (https://www.mathworks.com/matlabcentral/fileexchange/71772-im2mesh-2d-image-to-finite-element-mesh), MATLAB Central File Exchange. Retrieved February 3, 2025.
+Ma, J., & Li, Y. (2025). Im2mesh: A MATLAB/Octave package for generating finite element mesh based on 2D multi-phase image (2.1.5). Zenodo. https://doi.org/10.5281/zenodo.14847059
 
 ## Acknowledgments
 
