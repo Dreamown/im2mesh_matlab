@@ -54,7 +54,7 @@ function [ nodecoor_list, nodecoor_cell, ele_cell ] = getNodeEle( vert, tria, tn
     nodecoor_list( :, 1 ) = 1: size(vert,1);
     nodecoor_list( :, 2:3 ) = vert;
     
-    % extract the mesh of each phase from meshes
+    % extract the mesh of each phase from mesh
     [ nodecoor_cell, ele_cell ] = whole2phase( vert,tria,tnum );
     
 end
