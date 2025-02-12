@@ -1,4 +1,4 @@
-function [vert,quad,tnum] = pixelMesh( im, opt )
+function [vert,quad,tnum,vert2,quad2] = pixelMesh( im, opt )
 % pixelMesh: Convert 2d multi-phase image to pixel-based finite element 
 % mesh (4-node quadrilateral element)
 %
@@ -106,8 +106,12 @@ function [vert,quad,tnum] = pixelMesh( im, opt )
     %----------------------------------------------------------------------
     % x y coordinates of vertices
     vert = nodecoor_list(:,2:3);
+
     %----------------------------------------------------------------------
+    % convert linear to quadratic element
+    [vert2, quad2] = insertNode(vert, quad);
     
+    %----------------------------------------------------------------------
 end
 
 
