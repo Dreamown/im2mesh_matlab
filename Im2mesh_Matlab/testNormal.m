@@ -1,6 +1,6 @@
 %%
 clearvars
-im = imread("Shape.tif");
+im = imread("kumamon.tif");
 if size(im,3) == 3;  im = rgb2gray( im ); end
 imshow( im,'InitialMagnification','fit' );
 

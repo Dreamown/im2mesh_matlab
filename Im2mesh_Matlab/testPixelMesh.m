@@ -1,7 +1,7 @@
 %%
 clearvars
 %%
-im = imread("Phases.tif");
+im = imread("kumamon.tif");
 if size(im,3) == 3;  im = rgb2gray( im ); end
 imshow( im,'InitialMagnification','fit' );
 
@@ -53,6 +53,7 @@ vert2( :, 2 ) = vert2( :, 2 ) * dy;
 %%
 % generate inp file
 % export multi-phases in image as multi-sections in inp file
+ele_type = 'CPS8'; 
 printInp_multiSect( nodecoor_listQ, ele_cellQ, ele_type, precision_nodecoor );
 
 %%
