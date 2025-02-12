@@ -24,13 +24,13 @@ boundsClear = simplifyBounds( boundsClear, 0 );
 %%
 select_phase = [2  4]';
 boundsClear = boundsClear( select_phase );
-
+%%
 % get nodes and edges of polygonal boundary
 [ poly_node, poly_edge ] = getPolyNodeEdge( boundsClear );
 
 %%
 [ vert,tria,tnum,vert2,tria2 ] = poly2mesh( poly_node, poly_edge, ...
-                                opt.hmax, opt.mesh_kind, opt.grad_limit );
+                                500, 'delaunay', 0.25 );
 
 %%
 % Convert boundaries to a cell array of polyshape object
@@ -40,3 +40,6 @@ pcell = bound2polyshape( boundsClear );
 
 %%
 plotMeshes(vert,tria,tnum);
+
+
+
