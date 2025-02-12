@@ -1,17 +1,36 @@
-function plotMeshes( vert, tria, tnum )
-% show meshes
+function plotMeshes( vert, ele, tnum )
+% plotMeshes: plot mesh
+%
 % input:
-% output:
 %   verrt - Node data. N-by-2 array.
 %       vert(i,1:2) = [x_coordinate, y_coordinate] of the i-th node
 %
-%   tria - Node numbering for each triangle. M-by-3 array.
-%       tria(j,1:3) = [node_numbering_of_3_nodes] of the j-th element
+%   ele - Node numbering for each element. 
+%       For example, if linear triangle element, ele is M-by-3 array.
+%       ele(j,1:3) = [node_numbering_of_3_nodes] of the j-th element
 %
 %   tnum - Label of material phase. P-by-1 array.
 %       tnum(j,1) = k; means the j-th element is belong to the k-th phase
 %
+    
+    %--------------------------------------------------------------------
+    % check input
+    ele_wid = size(ele,2);
 
+    if ele_wid == 3         % linear triangle
+        range_vec = 1:3;
+    elseif ele_wid == 6     % quadratic triangle
+        range_vec = [1 4 2 5 3 6];
+    elseif ele_wid == 4     % linear quadrilateral
+        range_vec = 1:4;
+    elseif ele_wid == 8     % quadratic quadrilateral
+        range_vec = [1 5 2 6 3 7 4 8];
+    else
+        error("ele - wrong size")
+    end
+
+    %--------------------------------------------------------------------
+    % plot mesh
     figure;
     hold on; 
     axis image off;
@@ -28,16 +47,17 @@ function plotMeshes( vert, tria, tnum )
         error("num_phase < 1")
     end
     
+    % use function patch to plot
     for i = 1: num_phase
-        phasecode = tvalue(i);
-        patch('faces',tria( tnum==phasecode, 1:3 ),'vertices',vert, ...
-        'facecolor',[ col(i), col(i), col(i) ], ...
-        'edgecolor',[.1,.1,.1]);
+        current_phase = tvalue(i);
+        patch( ...
+            'faces',ele( tnum==current_phase, range_vec ), ...
+            'vertices',vert, ...
+            'facecolor',[ col(i), col(i), col(i) ], ...
+            'edgecolor',[.1,.1,.1] ...
+            );
     end
     hold off
-    
-%     drawnow;
-%     set(figure(1),'units','normalized', ...
-%         'position',[.05,.50,.30,.35]) ;
+    %--------------------------------------------------------------------
 end
 

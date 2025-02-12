@@ -35,6 +35,7 @@ function [ nodecoor_list, nodecoor_cell, ele_cell ] = getNodeEle( vert, tria, tn
 %       % When the elements are second order, ele_cell{i} has 7 rows.
 %       ele_cell{i}(j,1:7) = [ element_numbering, node_numbering_of_all nodes ]
 %
+%
 % Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
 % the terms of the GNU General Public License (version 3).
 % 
@@ -54,50 +55,72 @@ function [ nodecoor_list, nodecoor_cell, ele_cell ] = getNodeEle( vert, tria, tn
     nodecoor_list( :, 1 ) = 1: size(vert,1);
     nodecoor_list( :, 2:3 ) = vert;
     
-    % extract the mesh of each phase from meshes
+    % extract the mesh of each phase from mesh
     [ nodecoor_cell, ele_cell ] = whole2phase( vert,tria,tnum );
     
 end
 
 function [ nodecoor_cell, ele_cell ] = whole2phase( vert, tria, tnum )
 % whole2phase: extract the mesh of each phase from meshes
+%
 % input:
 %   vert(k,1:2) = [x_coordinate, y_coordinate] of k-th node 
 %   tria(m,:) = [node_numbering_of_all_nodes] of m-th element (3 or 6 nodes)
 %   tnum(m,1) = n; means the m-th element is belong to phase n
+%
 % output:
 %   nodecoor_cell{i} and ele_cell{i} represent phase i
 %   nodecoor_cell{i}(j,1:3) = [node_numbering, x_coordinate, y_coordinate]
 %   ele_cell{i}(j,1:4/7) = [element numbering, node_numbering_of_all_nodes]
 %
-
-    phase_code_vec = unique( tnum );
-    num_phase = length( phase_code_vec );
+    
+    % phase label
+    label_vec = unique( tnum );
+    num_phase = length( label_vec );
+    
     nodecoor_cell = cell( 1, num_phase );
     ele_cell = cell( 1, num_phase );
 
     for i = 1: num_phase
+        %-----------------------------------------------------------------
         % get triangular mesh (node numbering of 3 nodes) of phase_i from tria
-        tria_phase_i = tria( tnum==phase_code_vec(i), : );
+        tria_pI = tria( tnum==label_vec(i), : );
         
         % get unique node numbering of phase_i
-        nodes_phase_i = unique( tria_phase_i(:) );
+        nodes_pI = unique( tria_pI(:) );
         
+        %-----------------------------------------------------------------
         % extract node coordinates from vert according to node numbering
-        nodecoor_phase_i = zeros( length(nodes_phase_i), 3 );
-        nodecoor_phase_i(:,1) = nodes_phase_i;  % node numbering
-        for j = 1: size(nodecoor_phase_i,1)
-              nodecoor_phase_i(j,2:3) = vert( nodecoor_phase_i(j,1), : );
+        % nodecoor_pI = [ node_numbering, x, y ]
+
+        nodecoor_pI = zeros( length(nodes_pI), 3 );
+        nodecoor_pI(:,1) = nodes_pI;       % node numbering
+        
+        for j = 1: size(nodecoor_pI,1)
+              nodecoor_pI(j,2:3) = vert( nodecoor_pI(j,1), : );
         end
-        
+
+        %-----------------------------------------------------------------
         % get element numbering and node numbering of phase_i
-        ele_phase_i = zeros( size(tria_phase_i,1), 1+size(tria,2) );
-        % element numbering
-        ele_phase_i(:,1) = find( tnum==phase_code_vec(i) );
-        % node numbering of 3 nodes or 6 nodes
-        ele_phase_i(:,2:end) = tria_phase_i;
+        % ele_pI = [ element_numbering, node_numbering_in_a_element ]
+
+        ele_pI = zeros( size(tria_pI,1), 1+size(tria,2) );
+        ele_pI(:,1) = find( tnum==label_vec(i) );   % element numbering
+        ele_pI(:,2:end) = tria_pI;                  % node numbering
         
-        nodecoor_cell{i} = nodecoor_phase_i;
-        ele_cell{i} = ele_phase_i;
+        %-----------------------------------------------------------------
+        nodecoor_cell{i} = nodecoor_pI;
+        ele_cell{i} = ele_pI;
+
     end
 end
+
+
+
+
+
+
+
+
+
+

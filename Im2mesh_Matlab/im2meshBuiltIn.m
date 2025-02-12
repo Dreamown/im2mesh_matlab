@@ -49,6 +49,7 @@ function [ vert, tria, tnum, vert2, tria2 ] = im2meshBuiltIn( im, opt )
 %   opt.threshold_num_vert_Sim  % For funtion simplifyBounds
 %                               % Threshold value for number of vertices in
 %                               % a polyline. 
+%   opt.select_phase
 %     
 %  Please check documentation of matlab built-in function generateMesh for 
 %  parameter hgrad, hmax, and hmin. 
@@ -121,6 +122,17 @@ function [ vert, tria, tnum, vert2, tria2 ] = im2meshBuiltIn( im, opt )
     boundsClear = getCtrlPnts( boundsSimplified, false );
     boundsClear = simplifyBounds( boundsClear, 0 );
     
+    % select phase
+    if isempty(opt.select_phase)
+        % = do nothing = all phases will be chosen
+    elseif ~isvector(opt.select_phase)
+        error("select_phase is not a vector")
+    elseif length(opt.select_phase) > length(boundsClear)
+        error("length of select_phase is larger than the number of phases")
+    else
+        boundsClear = boundsClear( opt.select_phase );
+    end
+
     % get nodes and edges of polygonal boundary
     [ poly_node, poly_edge ] = getPolyNodeEdge( boundsClear );
     % Convert boundaries to a cell array of polyshape object
@@ -145,6 +157,7 @@ function new_opt = setOption( opt )
     new_opt.threshold_num_vert_Smo = 10;
     new_opt.tolerance = 0.3;
     new_opt.threshold_num_vert_Sim = 10;
+    new_opt.select_phase = [];
     new_opt.hgrad = 1.25;
     new_opt.hmax = 500;
     new_opt.hmin = 1;

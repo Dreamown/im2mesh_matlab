@@ -1,12 +1,21 @@
 function printBdf( nodecoor_list, ele_cell, precision_nodecoor, path_file_name )
 % printBdf: print the nodes and elements into Inp file 'test.bdf'
+% usage:
+%   printBdf( nodecoor_list, ele_cell, precision_nodecoor );
+%   % OR
+%   path_file_name = 'C:\Downloads\aaa.bdf';
+%   printBdf( nodecoor_list, ele_cell, precision_nodecoor, path_file_name);
+%
 %
 % Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
 % the terms of the GNU General Public License (version 3).
 % 
 % Project website: https://github.com/mjx888/im2mesh
 %
+
+    % ------------------------------------------------------------------------
     
+    % ------------------------------------------------------------------------
     % check the number of inputs
     if nargin == 3
         % write to current folder
@@ -18,9 +27,9 @@ function printBdf( nodecoor_list, ele_cell, precision_nodecoor, path_file_name )
         error("check the number of inputs");
     end
 
+    % ------------------------------------------------------------------------
     num_node = size( nodecoor_list, 1 );
-    num_phase = length( ele_cell );
-    
+
     % ------------------------------------------------------------------------
     % format of number
     % field width of node numbering
@@ -46,24 +55,47 @@ function printBdf( nodecoor_list, ele_cell, precision_nodecoor, path_file_name )
     % GRID*,3,,0.5000,2.5000
     fprintf( fid, ...
             [ 'GRID*,%d,,', format_node_coor, ',', format_node_coor, '\n'], ...
-            nodecoor_list' );
+            nodecoor_list' ...
+            );
 
     % ------------------------------------------------------------------------
     % renumber global element numbering in ele_cell{i}(:,1)
+    num_phase = length( ele_cell );
     count = 0;
     for i = 1: num_phase
         ele_cell{i}(:,1) = (1:size(ele_cell{i},1))' + count;
         count = count + size(ele_cell{i},1);
     end
 
+    % ------------------------------------------------------------------------
     % print element
-    % CHEXA*,5,1,40,46,*
-    % *,47
-    for i = 1: num_phase
-        fprintf( fid, ...
-            ['CTRIA3*,%d,%d,%d,%d', ',*\n', ...
-             '*,', '%d\n'], ...
-            [ ele_cell{i}(:,1), i * ones(size(ele_cell{i},1),1), ele_cell{i}(:,2:4) ]' );
+    ele_wid =  size( ele_cell{1}, 2 );
+    
+    if ele_wid == 4
+        % linear triangular element
+        % CHEXA*,5,1,40,46,*
+        % *,47
+        for i = 1: num_phase
+            fprintf( fid, ...
+                ['CTRIA3*,%d,%d,%d,%d', ',*\n', ...
+                 '*,', '%d\n'], ...
+                [ ele_cell{i}(:,1), i * ones(size(ele_cell{i},1),1), ele_cell{i}(:,2:4) ]' ...
+                );
+        end
+        
+    elseif ele_wid == 5
+        % linear quadrilateral element
+        % CQUAD4*,5,1,40,46,*
+        % *,17,11
+        for i = 1: num_phase
+            fprintf( fid, ...
+                [ 'CQUAD4*,%d,%d,%d,%d', ',*\n', ...
+                 '*,', '%d,%d\n' ], ...
+                [ ele_cell{i}(:,1), i * ones(size(ele_cell{i},1),1), ele_cell{i}(:,2:5) ]' ...
+                );
+        end
+    else
+        error('Function printBdf only supports linear element.');
     end
     
     % ------------------------------------------------------------------------
@@ -73,5 +105,5 @@ function printBdf( nodecoor_list, ele_cell, precision_nodecoor, path_file_name )
     fclose(fid);
 	
 	disp('printBdf Done! Check the bdf file!');
-    
+    % ------------------------------------------------------------------------
 end
