@@ -1,5 +1,6 @@
 function plotMeshes( vert, ele, tnum )
-% show meshes
+% plotMeshes: plot mesh
+%
 % input:
 %   verrt - Node data. N-by-2 array.
 %       vert(i,1:2) = [x_coordinate, y_coordinate] of the i-th node

@@ -35,6 +35,7 @@ function [ nodecoor_list, nodecoor_cell, ele_cell ] = getNodeEle( vert, tria, tn
 %       % When the elements are second order, ele_cell{i} has 7 rows.
 %       ele_cell{i}(j,1:7) = [ element_numbering, node_numbering_of_all nodes ]
 %
+%
 % Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
 % the terms of the GNU General Public License (version 3).
 % 

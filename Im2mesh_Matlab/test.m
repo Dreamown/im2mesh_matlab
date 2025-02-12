@@ -41,5 +41,36 @@ pcell = bound2polyshape( boundsClear );
 %%
 plotMeshes(vert,tria,tnum);
 
+%%
+[ nodecoor_list, ~, ele_cell ] = getNodeEle( vert, tria, tnum );
+
+%%
+ele_type = 'CPS3';
+precision_nodecoor = 8;
+printInp_multiSect( nodecoor_list, ele_cell, ele_type, precision_nodecoor );
+
+%%
+[ nodecoor_listQ, ~, ele_cellQ ] = getNodeEle( vert2, tria2, tnum );
+
+%%
+ele_type = 'CPS6';
+precision_nodecoor = 8;
+printInp_multiSect( nodecoor_listQ, ele_cellQ, ele_type, precision_nodecoor );
+
+%%
+printBdf( nodecoor_list, ele_cell, precision_nodecoor );
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
