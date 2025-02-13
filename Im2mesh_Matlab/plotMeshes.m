@@ -1,5 +1,6 @@
 function plotMeshes( vert, ele, tnum )
 % plotMeshes: plot mesh
+% Also works for quadratic or quadrilateral elements
 %
 % input:
 %   verrt - Node data. N-by-2 array.

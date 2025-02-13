@@ -1,6 +1,6 @@
 function [vertU, triaU] = insertNode(vert, tria)
 % insertNode: inserts midpoints into all edges to form quadratic elements.
-% Work for triangle and quadrilateral element
+% Works for triangle and quadrilateral element
 %
 %   [vertU, triaU] = insertNode(vert, tria);
 %

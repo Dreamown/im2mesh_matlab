@@ -2,6 +2,17 @@ function [vert,quad,tnum,vert2,quad2] = pixelMesh( im, opt )
 % pixelMesh: Convert 2d multi-phase image to pixel-based finite element 
 % mesh (4-node quadrilateral element)
 %
+% usage:
+%   [vert,quad,tnum,vert2,quad2] = pixelMesh( im );
+%   % OR
+%   opt.select_phase = [1 3];
+%   [vert,quad,tnum,vert2,quad2] = pixelMesh( im, opt );
+%
+% Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
+% the terms of the GNU General Public License (version 3).
+% 
+% Project website: https://github.com/mjx888/im2mesh
+%
 
     %----------------------------------------------------------------------
     % check the number of inputs

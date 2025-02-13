@@ -1,5 +1,6 @@
 function [ nodecoor_list, nodecoor_cell, ele_cell ] = getNodeEle( vert, tria, tnum, ~ )
-% get node coordinares and elements from mesh
+% getNodeEle: get node coordinares and elements from mesh
+% Also works for quadratic or quadrilateral element. 
 %
 % usage:
 %   [ nodecoor_list, nodecoor_cell, ele_cell ] = getNodeEle( vert, tria, tnum );

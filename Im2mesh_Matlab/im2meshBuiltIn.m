@@ -67,21 +67,23 @@ function [ vert, tria, tnum, vert2, tria2 ] = im2meshBuiltIn( im, opt )
 % output:
 %   vert, tria define linear elements. vert2, tria2 define 2nd order elements.
 %
-%   vert - Node data. N-by-2 array.
-%       vert(i,1:2) = [x_coordinate, y_coordinate] of the i-th node
-%
-%   tria - Node numbering for each triangle. M-by-3 array.
-%       tria(j,1:3) = [node_numbering_of_3_nodes] of the j-th element
-%
-%   tnum - Label of material phase. P-by-1 array.
-%       tnum(j,1) = k; means the j-th element is belong to the k-th phase
-%
-%   vert2 - Node data (2nd order element). P-by-2 array. 
-%       Due to new vertices, the length of vert2 is much longer than vert.
-%       vert2(i,1:2) = [x_coordinate, y_coordinate] of the i-th node
-%
-%   tria2 - Node numbering for each triangle (2nd order element). M-by-6 array.
-%       tria2(j,1:6) = [node_numbering_of_6_nodes] of the j-th element
+%     vert: Mesh nodes (for linear element). It’s a Nn-by-2 matrix, where 
+%           Nn is the number of nodes in the mesh. Each row of vert 
+%           contains the x, y coordinates for that mesh node.
+%     
+%     tria: Mesh elements (for linear element). For triangular elements, 
+%           it s a Ne-by-3 matrix, where Ne is the number of elements in 
+%           the mesh. Each row in eleL contains the indices of the nodes 
+%           for that mesh element.
+%     
+%     tnum: Label of phase. Ne-by-1 array, where Ne is the number of 
+%           elements
+%       tnum(j,1) = k; means the j-th element belongs to the k-th phase.
+%     
+%     vert2: Mesh nodes (for quadratic element). It’s a Nn-by-2 matrix.
+%     
+%     tria2: Mesh elements (for quadratic element). For triangular 
+%           elements, it s a Ne-by-6 matrix.
 %
 %
 % You can use function plotMeshes( vert, tria, tnum ) to view mesh.
