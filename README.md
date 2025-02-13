@@ -50,6 +50,7 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 - [demo09](https://mjx888.github.io/im2mesh_demo_html/demo09.html) - Demonstrate how to select phases for meshing
 - [demo10](https://mjx888.github.io/im2mesh_demo_html/demo10.html) - Demonstrate different polyline smoothing techniques
 - [demo11](https://mjx888.github.io/im2mesh_demo_html/demo11.html) - Demonstrate how to find node sets at the interface and boundary
+- [demo12](https://mjx888.github.io/im2mesh_demo_html/demo12.html) - Demonstrate function pixelMesh (pixel-based quadrilateral mesh)
 
 ## Cite as
 
