@@ -13,6 +13,7 @@
 
 **News:**
 
+- Version 2.1.8 incorporates function pixelMesh and updates tutorial.
 - Version 2.1.6 updates the DOI. Im2mesh is now citable!
 - Version 2.1.5 fixes bugs for quadratic elements.
 - Version 2.1.0 is a huge update. Im2mesh package can run on GNU Octave.
