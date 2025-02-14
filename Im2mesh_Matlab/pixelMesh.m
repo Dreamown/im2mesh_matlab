@@ -1,4 +1,4 @@
-function [vert,quad,tnum,vert2,quad2] = pixelMesh( im, opt )
+function [vert,quad,tnum] = pixelMesh( im, opt )
 % pixelMesh: Convert 2d multi-phase image to pixel-based finite element 
 % mesh (4-node quadrilateral element)
 %
@@ -7,6 +7,7 @@ function [vert,quad,tnum,vert2,quad2] = pixelMesh( im, opt )
 %   % OR
 %   opt.select_phase = [1 3];
 %   [vert,quad,tnum,vert2,quad2] = pixelMesh( im, opt );
+%
 %
 % Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
 % the terms of the GNU General Public License (version 3).
@@ -120,7 +121,7 @@ function [vert,quad,tnum,vert2,quad2] = pixelMesh( im, opt )
 
     %----------------------------------------------------------------------
     % convert linear to quadratic element
-    [vert2, quad2] = insertNode(vert, quad);
+    %[vert2, quad2] = insertNode(vert, quad);
     
     %----------------------------------------------------------------------
 end

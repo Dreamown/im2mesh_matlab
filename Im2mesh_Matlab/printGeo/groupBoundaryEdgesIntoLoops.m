@@ -48,6 +48,9 @@ function loops = groupBoundaryEdgesIntoLoops(boundaryEdges)
             % Walk forward from v2 until we come back to v1
             currentVertex = v2;
             prevVertex = v1;
+
+            counter = 0;
+
             while true
                 neighbors = adjMap(currentVertex);
                 
@@ -74,6 +77,11 @@ function loops = groupBoundaryEdgesIntoLoops(boundaryEdges)
                 
                 % If we have returned to v1, the loop is closed
                 if currentVertex == v1
+                    break;
+                end
+
+                counter = counter+1;
+                if counter>1000
                     break;
                 end
             end

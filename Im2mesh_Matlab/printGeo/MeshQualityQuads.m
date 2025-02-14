@@ -54,20 +54,20 @@ function [q,theta] = MeshQualityQuads(EToV,VX,VY)
         count(i) = length(find(q>subdivision(i)-dx/2 & q<=subdivision(i)+dx/2))/K*100;
     end
     
-    % visualize
-    figure
-    bar(subdivision,count,1)
-    minlimit = find(q<0.3, 1);
-    if isempty(minlimit)
-        axis([0.3 1 -1 max(count)*1.05])
-    else
-        axis([min(q) 1 -1 max(count)*1.05])
-        hold on
-        plot([0.3 0.3],[0 100],'r--')
-    end
-    xlabel('Quadrilateral Mesh quality')
-    ylabel('Percentage of elements')
-    colormap(cool)
+%     % visualize
+%     figure
+%     bar(subdivision,count,1)
+%     minlimit = find(q<0.3, 1);
+%     if isempty(minlimit)
+%         axis([0.3 1 -1 max(count)*1.05])
+%     else
+%         axis([min(q) 1 -1 max(count)*1.05])
+%         hold on
+%         plot([0.3 0.3],[0 100],'r--')
+%     end
+%     xlabel('Quadrilateral Mesh quality')
+%     ylabel('Percentage of elements')
+%     colormap(cool)
     
 %     % visualize location of bad elements
 %     figure

@@ -1,5 +1,11 @@
 function printGeo( C, point, line, opt, path_file_name )
 % printGeo: print geo file
+%
+% Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
+% the terms of the GNU General Public License (version 3).
+% 
+% Project website: https://github.com/mjx888/im2mesh
+%
 
     % Open a file for writing
     fid = fopen(path_file_name, 'wW');
@@ -128,7 +134,7 @@ function printGeo( C, point, line, opt, path_file_name )
     fprintf(fid, 'Mesh 2;\n');
     fprintf(fid, '\n');
 
-    fprintf(fid, '// set format as matlab\n');
+    fprintf(fid, '// set format\n');
     fprintf(fid, 'Mesh.Format=10;\n');
     fprintf(fid, '\n');
 
