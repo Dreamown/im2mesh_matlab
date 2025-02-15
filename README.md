@@ -13,8 +13,7 @@
 
 **News:**
 
-- Version 2.1.9. Im2mesh_GUI can use Gmsh as mesh generator (unstructured quadrilateral mesh)!
-- Version 2.1.8 incorporates function pixelMesh and updates tutorial.
+- **Version 2.2.0 can use Gmsh as mesh generator (unstructured quadrilateral mesh) !**
 - Version 2.1.6 updates the DOI. Im2mesh is now citable.
 - Version 2.1.5 fixes bugs for quadratic elements.
 - Version 2.1.0 is a huge update. Im2mesh package can run on GNU Octave.
@@ -53,6 +52,7 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 - [demo10](https://mjx888.github.io/im2mesh_demo_html/demo10.html) - Demonstrate different polyline smoothing techniques
 - [demo11](https://mjx888.github.io/im2mesh_demo_html/demo11.html) - Demonstrate how to find node sets at the interface and boundary
 - [demo12](https://mjx888.github.io/im2mesh_demo_html/demo12.html) - Demonstrate function `pixelMesh` (pixel-based quadrilateral mesh)
+- [demo13](https://mjx888.github.io/im2mesh_demo_html/demo13.html) - Demonstrate how to use Gmsh as mesh generator
 
 ## Cite as
 
