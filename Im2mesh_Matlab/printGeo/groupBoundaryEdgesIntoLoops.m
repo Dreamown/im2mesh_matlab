@@ -1,87 +1,105 @@
 function loops = groupBoundaryEdgesIntoLoops(boundaryEdges)
 %GROUPBOUNDARYEDGESINTOLOOPS Group boundary edges into separate loops.
+%  
+%  boundaryEdges : (nBdryEdges x 2), each row [v1, v2] (no strict requirement of v1 < v2).
+%  loops         : cell array of loops; loops{i} is a list of vertex IDs [v1, v2, ..., vK]
+%                  that form a closed boundary chain. The last vertex typically equals the first.
 %
-%  boundaryEdges: (nBdryEdges x 2), each row [v1, v2] with v1 < v2
-%  loops        : cell array of loops; each loop is a sequence of vertex IDs
-%                 that forms a closed boundary chain.
+%  This function attempts to trace out boundary loops edge by edge. It avoids infinite
+%  loops by picking one unvisited "next" edge at each vertex. If there's branching
+%  (multiple possible next edges), it picks the first one. Any remaining unvisited edges
+%  from that branching point will start a new loop in the next iteration.
 
-    % Create adjacency list: vertex -> neighbors
-    allVerts = unique(boundaryEdges);
+    if isempty(boundaryEdges)
+        loops = {};
+        return;
+    end
+
+    %--- 1) Build adjacency from vertex -> boundary neighbors
+    allVerts = unique(boundaryEdges(:));
     adjMap = containers.Map('KeyType','double','ValueType','any');
     for v = allVerts(:)'
         adjMap(v) = [];
     end
     
-    % Fill adjacency
-    for i = 1:size(boundaryEdges,1)
+    for i = 1:size(boundaryEdges, 1)
         v1 = boundaryEdges(i,1);
         v2 = boundaryEdges(i,2);
         adjMap(v1) = [adjMap(v1), v2];
         adjMap(v2) = [adjMap(v2), v1];
     end
     
-    visitedEdges = false(size(boundaryEdges,1),1);
-    loops = {};
-    
-    % We also need an edge lookup table to mark edges visited
-    % (key = [min, max], value = index in boundaryEdges)
+    %--- 2) Keep track of visited edges
+    nEdges = size(boundaryEdges,1);
+    visitedEdges = false(nEdges, 1);
+
+    % We create a map from (v1-v2 or v2-v1) -> edge index,
+    % so we can easily find which edge index corresponds to a pair of vertices.
     edgeMap = containers.Map('KeyType','char','ValueType','double');
-    for e = 1:size(boundaryEdges,1)
+    for e = 1:nEdges
         v1 = boundaryEdges(e,1);
         v2 = boundaryEdges(e,2);
-        keyStr = sprintf('%d-%d', v1, v2);
-        edgeMap(keyStr) = e;
+        k1 = sprintf('%d-%d', v1, v2);
+        k2 = sprintf('%d-%d', v2, v1);
+        edgeMap(k1) = e;
+        edgeMap(k2) = e;  % same edge index for reversed pair
     end
     
-    % A function to find the (unique) key for an edge
-    getKey = @(a,b) sprintf('%d-%d', min(a,b), max(a,b));
+    getKey = @(a,b) sprintf('%d-%d', a, b);
     
-    for e = 1:size(boundaryEdges,1)
+    %--- 3) Find loops by traversing unvisited edges
+    loops = {};
+    for e = 1:nEdges
         if ~visitedEdges(e)
-            % Start a new loop
+            % Start a new loop from this unvisited edge
             v1 = boundaryEdges(e,1);
             v2 = boundaryEdges(e,2);
             
             loop = [v1, v2];
-            visitedEdges(e) = true;
+            visitedEdges(e) = true;  % mark this edge visited
             
-            % Walk forward from v2 until we come back to v1
             currentVertex = v2;
-            prevVertex = v1;
-
-            counter = 0;
-
+            prevVertex    = v1;
+            
+            % Keep moving forward around the loop
             while true
                 neighbors = adjMap(currentVertex);
                 
-                % We want the neighbor that is NOT 'prevVertex'
-                % In a closed loop, each interior vertex on the boundary
-                % should have exactly 2 neighbors: prevVertex and next.
-                nextVertex = neighbors(neighbors ~= prevVertex);
+                % Remove the vertex we came from
+                neighbors(neighbors == prevVertex) = [];
                 
-                if isempty(nextVertex)
-                    % Something is not right or we reached an endpoint
+                % Among these neighbors, find any unvisited edges
+                unvisitedNext = [];
+                for cand = neighbors
+                    eIdx = edgeMap(getKey(currentVertex, cand));
+                    if ~visitedEdges(eIdx)
+                        unvisitedNext(end+1) = cand; %#ok<AGROW>
+                    end
+                end
+                
+                if isempty(unvisitedNext)
+                    % No unvisited edge extends from currentVertex
+                    % => we can't proceed further to close a loop.
                     break;
                 end
-                nextVertex = nextVertex(1); % typically there's exactly one
-
-                % Mark edge [currentVertex, nextVertex] as visited
-                edgeIdx = edgeMap(getKey(currentVertex, nextVertex));
-                visitedEdges(edgeIdx) = true;
                 
+                % In case of branching, pick the first unvisited neighbor
+                nextVertex = unvisitedNext(1);
+                
+                % Mark that edge visited
+                nextEdgeIdx = edgeMap(getKey(currentVertex, nextVertex));
+                visitedEdges(nextEdgeIdx) = true;
+                
+                % Add nextVertex to the loop
                 loop(end+1) = nextVertex; %#ok<AGROW>
                 
-                % Move forward
+                % Advance
                 prevVertex = currentVertex;
                 currentVertex = nextVertex;
                 
-                % If we have returned to v1, the loop is closed
+                % Check if we've come full circle
                 if currentVertex == v1
-                    break;
-                end
-
-                counter = counter+1;
-                if counter>1000
+                    % Loop is closed
                     break;
                 end
             end
