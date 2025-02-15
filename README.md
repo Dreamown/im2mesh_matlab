@@ -13,8 +13,9 @@
 
 **News:**
 
+- Version 2.1.9. Im2mesh_GUI can use Gmsh as mesh generator (unstructured quadrilateral mesh)!
 - Version 2.1.8 incorporates function pixelMesh and updates tutorial.
-- Version 2.1.6 updates the DOI. Im2mesh is now citable!
+- Version 2.1.6 updates the DOI. Im2mesh is now citable.
 - Version 2.1.5 fixes bugs for quadratic elements.
 - Version 2.1.0 is a huge update. Im2mesh package can run on GNU Octave.
 
@@ -24,8 +25,8 @@
 - Incorporates polyline smoothing and simplification
 - Able to avoid sharp corners when simplifying polylines.
 - Support phase selection before meshing.
-- Two mesh generators are available for selection: [MESH2D](https://github.com/dengwirda/mesh2d), and [generateMesh](https://www.mathworks.com/help/pde/ug/pde.pdemodel.generatemesh.html).
-- Generated mesh can be exported as `inp` file (Abaqus) and `bdf` file (Nastran bulk data, compatible with COMSOL).
+- 3 mesh generators are available for selection: [MESH2D](https://github.com/dengwirda/mesh2d), [generateMesh](https://www.mathworks.com/help/pde/ug/pde.pdemodel.generatemesh.html), and [Gmsh](https://gmsh.info/).
+- Generated mesh can be exported as `inp` file (Abaqus) and `bdf` file (Nastran bulk data, compatible with COMSOL). Mesh can be exported as many formats via Gmsh.
 - Graphical user interface (GUI) version is available as a MATLAB app.
 
 <p align="center">
@@ -36,7 +37,7 @@
 
 After downloading Im2mesh package ([releases](https://github.com/mjx888/im2mesh/releases)), I suggest you start with [Im2mesh_GUI app](https://github.com/mjx888/im2mesh/tree/main/Im2mesh_GUI%20app) in the folder, which will help you understand the workflow and parameters of Im2mesh. A detailed tutorial is provided in [Im2mesh_GUI Tutorial.pdf](https://github.com/mjx888/im2mesh/blob/main/Im2mesh_GUI%20Tutorial.pdf). 
 
-Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im2mesh_Octave". 11 examples are provided.  If you're using MATLAB ,  examples are live script `mlx` files (`demo1.mlx` ~ `demo11.mlx`). If you're using Octave,  examples are `m` files (`demo1.m` ~ `demo10.m`).  Examples are also available as `html` files in the folder "demo_html".
+Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im2mesh_Octave". 11 examples are provided.  If you're using MATLAB ,  examples are live script `mlx` files (`demo1.mlx` ~ `demo12.mlx`). If you're using Octave,  examples are `m` files (`demo1.m` ~ `demo10.m`).  Examples are also available as `html` files in the folder "demo_html".
 
 **Examples:**
 
