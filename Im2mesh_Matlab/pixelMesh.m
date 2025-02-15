@@ -8,6 +8,8 @@ function [vert,quad,tnum,vert2,quad2] = pixelMesh( im, opt )
 %   opt.select_phase = [1 3];
 %   [vert,quad,tnum,vert2,quad2] = pixelMesh( im, opt );
 %
+% input: im - is grayscale uint8 2d image.
+%
 % Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
 % the terms of the GNU General Public License (version 3).
 % 
@@ -104,16 +106,32 @@ function [vert,quad,tnum,vert2,quad2] = pixelMesh( im, opt )
     %----------------------------------------------------------------------
     % update node numbering in quad by mapping: nodecoor_list(i,1) -> i
     % so we can safely discard the 1st column of nodecoor_list in next step
-    new_quad = quad;
-
-    for i = 1: size(nodecoor_list,1)
-        old_ind = nodecoor_list(i,1);
-        new_ind = i;
-        new_quad( quad == old_ind ) = new_ind;
+%     new_quad = quad;
+% 
+%     for i = 1: size(nodecoor_list,1)
+%         old_ind = nodecoor_list(i,1);
+%         new_ind = i;
+%         new_quad( quad == old_ind ) = new_ind;
+%     end
+%     
+%     quad = new_quad;
+    %----------------------------------------------------------------------
+    % speed up the above process
+    ind_vec = nodecoor_list(:,1);
+    
+    nInd = max(ind_vec);
+    mapping = zeros(nInd,1);
+    for i = 1: length(ind_vec)
+        mapping( ind_vec(i) ) = i;
     end
     
-    quad = new_quad;
-    
+    numE = size(quad,1);
+    for i = 1: numE
+        for j = 1: 4
+            quad(i,j) = mapping( quad(i,j) );
+        end
+    end
+
     %----------------------------------------------------------------------
     % x y coordinates of vertices
     vert = nodecoor_list(:,2:3);
