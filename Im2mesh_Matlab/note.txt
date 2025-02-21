@@ -1,0 +1,13 @@
+update
+bound2polyshape
+
+add
+p_poly_dist
+polyshape2bound
+addIntersectPnts
+demo14
+demo15
+
+
+change name
+getHiddenCtrlPnts -> addIntersectPnts
