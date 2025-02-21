@@ -31,8 +31,7 @@ function p = bound2polyshape(bounds)
             x_temp = [ x_temp; NaN; bounds{i}{j}(:,1) ];
             y_temp = [ y_temp; NaN; bounds{i}{j}(:,2) ];
         end
-        p{i} = polyshape( x_temp, y_temp );
-        p{i} = simplify( p{i} );
+        p{i} = polyshape( x_temp, y_temp, 'KeepCollinearPoints', true  );
     end
 end
 
