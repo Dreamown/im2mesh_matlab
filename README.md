@@ -42,17 +42,17 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 
 - [demo01](https://mjx888.github.io/im2mesh_demo_html/demo01.html) - Demonstrate function `im2mesh`, which use MESH2D as mesh generator.
 - [demo02](https://mjx888.github.io/im2mesh_demo_html/demo02.html) - Demonstrate function `im2meshBuiltIn`, which use MATLAB built-in function `generateMesh` as mesh generator.
-- [demo03](https://mjx888.github.io/im2mesh_demo_html/demo03.html) - Demonstrate how to export mesh as `inp`, `bdf`, and `node`/`ele` file
-- [demo04](https://mjx888.github.io/im2mesh_demo_html/demo04.html) - Demonstrate what is inside function `im2mesh`.
-- [demo05](https://mjx888.github.io/im2mesh_demo_html/demo05.html) - Demonstrate parameter `tf_avoid_sharp_corner`
-- [demo06](https://mjx888.github.io/im2mesh_demo_html/demo06.html) - Demonstrate thresholds in polyline smoothing
-- [demo07](https://mjx888.github.io/im2mesh_demo_html/demo07.html) - Demonstrate parameter `grad_limit` for mesh generation
-- [demo08](https://mjx888.github.io/im2mesh_demo_html/demo08.html) - Demonstrate parameter `hmax` for mesh generation
-- [demo09](https://mjx888.github.io/im2mesh_demo_html/demo09.html) - Demonstrate how to select phases for meshing
-- [demo10](https://mjx888.github.io/im2mesh_demo_html/demo10.html) - Demonstrate different polyline smoothing techniques
-- [demo11](https://mjx888.github.io/im2mesh_demo_html/demo11.html) - Demonstrate how to find node sets at the interface and boundary
+- [demo03](https://mjx888.github.io/im2mesh_demo_html/demo03.html) - How to export mesh as `inp`, `bdf`, and `node`/`ele` file
+- [demo04](https://mjx888.github.io/im2mesh_demo_html/demo04.html) - What is inside function `im2mesh`.
+- [demo05](https://mjx888.github.io/im2mesh_demo_html/demo05.html) - Parameter `tf_avoid_sharp_corner`
+- [demo06](https://mjx888.github.io/im2mesh_demo_html/demo06.html) - Thresholds in polyline smoothing
+- [demo07](https://mjx888.github.io/im2mesh_demo_html/demo07.html) - Parameter `grad_limit` for mesh generation
+- [demo08](https://mjx888.github.io/im2mesh_demo_html/demo08.html) - Parameter `hmax` for mesh generation
+- [demo09](https://mjx888.github.io/im2mesh_demo_html/demo09.html) - How to select phases for meshing
+- [demo10](https://mjx888.github.io/im2mesh_demo_html/demo10.html) - Different polyline smoothing techniques
+- [demo11](https://mjx888.github.io/im2mesh_demo_html/demo11.html) - How to find node sets at the interface and boundary
 - [demo12](https://mjx888.github.io/im2mesh_demo_html/demo12.html) - Demonstrate function `pixelMesh` (pixel-based quadrilateral mesh)
-- [demo13](https://mjx888.github.io/im2mesh_demo_html/demo13.html) - Demonstrate how to use Gmsh as mesh generator
+- [demo13](https://mjx888.github.io/im2mesh_demo_html/demo13.html) - How to use Gmsh as mesh generator
 
 ## Cite as
 
