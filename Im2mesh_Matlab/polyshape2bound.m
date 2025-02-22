@@ -3,7 +3,7 @@ function bounds = polyshape2bound( pC )
 % array of polygonal boundaries
 %
 % input:
-% pC - cell array. p{i} is a polyshape object, which corresponds to 
+% pC - cell array. pC{i} is a polyshape object, which corresponds to 
 %   polygons in bounds{i}
 %
 % output:
