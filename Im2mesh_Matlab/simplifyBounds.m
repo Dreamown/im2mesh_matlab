@@ -1,5 +1,10 @@
 function new_bounds = simplifyBounds( bounds, tolerance, threshold_num_vert )
-% simplify each bounds{i}{j} using dpsimplify.m
+% simplifyBounds: simplify polygonal boundaries using Douglas-Peucker 
+% Polyline Simplification (dpsimplify.m)
+%
+% usage:
+%   new_bounds = simplifyBounds( bounds, tolerance, threshold_num_vert );
+%   new_bounds = simplifyBounds( bounds, tolerance );
 %
 % input:
 %   bounds - cell array. bounds{i}{j} is one of the polygonal boundaries,  
@@ -24,6 +29,7 @@ function new_bounds = simplifyBounds( bounds, tolerance, threshold_num_vert )
 %
 % output:
 %   new_bounds - cell array. new_bounds{i}{j} is without (NaN,NaN)
+%
 %
 % Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
 % the terms of the GNU General Public License (version 3).

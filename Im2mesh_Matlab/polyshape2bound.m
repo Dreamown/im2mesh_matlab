@@ -1,6 +1,27 @@
 function bounds = polyshape2bound( pC )
-% polyshape2bound: polyshape cell to boundary cell
+% polyshape2bound: Convert a cell array of polyshape objects to a cell 
+% array of polygonal boundaries
+%
+% input:
+% pC - cell array. p{i} is a polyshape object, which corresponds to 
+%   polygons in bounds{i}
+%
+% output:
+% bounds - cell array. bounds{i}{j} is one of the polygonal boundaries,  
+%          corresponding to region with certain grayscale level in image.
+%          Polygons in bounds{i} have the same grayscale level.
+%          bounds{i}{j}(:,1) is x coordinate (column direction).
+%          bounds{i}{j}(:,2) is y coordinate (row direction). You can use
+%          plot( bounds{i}{j}(:,1), bounds{i}{j}(:,2) ) to view the
+%          polygon. Use plotBounds( bounds ) to view all polygons, check
+%          plotBounds.m.
+%
+% Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
+% the terms of the GNU General Public License (version 3).
 % 
+% Project website: https://github.com/mjx888/im2mesh
+%
+
 
     bounds = cell( length(pC), 1 );
     

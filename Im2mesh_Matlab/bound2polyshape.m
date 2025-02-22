@@ -1,5 +1,6 @@
 function p = bound2polyshape(bounds)
-% Convert polygonal boundaries to a cell array of polyshape object
+% bound2polyshape: Convert a cell array of polygonal boundaries to a cell 
+% array of polyshape objects.
 %
 % input:
 % bounds - cell array. bounds{i}{j} is one of the polygonal boundaries,  

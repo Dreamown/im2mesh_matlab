@@ -16,6 +16,7 @@ function bounds = im2Bounds( im )
 %          plotBounds.m.
 %   bounds{i} is boundary polygons for one phase
 %
+%
 % Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
 % the terms of the GNU General Public License (version 3).
 % 

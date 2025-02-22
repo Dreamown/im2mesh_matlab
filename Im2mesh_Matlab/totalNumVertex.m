@@ -1,5 +1,6 @@
 function num_vert = totalNumVertex( bounds )
-% calculate the total number of vertices in all polygonal boundaries
+% totalNumVertex: calculate the total number of vertices in all polygonal 
+% boundaries
 %
 % bounds - cell array. bounds{i}{j} is one of the polygonal boundaries,  
 %          corresponding to region with certain gray level in image im.

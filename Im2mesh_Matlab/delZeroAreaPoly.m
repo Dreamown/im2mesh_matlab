@@ -1,5 +1,5 @@
 function bounds = delZeroAreaPoly( bounds )
-% delete polygon with zero area
+% delZeroAreaPoly: delete polygon with zero area
 %
 % bounds - cell array. bounds{i}{j} is one of the polygonal boundaries,  
 %          corresponding to region with certain gray level in image im.

@@ -1,5 +1,5 @@
 function plotMeshes( vert, ele, tnum )
-% plotMeshes: plot mesh
+% plotMeshes: plot triangular mesh
 % Also works for quadratic or quadrilateral elements
 %
 % input:

@@ -1,18 +1,14 @@
 function plotBounds( bounds, tf_show_ctrlpnt, lin_spec )
-% plot bounds{i}{j}
+% plotBounds: plot polygonal boundaries
 %
 % usage:
 %   plotBounds( bounds );
 %   plotBounds( bounds, true );     % show starting and control points
-%   plotBounds( bounds, false, '' );
-%   plotBounds( bounds, false, 'k.-' );
+%   plotBounds( bounds, false, '' );        % show color
+%   plotBounds( bounds, false, 'k.-' );     % with line specification
 %   plotBounds( bounds, true, 'k.-' );
 %
 % input:
-%   tf_show_ctrlpnt - Boolean. Whether to show starting and control points.
-%                     Default value is false.
-%   lin_spec - Line specification. Default value is 'k'. (black line)
-%
 %   bounds - cell array. bounds{i}{j} is one of the polygonal boundaries,  
 %          corresponding to region with certain gray level in image im.
 %          Polygons in bounds{i} have the same grayscale level.
@@ -20,6 +16,10 @@ function plotBounds( bounds, tf_show_ctrlpnt, lin_spec )
 %          bounds{i}{j}(:,2) is y coordinate (row direction). You can use
 %          plot( bounds{i}{j}(:,1), bounds{i}{j}(:,2) ) to view the
 %          polygon. Use plotBounds( bounds ) to view all polygons.
+%
+%   tf_show_ctrlpnt - Boolean. Whether to show starting and control points.
+%                     Default value is false.
+%   lin_spec - Line specification. Default value is 'k'. (black line)
 %
 
     % check the number of inputs

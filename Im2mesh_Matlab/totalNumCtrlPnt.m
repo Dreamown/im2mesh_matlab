@@ -1,5 +1,6 @@
 function num_ctrlp = totalNumCtrlPnt( bounds )
-% Calculate the total number of control points in all polygonal boundaries.
+% totalNumCtrlPnt: Calculate the total number of control points in all 
+% polygonal boundaries.
 % Each polygon has at least one ccontrol point (i.e., the starting vertex).
 %
 % bounds - cell array. bounds{i}{j} is one of the polygonal boundaries,  

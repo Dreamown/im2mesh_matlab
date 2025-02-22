@@ -1,5 +1,5 @@
 function plotBounds2( boundsA, boundsB )
-% plot 2 boundary
+% plot 2 polygonal boundaries
 %
 % usage:
 %   plotBounds2( boundsA, boundsB );
