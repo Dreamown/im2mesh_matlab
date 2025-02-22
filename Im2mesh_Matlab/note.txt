@@ -1,5 +1,9 @@
 Update
 bound2polyshape
+demo4 
+(add more: 
+area perccentage in polygonal boundaries, 
+Refine mesh near a specific polygon)
 
 Add
 p_poly_dist
@@ -7,6 +11,7 @@ polyshape2bound
 addIntersectPnts
 demo14
 demo15
+insertMidPnt
 
 
 Change name
