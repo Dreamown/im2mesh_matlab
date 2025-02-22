@@ -6,6 +6,10 @@ function new_bounds = getCtrlPnts( bounds, tf_avoid_sharp_corner, size_im )
 % It will serve as fixed-point for polygon simplification and meshing.
 % Control points will be labeled with (NaN,NaN).
 %
+% usage:
+%   new_bounds = getCtrlPnts( bounds, tf_avoid_sharp_corner, size_im );
+%   new_bounds = getCtrlPnts( bounds, tf_avoid_sharp_corner );
+%
 % input:
 %   bounds - cell array. bounds{i}{j} is one of the polygonal boundaries,  
 %          corresponding to region with certain gray level in image im.
