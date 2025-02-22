@@ -36,7 +36,7 @@
 
 After downloading Im2mesh package ([releases](https://github.com/mjx888/im2mesh/releases)), I suggest you start with [Im2mesh_GUI app](https://github.com/mjx888/im2mesh/tree/main/Im2mesh_GUI%20app) in the folder, which will help you understand the workflow and parameters of Im2mesh. A detailed tutorial is provided in [Im2mesh_GUI Tutorial.pdf](https://github.com/mjx888/im2mesh/blob/main/Im2mesh_GUI%20Tutorial.pdf). 
 
-Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im2mesh_Octave". 11 examples are provided.  If you're using MATLAB ,  examples are live script `mlx` files (`demo1.mlx` ~ `demo12.mlx`). If you're using Octave,  examples are `m` files (`demo1.m` ~ `demo10.m`).  Examples are also available as `html` files in the folder "demo_html".
+Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im2mesh_Octave". 11 examples are provided.  If you're using MATLAB,  examples are live script `mlx` files (`demo1.mlx` ~ `demo12.mlx`). If you're using Octave,  examples are `m` files (`demo1.m` ~ `demo10.m`).  Examples are also available as `html` files in the folder "demo_html".
 
 **Examples:**
 
