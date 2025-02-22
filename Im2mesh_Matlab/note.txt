@@ -1,7 +1,7 @@
-update
+Update
 bound2polyshape
 
-add
+Add
 p_poly_dist
 polyshape2bound
 addIntersectPnts
@@ -9,5 +9,10 @@ demo14
 demo15
 
 
-change name
+Change name
 getHiddenCtrlPnts -> addIntersectPnts
+
+Update usage comment
+smoothBounds
+smoothBoundsCCMA
+simplifyBounds
