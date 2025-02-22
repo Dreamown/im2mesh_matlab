@@ -4,6 +4,7 @@ demo4
 (add more: 
 area perccentage in polygonal boundaries, 
 Refine mesh near a specific polygon)
+demo13
 
 Add
 p_poly_dist
@@ -12,6 +13,9 @@ addIntersectPnts
 demo14
 demo15
 insertMidPnt
+bound2SurfaceLoop
+deltri1
+printGeo
 
 
 Change name
@@ -21,3 +25,11 @@ Update usage comment
 smoothBounds
 smoothBoundsCCMA
 simplifyBounds
+
+delete
+folder printGeo
+
+
+
+
+
