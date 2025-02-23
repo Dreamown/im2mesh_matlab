@@ -53,8 +53,9 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 - [demo11](https://mjx888.github.io/im2mesh_demo_html/demo11.html) - How to find node sets at the interface and boundary
 - [demo12](https://mjx888.github.io/im2mesh_demo_html/demo12.html) - Demonstrate function `pixelMesh` (pixel-based quadrilateral mesh)
 - [demo13](https://mjx888.github.io/im2mesh_demo_html/demo13.html) - How to use Gmsh as mesh generator
-- demo14 - How to use polyshape object to define multi-part geometry for meshing
-- demo15 - How to edit polygonal boundaries before meshing
+- [demo14](https://mjx888.github.io/im2mesh_demo_html/demo14.html) - How to use polyshape object to define multi-part geometry for mesh generation
+- [demo15](https://mjx888.github.io/im2mesh_demo_html/demo15.html) - How to edit polygonal boundaries before meshing
+- [demo16](https://mjx888.github.io/im2mesh_demo_html/demo16.html) - How to add points or nodes to polygonal boundaries before meshing
 
 ## Cite as
 
