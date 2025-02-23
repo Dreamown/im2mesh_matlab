@@ -23,11 +23,16 @@ function bounds = addIntersectPnts( bounds, tolerance )
             for k = 1: length(bounds)
                 for l = 1: length(bounds{k})
                     if i==k && j==l; continue; end   % skip itself
-
+                    
                     xv = bounds{i}{j}(1:end-1,1);
                     yv = bounds{i}{j}(1:end-1,2);
                     xp = bounds{k}{l}(:,1);
                     yp = bounds{k}{l}(:,2);
+                    
+                    % pre-check using bounding box of polygon
+                    if ~ isBBoxIntersect( [xv,yv], [xp,yp] )
+                        continue
+                    end 
 
                     [new_xp, new_yp] = addIntersectPnt2Poly( xv, yv, xp, yp, tolerance );
                     % update bounds{k}{l}
@@ -96,6 +101,45 @@ function [new_xp, new_yp] = addIntersectPnt2Poly( xv, yv, xp, yp, tolerance )
 
 end
 
+
+function tf = isBBoxIntersect( poly1, poly2 )
+% whether the bounding box of two polygons intersect
+
+    xmin_p1 = min(poly1(:,1));
+    xmax_p1 = max(poly1(:,1));
+
+    xmin_p2 = min(poly2(:,1));
+    xmax_p2 = max(poly2(:,1));
+
+    tf_x = isRangeIntersect( [xmin_p1 xmax_p1], [xmin_p2 xmax_p2] );
+
+    ymin_p1 = min(poly1(:,2));
+    ymax_p1 = max(poly1(:,2));
+
+    ymin_p2 = min(poly2(:,2));
+    ymax_p2 = max(poly2(:,2));
+
+    tf_y = isRangeIntersect( [ymin_p1 ymax_p1], [ymin_p2 ymax_p2] );
+
+    if tf_x && tf_y
+        tf = true;
+    else
+        tf = false;
+    end
+end
+
+function tf = isRangeIntersect(range1, range2)
+% whether two intervals intersect
+
+    lower = max(range1(1), range2(1));
+    upper = min(range1(2), range2(2));
+    
+    if lower <= upper
+        tf = true;
+    else
+        tf = false;
+    end
+end
 
 function [x_new, y_new] = insertVertex(x, y, x_insert, y_insert, idx_seg)
 % insertVertex Inserts new vertices into an existing 
