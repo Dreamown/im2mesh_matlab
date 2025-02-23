@@ -5,6 +5,7 @@ demo4
 area perccentage in polygonal boundaries, 
 Refine mesh near a specific polygon)
 demo13
+(quad mesh)
 
 Add
 p_poly_dist
@@ -12,11 +13,13 @@ polyshape2bound
 addIntersectPnts
 demo14
 demo15
+demo16
 insertMidPnt
 bound2SurfaceLoop
 deltri1
 printGeo
-
+boundsNew
+addPnt2Bound
 
 Change name
 getHiddenCtrlPnts -> addIntersectPnts
