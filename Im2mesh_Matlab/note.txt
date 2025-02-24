@@ -3,27 +3,29 @@ folder printGeo
 
 Revise
 bound2polyshape
+poly2meshBuiltIn
+plotMeshes
 demo4 
 (add more: 
 area perccentage in polygonal boundaries, 
 Refine mesh near a specific polygon)
 demo13
 (quad mesh)
-poly2meshbuiltin
+
 
 Add
 p_poly_dist
 polyshape2bound
-addIntersectPnts
-demo14
-demo15
-demo16
-insertMidPnt
 bound2SurfaceLoop
 deltri1
 printGeo
-boundsNew
+addIntersectPnts
 addPnt2Bound
+insertMidPnt
+
+demo14
+demo15
+demo16
 
 
 Update usage comment
@@ -39,7 +41,6 @@ section 5
 
 revise export panel
 
-Need to revise
 
 
 
