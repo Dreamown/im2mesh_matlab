@@ -1,4 +1,7 @@
-Update
+delete
+folder printGeo
+
+Revise
 bound2polyshape
 demo4 
 (add more: 
@@ -6,6 +9,7 @@ area perccentage in polygonal boundaries,
 Refine mesh near a specific polygon)
 demo13
 (quad mesh)
+poly2meshbuiltin
 
 Add
 p_poly_dist
@@ -21,16 +25,21 @@ printGeo
 boundsNew
 addPnt2Bound
 
-Change name
-getHiddenCtrlPnts -> addIntersectPnts
 
 Update usage comment
 smoothBounds
 smoothBoundsCCMA
 simplifyBounds
 
-delete
-folder printGeo
+update gui export panel
+
+-------------------
+Need to revise tutorial
+section 5
+
+revise export panel
+
+Need to revise
 
 
 
