@@ -3,8 +3,8 @@ function bounds = polyshape2bound( pC )
 % array of polygonal boundaries
 %
 % input:
-% pC - cell array. pC{i} is a polyshape object, which corresponds to 
-%   polygons in bounds{i}
+% pC - cell array of polyshape objects. pC{i} is a polyshape object, which 
+%      corresponds to polygons in bounds{i}
 %
 % output:
 % bounds - cell array. bounds{i}{j} is one of the polygonal boundaries,  
@@ -22,6 +22,8 @@ function bounds = polyshape2bound( pC )
 % Project website: https://github.com/mjx888/im2mesh
 %
 
+    % delete empty element in cell array
+    pC = pC( ~cellfun('isempty', pC) );
 
     bounds = cell( length(pC), 1 );
     
