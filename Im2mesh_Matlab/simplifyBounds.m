@@ -5,6 +5,7 @@ function new_bounds = simplifyBounds( bounds, tolerance, threshold_num_vert )
 % usage:
 %   new_bounds = simplifyBounds( bounds, tolerance, threshold_num_vert );
 %   new_bounds = simplifyBounds( bounds, tolerance );
+%   new_bounds = simplifyBounds( bounds, 0 );   % no simplification
 %
 % input:
 %   bounds - cell array. bounds{i}{j} is one of the polygonal boundaries,  
