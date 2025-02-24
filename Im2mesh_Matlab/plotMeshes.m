@@ -2,6 +2,12 @@ function plotMeshes( vert, ele, tnum )
 % plotMeshes: plot triangular mesh
 % Also works for quadratic or quadrilateral elements
 %
+% Nodes are counter-clockwise ordering in an linear element.
+%
+% usage:
+%   plotMeshes( vert, ele, tnum );  % multiple phases
+%   plotMeshes( vert, ele );        % one phase
+%
 % input:
 %   verrt - Node data. N-by-2 array.
 %       vert(i,1:2) = [x_coordinate, y_coordinate] of the i-th node
@@ -13,9 +19,19 @@ function plotMeshes( vert, ele, tnum )
 %   tnum - Label of material phase. P-by-1 array.
 %       tnum(j,1) = k; means the j-th element is belong to the k-th phase
 %
+
+    %--------------------------------------------------------------------
+    % check the number of inputs
+    if nargin == 2
+        tnum = ones(size(ele,1),1);
+    elseif nargin == 3
+        % normal case
+    else
+        error("check the number of inputs");
+    end
     
     %--------------------------------------------------------------------
-    % check input
+    % check element type
     ele_wid = size(ele,2);
 
     if ele_wid == 3         % linear triangle
