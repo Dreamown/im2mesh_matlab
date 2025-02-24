@@ -1,5 +1,7 @@
 function [ node_cell, edge_cell ] = getPolyNodeEdge( bounds )
-% get nodes and edges of polygonal boundary
+% getPolyNodeEdge: get nodes and edges of polygonal boundary. Nodes and
+% edges is in format of planar straight-line graph
+% 
 %
 % input:
 %   bounds - cell array. bounds{i}{j} is one of the polygonal boundaries,  
@@ -19,6 +21,7 @@ function [ node_cell, edge_cell ] = getPolyNodeEdge( bounds )
 %                  Each row is one vertex.
 %   edge_cell{i} - M-by-2 array. Node numbering of two connecting vertices
 %                  in polygon. Each row is one edge.
+%
 %
 % Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
 % the terms of the GNU General Public License (version 3).

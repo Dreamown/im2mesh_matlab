@@ -1,5 +1,11 @@
 function new_bounds = smoothBoundsCCMA( bounds, w_ma, w_cc, threshold_num_turning, threshold_num_vert )
-% smooth each bounds{i}{j} using CCMA smoothing algorithm
+% smoothBoundsCCMA: smooth polygonal boundaries using CCMA smoothing 
+% algorithm (CCMA.m)
+%
+% usage:
+%   new_bounds = smoothBoundsCCMA( bounds, w_ma, w_cc, threshold_num_turning, threshold_num_vert );
+%   new_bounds = smoothBoundsCCMA( bounds, w_ma, w_cc, threshold_num_turning );
+%   new_bounds = smoothBoundsCCMA( bounds, w_ma, w_cc );
 %
 % input:
 %   bounds - cell array. bounds{i}{j} is one of the polygonal boundaries,  

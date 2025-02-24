@@ -1,6 +1,6 @@
 function bounds = im2Bounds( im )
-% extract exact polygonal boundaries from grayscale segmented image using
-% getExactBounds.m
+% im2Bounds: extract exact polygonal boundaries from grayscale segmented 
+% image using getExactBounds.m
 %
 % input:
 %   im - grayscale segmented image, type: uint8 matrix
@@ -15,6 +15,7 @@ function bounds = im2Bounds( im )
 %          polygon. Use plotBounds( bounds ) to view all polygons, check
 %          plotBounds.m.
 %   bounds{i} is boundary polygons for one phase
+%
 %
 % Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
 % the terms of the GNU General Public License (version 3).

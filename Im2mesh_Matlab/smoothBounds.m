@@ -1,5 +1,12 @@
 function new_bounds = smoothBounds( bounds, lambda, mu, iters, threshold_num_turning, threshold_num_vert )
-% smooth each bounds{i}{j} using 2d Taubin Smoothing (taubinSmooth.m)
+% smoothBounds: smooth polygonal boundaries using 2d Taubin Smoothing 
+% (taubinSmooth.m)
+%
+% usage:
+%   new_bounds = smoothBounds( bounds, lambda, mu, iters, threshold_num_turning, threshold_num_vert );
+%   new_bounds = smoothBounds( bounds, lambda, mu, iters, threshold_num_turning );
+%   new_bounds = smoothBounds( bounds, lambda, mu, iters );
+%   new_bounds = smoothBounds( bounds, lambda, mu, 0 );     % no smoothing
 %
 % input:
 %   bounds - cell array. bounds{i}{j} is one of the polygonal boundaries,  
@@ -38,6 +45,7 @@ function new_bounds = smoothBounds( bounds, lambda, mu, iters, threshold_num_tur
 % output:
 %   new_bounds - cell array. new_bounds{i}{j} is a polygon boundary with 
 %               (NaN,NaN). (NaN,NaN) is the label for control point.
+%
 %
 % Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
 % the terms of the GNU General Public License (version 3).

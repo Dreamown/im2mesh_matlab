@@ -115,6 +115,7 @@ function [vert,quad,tnum,vert2,quad2] = pixelMesh( im, opt )
 %     end
 %     
 %     quad = new_quad;
+
     %----------------------------------------------------------------------
     % speed up the above process
     ind_vec = nodecoor_list(:,1);

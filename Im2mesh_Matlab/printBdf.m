@@ -1,5 +1,6 @@
 function printBdf( nodecoor_list, ele_cell, precision_nodecoor, path_file_name )
 % printBdf: print the nodes and elements into Inp file 'test.bdf'
+%
 % usage:
 %   printBdf( nodecoor_list, ele_cell, precision_nodecoor );
 %   % OR

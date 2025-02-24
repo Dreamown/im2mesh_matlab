@@ -1,8 +1,14 @@
 function new_bounds = getCtrlPnts( bounds, tf_avoid_sharp_corner, size_im )
-% get control points in bounds{i}{j}. bounds{i}{j} is a polygon boundary.
+% getCtrlPnts: search and label control points in polygonal boundaries. 
+% bounds{i}{j} is a polygon boundary.
 %
 % Control point is the intersecting vertex between two polygons.
 % It will serve as fixed-point for polygon simplification and meshing.
+% Control points will be labeled with (NaN,NaN).
+%
+% usage:
+%   new_bounds = getCtrlPnts( bounds, tf_avoid_sharp_corner, size_im );
+%   new_bounds = getCtrlPnts( bounds, tf_avoid_sharp_corner );
 %
 % input:
 %   bounds - cell array. bounds{i}{j} is one of the polygonal boundaries,  
@@ -26,7 +32,7 @@ function new_bounds = getCtrlPnts( bounds, tf_avoid_sharp_corner, size_im )
 % Steps:
 %   1. find a control point in bounds{i}{j} according to bounds{k}{l}
 %   2. change starting point of bounds{i}{j} to the control point (found in step 1)
-%   3. find & label all control points in bounds{i}{j}
+%   3. find & label all the control points in bounds{i}{j}
 %   4. insert (NaN,NaN) for polygon simplify
 %
 % % example of control points (only illustrate the output)

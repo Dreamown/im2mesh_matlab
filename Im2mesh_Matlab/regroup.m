@@ -1,5 +1,6 @@
 function [ nodeU, edgeU, part ] = regroup( poly_node, poly_edge )
-% organize cell array poly_node, poly_edge into array nodeU, edgeU & part
+% regroup: organize cell array poly_node, poly_edge into array nodeU, edgeU
+% & a cell array 'part'
 %
 % input:
 %   poly_node, poly_edge - cell array, nodes and edges of polygonal boundary
