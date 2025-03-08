@@ -5,18 +5,18 @@
 **Im2mesh** is a MATLAB/Octave package for generating finite element mesh based on 2D segmented multi-phase image. It provides a robust workflow capable of processing various input images, such as microstructure images of engineering materials. Due to its generalized framework, Im2mesh can handle segmented image with more than 10 phases.  Im2mesh was originally released on [MathWorks File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/71772-im2mesh-2d-image-to-finite-element-mesh) in 2019. Im2mesh can also be used as a mesh generation interface for MATLAB multi-part geometry.
 
 <p align="center">
-  <img src = "https://github.com/mjx888/im2mesh/blob/main/example_kumamon.png" height="100"> &nbsp
-  <img src = "https://github.com/mjx888/im2mesh/blob/main/example_shape.png" height="100"> &nbsp
-  <img src = "https://github.com/mjx888/im2mesh/blob/main/example_concrete.png" height="100"> 
+  <img src = "https://mjx888.github.io/im2mesh_demo_html/example_kumamon.jpg" height="100"> &nbsp
+  <img src = "https://mjx888.github.io/im2mesh_demo_html/example_shape.jpg" height="100"> &nbsp
+  <img src = "https://mjx888.github.io/im2mesh_demo_html/example_concrete.jpg" height="100"> 
 </p>
 
 
 **News:**
 
-- **v2.2.1 is able to edit polygonal boundary before mesh generation. Check demo14 - 16.**
-- v2.2.0 supports using Gmsh as mesh generator (unstructured quadrilateral mesh).
-- v2.1.6 updates the DOI. Im2mesh is now citable.
-- v2.1.0 is a huge update. Im2mesh package can run on GNU Octave.
+- **Version 2.2.1 is able to edit polygonal boundary before mesh generation. Check demo14 - 16.**
+- Version 2.2.0 supports using Gmsh as mesh generator (unstructured quadrilateral mesh).
+- Version 2.1.6 updates the DOI. Im2mesh is now citable.
+- Version 2.1.0 is a huge update. Im2mesh package can run on GNU Octave.
 
 **Features:**
 
