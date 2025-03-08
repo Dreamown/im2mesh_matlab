@@ -13,10 +13,10 @@
 
 **News:**
 
-- **Version 2.2.1 is able to edit polygonal boundary before mesh generation. Check demo14 - 16.**
-- Version 2.2.0 supports using Gmsh as mesh generator (unstructured quadrilateral mesh).
-- Version 2.1.6 updates the DOI. Im2mesh is now citable.
-- Version 2.1.0 is a huge update. Im2mesh package can run on GNU Octave.
+- **v2.2.1 is able to edit polygonal boundary before mesh generation. Check demo14 - 16.**
+- v2.2.0 supports using Gmsh as mesh generator (unstructured quadrilateral mesh).
+- v2.1.6 updates the DOI. Im2mesh is now citable.
+- v2.1.0 is a huge update. Im2mesh package can run on GNU Octave.
 
 **Features:**
 
@@ -29,7 +29,7 @@
 - Graphical user interface (GUI) version is available as a MATLAB app.
 
 <p align="center">
-  <img src = "https://github.com/mjx888/im2mesh/blob/main/GUI.png" height="300"> 
+  <img src = "https://mjx888.github.io/im2mesh_demo_html/GUI.png" height="300"> 
 </p>
 
 ## How to start
