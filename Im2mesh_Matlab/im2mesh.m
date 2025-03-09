@@ -54,7 +54,8 @@ function [ vert, tria, tnum, vert2, tria2 ] = im2mesh( im, opt )
 %                 % Maximum mesh-size
 %     
 %   opt.mesh_kind   % For funtion poly2mesh
-%                   % Meshing algorithm
+%                   % Method used to create mesh-size functions based on 
+%                   % an estimate of the "local-feature-size".
 %                   % Value: 'delaunay' or 'delfront' 
 %                   % "standard" Delaunay-refinement or
 %                   % "Frontal-Delaunay" technique
