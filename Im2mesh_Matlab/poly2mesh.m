@@ -1,7 +1,13 @@
-function [vert,tria,tnum,vert2,tria2] = poly2mesh( poly_node, poly_edge, hmax, mesh_kind, grad_limit )
+function [vert,tria,tnum,vert2,tria2] = poly2mesh( poly_node, poly_edge, ...
+                                                hmax, mesh_kind, grad_limit, tf_smooth, tf_refine )
 % poly2mesh: generate meshes of parts defined by polygons, 
 %        	 adapted from the demo of mesh2d-master
 %            (Darren Engwirda, https://github.com/dengwirda/mesh2d) 
+%
+% usage:
+%   [vert,tria,tnum,vert2,tria2] = poly2mesh( poly_node, poly_edge, hmax, mesh_kind, grad_limit );
+%   [vert,tria,tnum,vert2,tria2] = poly2mesh( poly_node, poly_edge, hmax, mesh_kind, grad_limit, tf_smooth );
+%   [vert,tria,tnum,vert2,tria2] = poly2mesh( poly_node, poly_edge, hmax, mesh_kind, grad_limit, tf_smooth, tf_refine );
 % 
 % input:
 %   poly_node, poly_edge - cell array, nodes and edges of polygonal boundary
@@ -13,7 +19,8 @@ function [vert,tria,tnum,vert2,tria2] = poly2mesh( poly_node, poly_edge, hmax, m
 %   
 %   hmax - for poly2mesh, affact maximum mesh-size
 %   
-%   mesh_kind - meshing algorithm
+%   mesh_kind - Method used to create mesh-size functions based on 
+%               an estimate of the "local-feature-size".
 %               value: 'delaunay' or 'delfront' 
 %               "standard" Delaunay-refinement or "Frontal-Delaunay" technique
 %   
@@ -47,6 +54,21 @@ function [vert,tria,tnum,vert2,tria2] = poly2mesh( poly_node, poly_edge, hmax, m
 % Project website: https://github.com/mjx888/im2mesh
 %
 
+    %----------------------------------------------
+    % check the number of inputs
+    if nargin == 5          % normal case. Smooth but no refine.
+        tf_smooth = 1;
+        tf_refine = 0;
+
+    elseif nargin == 6      % set smooth. But no refine.
+        tf_refine = 0;
+        
+    elseif nargin == 7      % set smooth & refine.
+        % use as input
+    else
+        error("check the number of inputs");
+    end
+
     % assemble triangulations for multi-part geometry definitions.
     %---------------------------------------------- create geom.
     % libpath();
@@ -68,7 +90,8 @@ function [vert,tria,tnum,vert2,tria2] = poly2mesh( poly_node, poly_edge, hmax, m
 	
     %---------------------------------------------- do size-fun.
  
-    % meshing algorithm
+    % Method used to create mesh-size functions based on 
+    % an estimate of the "local-feature-size"
     % "standard" Delaunay-refinement or "Frontal-Delaunay" technique
     option.kind = mesh_kind;    % 'delaunay' or 'delfront' 
                                 % default value is 'delaunay'
@@ -95,7 +118,24 @@ function [vert,tria,tnum,vert2,tria2] = poly2mesh( poly_node, poly_edge, hmax, m
     % SMOOTH2 routine provides iterative mesh "smoothing" capabilities, 
     % seeking to improve triangulation quality by adjusting the vertex 
     % positions and mesh topology.
-    [vert,~,tria,tnum] = smooth2(vert,etri,tria,tnum);
+
+    if tf_smooth ~= 0
+        [vert,etri,tria,tnum] = smooth2(vert,etri,tria,tnum);
+    end
+
+    %----------------------------------------------- mesh refinement
+    % quadtree-type mesh refinement.
+    % The TRIDIV2 routine can also be used to refine existing 
+    % trangulations. Each triangle is split into four new 
+    % sub-triangles, such that element shape is preserved.
+
+    if tf_refine ~= 0
+        [vnew,enew,tnew,tnum] = tridiv2(vert,etri,tria,tnum);
+        [vnew,enew,tnew,tnum] = smooth2(vnew,enew,tnew,tnum);
+        vert = vnew;
+        etri = enew;
+        tria = tnew;
+    end
     
     %---------------------------------------------- get 2nd order element
     [ vert2, tria2 ] = insertNode( vert, tria );
