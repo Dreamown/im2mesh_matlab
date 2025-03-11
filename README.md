@@ -13,7 +13,7 @@
 
 **News:**
 
-- **Version 2.2.1 is able to edit polygonal boundary before mesh generation. Check demo14 - 16.**
+- **Version 2.2.1 is able to edit polygonal boundary before mesh generation. Check demo14-16.**
 - Version 2.2.0 supports using Gmsh as mesh generator (unstructured quadrilateral mesh).
 - Version 2.1.6 updates the DOI. Im2mesh is now citable.
 - Version 2.1.0 is a huge update. Im2mesh package can run on GNU Octave.
@@ -67,5 +67,4 @@ Great thanks Dr. Yang Lu providing valuable advice on Im2mesh.
 
 ## Other related projects
 
-- [pixelMesh (pixel-based mesh)](https://www.mathworks.com/matlabcentral/fileexchange/104715-pixelmesh-pixel-based-mesh?s_tid=srchtitle)
 - [voxelMesh (voxel-based mesh)](https://www.mathworks.com/matlabcentral/fileexchange/104720-voxelmesh-voxel-based-mesh)
