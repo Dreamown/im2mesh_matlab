@@ -32,6 +32,17 @@
   <img src = "https://mjx888.github.io/im2mesh_demo_html/GUI.png" height="300"> 
 </p>
 
+
+## Dependencies
+
+- When using Im2mesh package in MATLAB, you need to install MATLAB Image Processing Toolbox and Mapping Toolbox.
+- When using Im2mesh package in GNU Octave, you are not required to install these toolboxes. 
+
+## Version compatibility
+
+- Im2mesh_GUI: MATLAB R2017b or later; version higher than R2018b is preferred.
+- Im2mesh package: MATLAB R2017b or later. GNU Octave 9.3.0 or later.
+
 ## How to start
 
 After downloading Im2mesh package ([releases](https://github.com/mjx888/im2mesh/releases)), I suggest you start with [Im2mesh_GUI app](https://github.com/mjx888/im2mesh/tree/main/Im2mesh_GUI%20app) in the folder, which will help you understand the workflow and parameters of Im2mesh. A detailed tutorial is provided in [Im2mesh_GUI Tutorial.pdf](https://github.com/mjx888/im2mesh/blob/main/Im2mesh_GUI%20Tutorial.pdf). 
