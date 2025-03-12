@@ -22,17 +22,32 @@ function p = bound2polyshape(bounds)
 % Project website: https://github.com/mjx888/im2mesh
 %
 
-    p = cell( length(bounds), 1 );  % p is a cell vector for polyshape
-    
-    % boundary cell to polyshape cell
-    for i = 1: length(bounds)
-        x_temp = [];
-        y_temp = [];
-        for j = 1: length(bounds{i})
-            x_temp = [ x_temp; NaN; bounds{i}{j}(:,1) ];
-            y_temp = [ y_temp; NaN; bounds{i}{j}(:,2) ];
+    try
+        p = cell( length(bounds), 1 );  % p is a cell vector for polyshape
+        
+        % boundary cell to polyshape cell
+        for i = 1: length(bounds)
+            x_temp = [];
+            y_temp = [];
+            for j = 1: length(bounds{i})
+                x_temp = [ x_temp; NaN; bounds{i}{j}(:,1) ];
+                y_temp = [ y_temp; NaN; bounds{i}{j}(:,2) ];
+            end
+            p{i} = polyshape( x_temp, y_temp, 'KeepCollinearPoints', true  );
         end
-        p{i} = polyshape( x_temp, y_temp, 'KeepCollinearPoints', true  );
+    catch
+        p = cell( length(bounds), 1 );  % p is a cell vector for polyshape
+        
+        % boundary cell to polyshape cell
+        for i = 1: length(bounds)
+            x_temp = [];
+            y_temp = [];
+            for j = 1: length(bounds{i})
+                x_temp = [ x_temp; NaN; bounds{i}{j}(:,1) ];
+                y_temp = [ y_temp; NaN; bounds{i}{j}(:,2) ];
+            end
+            p{i} = polyshape( x_temp, y_temp  );
+        end
     end
 end
 
