@@ -16,7 +16,6 @@
 - **Version 2.2.1 is able to edit polygonal boundary before mesh generation. Check demo14-16.**
 - Version 2.2.0 supports using Gmsh as mesh generator (unstructured quadrilateral mesh).
 - Version 2.1.6 updates the DOI. Im2mesh is now citable.
-- Version 2.1.0 is a huge update. Im2mesh package can run on GNU Octave.
 
 **Features:**
 
@@ -82,7 +81,7 @@ Once my paper is published, I will update a new DOI here.
 
 ## Acknowledgments
 
-I sincerely thank Dr. Yang Lu for providing valuable advice on Im2mesh. I also appreciate Dr. Darren Engwirda for the open-source mesh generator.
+I sincerely thank Dr. Yang Lu for providing valuable advice. I also appreciate Dr. Darren Engwirda for the open-source mesh generator.
 
 ## Other related projects
 
