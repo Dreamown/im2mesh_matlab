@@ -47,7 +47,11 @@
 
 After downloading Im2mesh package ([releases](https://github.com/mjx888/im2mesh/releases)), I suggest you start with [Im2mesh_GUI app](https://github.com/mjx888/im2mesh/tree/main/Im2mesh_GUI%20app) in the folder, which will help you understand the workflow and parameters of Im2mesh. A detailed tutorial is provided in [Im2mesh_GUI Tutorial.pdf](https://github.com/mjx888/im2mesh/blob/main/Im2mesh_GUI%20Tutorial.pdf). 
 
-Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im2mesh_Octave". 16 examples are provided.  If you're using MATLAB,  examples are live script `mlx` files (`demo1.mlx` ~ `demo16.mlx`). If you're using Octave,  examples are `m` files (`demo1.m` ~ `demo10.m`).  Examples are also available as `html` files in the folder "demo_html".
+Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im2mesh_Octave". 16 examples are provided. 
+
+- If you're using MATLAB,  examples are live script `mlx` files (`demo1.mlx` ~ `demo16.mlx`).  Note that `demo02.mlx` requires MATLAB Partial Differential Equation (PDE) Toolbox. If you don't have PDE Toolbox, you can skip `demo02.mlx`.
+- If you're using Octave,  examples are `m` files (`demo1.m` ~ `demo10.m`).
+- Examples are also available as `html` files in the folder "demo_html".
 
 **Examples:**
 
@@ -74,11 +78,11 @@ If you use Im2mesh, please cite it as follows.
 
 Ma, J., & Li, Y. (2025). Im2mesh: A MATLAB/Octave package for generating finite element mesh based on 2D multi-phase image (2.1.5). Zenodo. https://doi.org/10.5281/zenodo.14847059
 
-Once my paper is published, I will update a new doi here.
+Once my paper is published, I will update a new DOI here.
 
 ## Acknowledgments
 
-Great thanks Dr. Yang Lu providing valuable advice on Im2mesh. 
+I sincerely thank Dr. Yang Lu for providing valuable advice on Im2mesh. I also appreciate Dr. Darren Engwirda for the open-source mesh generator.
 
 ## Other related projects
 
