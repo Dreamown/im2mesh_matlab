@@ -59,7 +59,11 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 
 ## Cite as
 
+If you use Im2mesh, please cite it as follows.
+
 Ma, J., & Li, Y. (2025). Im2mesh: A MATLAB/Octave package for generating finite element mesh based on 2D multi-phase image (2.1.5). Zenodo. https://doi.org/10.5281/zenodo.14847059
+
+Once my paper is published, I will update a new doi here.
 
 ## Acknowledgments
 
