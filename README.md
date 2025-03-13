@@ -81,7 +81,7 @@ Once my paper is published, I will update a new DOI here.
 
 ## Acknowledgments
 
-I sincerely thank Dr. Yang Lu for providing valuable advice. I also appreciate Dr. Darren Engwirda for the open-source mesh generator.
+Thanks Dr. Yang Lu for providing valuable suggestions. I also appreciate Dr. Darren Engwirda for the open-source mesh generator.
 
 ## Other related projects
 
