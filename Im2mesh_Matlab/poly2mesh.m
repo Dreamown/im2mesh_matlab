@@ -47,7 +47,7 @@ function [vert,tria,tnum,vert2,tria2,etri] = poly2mesh( poly_node, poly_edge, ..
 %   tria2: Mesh elements (for quadratic element). For triangular 
 %           elements, it s a Ne-by-6 matrix.
 %
-%   etri: a C-by-2 array of constraining edges, where each row defines an edge
+%   etri: C-by-2 array of constraining edges, where each row defines an edge
 %
 %
 % Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
