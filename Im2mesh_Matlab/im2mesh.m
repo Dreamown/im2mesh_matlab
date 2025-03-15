@@ -1,4 +1,4 @@
-function [ vert, tria, tnum, vert2, tria2 ] = im2mesh( im, opt )
+function [ vert, tria, tnum, vert2, tria2, boundsClear ] = im2mesh( im, opt )
 % im2mesh: generate triangular mesh based on grayscale segmented image
 %
 % usage:
@@ -84,7 +84,7 @@ function [ vert, tria, tnum, vert2, tria2 ] = im2mesh( im, opt )
 %     
 %     tria: Mesh elements (for linear element). For triangular elements, 
 %           it s a Ne-by-3 matrix, where Ne is the number of elements in 
-%           the mesh. Each row in eleL contains the indices of the nodes 
+%           the mesh. Each row in tria contains the indices of the nodes 
 %           for that mesh element.
 %     
 %     tnum: Label of phase. Ne-by-1 array, where Ne is the number of 

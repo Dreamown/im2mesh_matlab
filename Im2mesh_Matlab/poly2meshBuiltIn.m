@@ -29,7 +29,7 @@ function [vert,tria,tnum,vert2,tria2,mesh1,mesh2,model1,model2] = poly2meshBuilt
 %     
 %   tria: Mesh elements (for linear element). For triangular elements, 
 %           it s a Ne-by-3 matrix, where Ne is the number of elements in 
-%           the mesh. Each row in eleL contains the indices of the nodes 
+%           the mesh. Each row in tria contains the indices of the nodes 
 %           for that mesh element.
 %     
 %   tnum: Label of phase. Ne-by-1 array, where Ne is the number of 

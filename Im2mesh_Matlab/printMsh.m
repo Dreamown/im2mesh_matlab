@@ -18,7 +18,7 @@ function printMsh( vert, tria, tnum, conn, precision_nodecoor, path_file_name )
 %     
 %   tria: Mesh elements (for linear element). For triangular elements, 
 %           it s a Ne-by-3 matrix, where Ne is the number of elements in 
-%           the mesh. Each row in eleL contains the indices of the nodes 
+%           the mesh. Each row in tria contains the indices of the nodes 
 %           for that mesh element.
 %     
 %   tnum: Label of phase, which corresponds to physical surface tag in Gmsh. 
