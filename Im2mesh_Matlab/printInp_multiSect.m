@@ -1,6 +1,6 @@
 function printInp_multiSect( nodecoor_list, ele_cell, ele_type, precision_nodecoor, path_file_name )
-% printInp_multiSect: print the nodes and elements into Inp file 'test_multi_sections.inp',
-%          test in software Abaqus. One part with multiple sections. Each
+% printInp_multiSect: write finite element mesh (nodes and elements) into Inp file 'test_multi_sections.inp',
+%          Test in software Abaqus. One part with multiple sections. Each
 %          phase corresponds to one section in Abaqus.
 %
 % usage:
