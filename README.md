@@ -19,7 +19,7 @@
 
 **Features:**
 
-- Accurately preserve the contact details between different phases.
+- Accurately preserve the contact details between different phases. 
 - Incorporates polyline smoothing and simplification
 - Able to avoid sharp corners when simplifying polylines.
 - Support phase selection before meshing.
