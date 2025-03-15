@@ -1,8 +1,8 @@
 function plotMeshes( vert, ele, tnum )
-% plotMeshes: plot triangular mesh
+% plotMeshes: plot triangular finite element mesh
 % Also works for quadratic or quadrilateral elements
 %
-% Nodes are counter-clockwise ordering in an linear element.
+% Nodes must be counter-clockwise ordering in an linear element.
 %
 % usage:
 %   plotMeshes( vert, ele, tnum );  % multiple phases
@@ -18,6 +18,12 @@ function plotMeshes( vert, ele, tnum )
 %
 %   tnum - Label of material phase. P-by-1 array.
 %       tnum(j,1) = k; means the j-th element is belong to the k-th phase
+%
+%
+% Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
+% the terms of the GNU General Public License (version 3).
+% 
+% Project website: https://github.com/mjx888/im2mesh
 %
 
     %--------------------------------------------------------------------

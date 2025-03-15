@@ -34,7 +34,7 @@
 
 ## Dependencies
 
-- When using Im2mesh package or GUI version in MATLAB, you need to install MATLAB Image Processing Toolbox and Mapping Toolbox.
+- When using Im2mesh package or Im2mesh_GUI in MATLAB, you need to install MATLAB Image Processing Toolbox and Mapping Toolbox.
 - When using Im2mesh package in GNU Octave, you are not required to install these toolboxes. 
 
 ## Version compatibility
@@ -81,7 +81,7 @@ Once my paper is published, I will update a new DOI here.
 
 ## Acknowledgments
 
-I sincerely thank Dr. Yang Lu for providing valuable advice. I also appreciate Dr. Darren Engwirda for the open-source mesh generator.
+Great thanks Dr. Yang Lu and Dr. Jonathan Vande Geest for providing valuable suggestions. I also appreciate Dr. Darren Engwirda for the open-source mesh generator.
 
 ## Other related projects
 

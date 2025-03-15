@@ -141,8 +141,8 @@ function components = findIsolatedMeshRegions( T )
             for b = a+1:length(triList)
                 tA = triList(a);
                 tB = triList(b);
-                adjacency{tA}(end+1) = tB; %#ok<AGROW>
-                adjacency{tB}(end+1) = tA; %#ok<AGROW>
+                adjacency{tA}(end+1) = tB; 
+                adjacency{tB}(end+1) = tA; 
             end
         end
     end

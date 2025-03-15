@@ -1,5 +1,5 @@
 function printGeo( C, point, line, opt, path_file_name )
-% printGeo: print geo file (Gmsh input file format)
+% printGeo: write geometry data (surface) into geo file (Gmsh input file format)
 %
 % input:
 % C is a nesting cell array for storing multiple loops. C is a 1-by-P cell 

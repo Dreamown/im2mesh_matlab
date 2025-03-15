@@ -29,14 +29,14 @@ boundsClear = boundsClear( select_phase );
 [ poly_node, poly_edge ] = getPolyNodeEdge( boundsClear );
 
 %%
-[ vert,tria,tnum,vert2,tria2 ] = poly2mesh( poly_node, poly_edge, ...
+[ vert,tria,tnum,vert2,tria2,conn ] = poly2mesh( poly_node, poly_edge, ...
                                 500, 'delaunay', 0.25 );
 
 %%
 % Convert boundaries to a cell array of polyshape object
 pcell = bound2polyshape( boundsClear );
 % generate mesh
-[vert,tria,tnum,vert2,tria2] = poly2meshBuiltIn( poly_node, poly_edge, pcell, 1.25, 500, 1 );
+[vert,tria,tnum,vert2,tria2,mesh1,mesh2,model1,model2] = poly2meshBuiltIn( poly_node, poly_edge, pcell, 1.25, 500, 1 );
 
 %%
 plotMeshes(vert,tria,tnum);

@@ -1,4 +1,4 @@
-function [vert,tria,tnum,vert2,tria2] = poly2mesh( poly_node, poly_edge, ...
+function [vert,tria,tnum,vert2,tria2,etri] = poly2mesh( poly_node, poly_edge, ...
                                                 hmax, mesh_kind, grad_limit, tf_smooth, tf_refine )
 % poly2mesh: generate meshes of parts defined by polygons, 
 %        	 adapted from the demo of mesh2d-master
@@ -29,23 +29,25 @@ function [vert,tria,tnum,vert2,tria2] = poly2mesh( poly_node, poly_edge, ...
 % output:
 %   vert, tria define linear elements. vert2, tria2 define 2nd order elements.
 %
-%     vert: Mesh nodes (for linear element). It’s a Nn-by-2 matrix, where 
+%   vert: Mesh nodes (for linear element). It’s a Nn-by-2 matrix, where 
 %           Nn is the number of nodes in the mesh. Each row of vert 
 %           contains the x, y coordinates for that mesh node.
 %     
-%     tria: Mesh elements (for linear element). For triangular elements, 
+%   tria: Mesh elements (for linear element). For triangular elements, 
 %           it s a Ne-by-3 matrix, where Ne is the number of elements in 
 %           the mesh. Each row in eleL contains the indices of the nodes 
 %           for that mesh element.
 %     
-%     tnum: Label of phase. Ne-by-1 array, where Ne is the number of 
+%   tnum: Label of phase. Ne-by-1 array, where Ne is the number of 
 %           elements
 %       tnum(j,1) = k; means the j-th element belongs to the k-th phase.
 %     
-%     vert2: Mesh nodes (for quadratic element). It’s a Nn-by-2 matrix.
+%   vert2: Mesh nodes (for quadratic element). It’s a Nn-by-2 matrix.
 %     
-%     tria2: Mesh elements (for quadratic element). For triangular 
+%   tria2: Mesh elements (for quadratic element). For triangular 
 %           elements, it s a Ne-by-6 matrix.
+%
+%   etri: C-by-2 array of constraining edges, where each row defines an edge
 %
 %
 % Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under

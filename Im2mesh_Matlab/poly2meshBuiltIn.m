@@ -1,4 +1,4 @@
-function [vert,tria,tnum,vert2,tria2,mesh1,mesh2] = poly2meshBuiltIn( poly_node, poly_edge, pcell, hgrad, hmax, hmin )
+function [vert,tria,tnum,vert2,tria2,mesh1,mesh2,model1,model2] = poly2meshBuiltIn( poly_node, poly_edge, pcell, hgrad, hmax, hmin )
 % poly2meshBuiltIn: generate meshes of parts defined by polygons using 
 %                   matlab built-in function generateMesh
 % 
@@ -23,32 +23,34 @@ function [vert,tria,tnum,vert2,tria2,mesh1,mesh2] = poly2meshBuiltIn( poly_node,
 % output:
 %   vert, tria define linear elements. vert2, tria2 define 2nd order elements.
 %
-%     vert: Mesh nodes (for linear element). It’s a Nn-by-2 matrix, where 
+%   vert: Mesh nodes (for linear element). It’s a Nn-by-2 matrix, where 
 %           Nn is the number of nodes in the mesh. Each row of vert 
 %           contains the x, y coordinates for that mesh node.
 %     
-%     tria: Mesh elements (for linear element). For triangular elements, 
+%   tria: Mesh elements (for linear element). For triangular elements, 
 %           it s a Ne-by-3 matrix, where Ne is the number of elements in 
 %           the mesh. Each row in eleL contains the indices of the nodes 
 %           for that mesh element.
 %     
-%     tnum: Label of phase. Ne-by-1 array, where Ne is the number of 
+%   tnum: Label of phase. Ne-by-1 array, where Ne is the number of 
 %           elements
 %       tnum(j,1) = k; means the j-th element belongs to the k-th phase.
 %     
-%     vert2: Mesh nodes (for quadratic element). It’s a Nn-by-2 matrix.
+%   vert2: Mesh nodes (for quadratic element). It’s a Nn-by-2 matrix.
 %     
-%     tria2: Mesh elements (for quadratic element). For triangular 
+%   tria2: Mesh elements (for quadratic element). For triangular 
 %           elements, it s a Ne-by-6 matrix.
-%
-%   mesh1, mesh2 - FEMesh objects, which is the output of function generateMesh
-%          (https://www.mathworks.com/help/pde/ug/pde.femesh.html)
-%                   You can use pdemesh(mesh1) to view mesh.
 %
 %   mesh1 - FEMesh object for linear elements
 %
 %   mesh2 - FEMesh object for 2nd order elements
 %
+%   model1 - PDE model object with linear elements
+%
+%   model2 - PDE model object with 2nd order elements
+%
+%   FEMesh object: https://www.mathworks.com/help/pde/ug/pde.femesh.html
+%   PDE model object: https://www.mathworks.com/help/pde/ug/pde.pdemodel.html
 %
 % You can use function plotMeshes( vert, tria, tnum ) to view mesh.
 %
@@ -84,22 +86,21 @@ function [vert,tria,tnum,vert2,tria2,mesh1,mesh2] = poly2meshBuiltIn( poly_node,
     tnodes = vert';
     telements = tria';
     regionID = tnum';
-    
-    % ---------------------------------------------------------------------
-    % convert to geometry object in pde model
-    model = createpde;
-    geometryFromMesh(model,tnodes,telements,regionID);
-    % pdegplot(model,'FaceLabels','on')
-    
+
     % ---------------------------------------------------------------------
     % generate linear element
     % ---------------------------------------------------------------------
+    % convert to geometry object in pde model
+    model1 = createpde;
+    geometryFromMesh(model1,tnodes,telements,regionID);
+    % pdegplot(model1,'FaceLabels','on')
+
     % generate mesh using matlab built-in function
     % mesh1 is an FEMesh object
-    mesh1 = generateMesh( model, 'Hgrad', hgrad, 'Hmax', hmax, ... 
+    % model1 is a PDE model object
+    mesh1 = generateMesh( model1, 'Hgrad', hgrad, 'Hmax', hmax, ... 
                                 'Hmin', hmin, 'GeometricOrder', 'linear' );
-    % figure
-    % pdemesh(model)
+    % pdemesh(model1)
     
     % ---------------------------------------------------------------------
     % obtain variable tnum
@@ -126,12 +127,18 @@ function [vert,tria,tnum,vert2,tria2,mesh1,mesh2] = poly2meshBuiltIn( poly_node,
     % ---------------------------------------------------------------------
     % generate quadratic element
     % ---------------------------------------------------------------------
+    % convert to geometry object in pde model
+    model2 = createpde;
+    geometryFromMesh(model2,tnodes,telements,regionID);
+    % pdegplot(model2,'FaceLabels','on')
+
     % generate mesh using matlab built-in function
-    % mesh1 is an FEMesh object
-    mesh2 = generateMesh( model, 'Hgrad', hgrad, 'Hmax', hmax, ... 
+    % mesh2 is an FEMesh object
+    % model2 is a PDE model object
+    mesh2 = generateMesh( model2, 'Hgrad', hgrad, 'Hmax', hmax, ... 
                                 'Hmin', hmin, 'GeometricOrder', 'quadratic' );
-    % figure
-    % pdemesh(model)
+    % pdemesh(model2)
+
     % ---------------------------------------------------------------------
     % obtain variable vert2, tria2
     vert2 = mesh2.Nodes';
