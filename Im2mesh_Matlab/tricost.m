@@ -92,12 +92,12 @@ function tricost(varargin)
     axpos44 = [.125,.100,.800,.135] ;
 
 %-- draw cost histograms for 2-tria elements
-    figure;
+    fig = figure;
 %     % default position
 %     set(gcf,'color','w','units','normalized', ...
 %         'position',[.05,.10,.30,.30]);    
 
-    set(gcf,'color','w','units','normalized', ...
+    set(fig,'color','w','units','normalized', ...
         'position',[.40,.20,.30,.30]);    
 
     if (~isempty(hvrt))
