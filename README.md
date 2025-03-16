@@ -13,7 +13,7 @@
 
 **News:**
 
-- **Version 2.2.1 is able to edit polygonal boundary before mesh generation. Check demo14-16.**
+- Version 2.2.1 can edit polygonal boundary before mesh generation.
 - Version 2.2.0 supports using Gmsh as mesh generator (unstructured quadrilateral mesh).
 - Version 2.1.6 updates the DOI. Im2mesh is now citable.
 
@@ -67,7 +67,7 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 - [demo11](https://mjx888.github.io/im2mesh_demo_html/demo11.html) - How to find node sets at the interface and boundary
 - [demo12](https://mjx888.github.io/im2mesh_demo_html/demo12.html) - Demonstrate function `pixelMesh` (pixel-based quadrilateral mesh)
 - [demo13](https://mjx888.github.io/im2mesh_demo_html/demo13.html) - How to use Gmsh as mesh generator
-- [demo14](https://mjx888.github.io/im2mesh_demo_html/demo14.html) - How to use polyshape object to define multi-part geometry for mesh generation
+- [demo14](https://mjx888.github.io/im2mesh_demo_html/demo14.html) - How to use polyshape object to define geometry for mesh generation
 - [demo15](https://mjx888.github.io/im2mesh_demo_html/demo15.html) - How to edit polygonal boundaries before meshing
 - [demo16](https://mjx888.github.io/im2mesh_demo_html/demo16.html) - How to add points or nodes to polygonal boundaries before meshing
 
