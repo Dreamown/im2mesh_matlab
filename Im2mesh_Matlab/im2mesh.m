@@ -1,4 +1,4 @@
-function [ vert, tria, tnum, vert2, tria2, boundsClear ] = im2mesh( im, opt )
+function [ vert, tria, tnum, vert2, tria2, conn, boundsClear ] = im2mesh( im, opt )
 % im2mesh: generate triangular mesh based on grayscale segmented image
 %
 % usage:
@@ -73,7 +73,10 @@ function [ vert, tria, tnum, vert2, tria2, boundsClear ] = im2mesh( im, opt )
 %                   % 200, 240, 255. If u're interested in 40, 200, and
 %                   % 240, then set 'select_phase' as [1 3 4]. Those 
 %                   % phases corresponding to grayscales of 40, 200, 
-%                   % and 240 will be chosen to perform meshing.   
+%                   % and 240 will be chosen to perform meshing.
+%
+%   opt.tf_mesh % Whether to mesh. Boolean.
+%               % If true, meshing, else, no meshing & return boundsClear
 %   
 % output:
 %   vert, tria define linear elements. vert2, tria2 define 2nd order elements.
@@ -95,6 +98,17 @@ function [ vert, tria, tnum, vert2, tria2, boundsClear ] = im2mesh( im, opt )
 %     
 %     tria2: Mesh elements (for quadratic element). For triangular 
 %           elements, it s a Ne-by-6 matrix.
+%
+%     conn: C-by-2 array of constraining edges. Each row defines an edge.
+%
+%     boundsClear: Nesting cell array of simplified polygonal boundaries.
+%         bounds{i}{j} is one of the polygonal boundaries,  
+%         corresponding to region with certain gray level in image im.
+%         Polygons in bounds{i} have the same grayscale level.
+%         bounds{i}{j}(:,1) is x coordinate (column direction).
+%         bounds{i}{j}(:,2) is y coordinate (row direction). You can use
+%         plot( bounds{i}{j}(:,1), bounds{i}{j}(:,2) ) to view the
+%         polygon. Use plotBounds( bounds ) to view all polygons.
 %
 %
 % You can use function plotMeshes( vert, tria, tnum ) to view mesh.
@@ -146,12 +160,24 @@ function [ vert, tria, tnum, vert2, tria2, boundsClear ] = im2mesh( im, opt )
         boundsClear = boundsClear( opt.select_phase );
     end
     
-    % get nodes and edges of polygonal boundary
-    [ poly_node, poly_edge ] = getPolyNodeEdge( boundsClear );
-    % generate triangular mesh
-    [ vert,tria,tnum,vert2,tria2 ] = poly2mesh( poly_node, poly_edge, ...
-                                opt.hmax, opt.mesh_kind, opt.grad_limit );
-    
+    if opt.tf_mesh == 1     % generate mesh
+        % get nodes and edges of polygonal boundary
+        [ poly_node, poly_edge ] = getPolyNodeEdge( boundsClear );
+        % generate triangular mesh
+        [ vert,tria,tnum,vert2,tria2,conn ] = poly2mesh( poly_node, poly_edge, ...
+                                    opt.hmax, opt.mesh_kind, opt.grad_limit );
+    else
+        % no meshing
+        % just return boundsClear as the 7-th output parameter
+
+        if nargout ~= 7
+            error('Missing the 7-th output parameter.');
+        else
+            vert = []; tria = []; tnum = []; vert2 = []; tria2 = []; conn = [];
+            return
+        end
+    end
+
 end
 
 
@@ -172,6 +198,7 @@ function new_opt = setOption( opt )
     new_opt.grad_limit = 0.25;
     new_opt.hmax = 500;
     new_opt.mesh_kind = 'delaunay';
+    new_opt.tf_mesh = true;
 
     if isempty(opt)
         return
