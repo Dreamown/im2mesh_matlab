@@ -1,6 +1,11 @@
 function [ nodecoor_list, nodecoor_cell, ele_cell ] = getNodeEle( vert, tria, tnum, ~ )
 % getNodeEle: get node coordinares and elements from mesh
-% Also works for quadratic or quadrilateral element. 
+%
+% Detail: Add node numbering and element numbering, and organize elements 
+% into cell array. eleC{i} represent elements in the i-th phase.
+%
+% Works for linear and quadratic element.
+% Works for triangular and quadrilateral element.
 %
 % usage:
 %   [ nodecoor_list, nodecoor_cell, ele_cell ] = getNodeEle( vert, tria, tnum );

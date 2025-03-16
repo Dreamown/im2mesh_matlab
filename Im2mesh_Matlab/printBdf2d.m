@@ -1,12 +1,53 @@
-function printBdf2d( vert, tria, tnum, precision_nodecoor, path_file_name )
-% printBdf2d: write finite element mesh (nodes and elements) into Bdf file 'test.bdf'
+function printBdf2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_name )
+% printBdf2d: write 2d finite element mesh (nodes and elements) to bdf 
+%           file (Nastran bulk data, compatible with COMSOL). 
+%           Use functions: getNodeEle
+%           
+%           Works for linear triangular and linear quadrilateral element.
+%           Not work for quadratic element.
 %
 % usage:
-%   printBdf( nodecoor_list, ele_cell, precision_nodecoor );
-%   % OR
-%   path_file_name = 'C:\Downloads\aaa.bdf';
-%   printBdf( nodecoor_list, ele_cell, precision_nodecoor, path_file_name);
+%   printBdf2d( vert, ele );
+%   printBdf2d( vert, ele, [], [], [], path_file_name );
+%   printBdf2d( vert, ele, tnum );
+%   printBdf2d( vert, ele, tnum, [], precision_nodecoor );
+%   printBdf2d( vert, ele, tnum, [], precision_nodecoor, path_file_name );
 %
+% input:
+%   ele_type, precision_nodecoor, path_file_name are optional.
+%
+%   vert: Mesh nodes. It’s a Nn-by-2 matrix, where 
+%         Nn is the number of nodes in the mesh. Each row of vert 
+%         contains the x, y coordinates for that mesh node.
+%     
+%   ele: Mesh elements. 
+%        For linear triangular elements, it s a Ne-by-3 matrix. 
+%        For linear quadrilateral elements, it s a Ne-by-4 matrix
+%         
+%        Ne is the number of elements in the mesh. Each row in ele 
+%        contains the indices of the nodes for that mesh element.
+%   
+%   tnum: Label of phase, which corresponds to physical surface tag in Gmsh. 
+%         tnum is a Ne-by-1 array, where Ne is the number of elements.
+%         tnum(j,1) = k; means the j-th element belongs to the k-th phase.
+%         When omitted, assign one phase.
+%     
+%   ele_type: Please set ele_type as an empty array.
+%             ele_type is reserved for future development.
+%
+%   precision_nodecoor: number of digits to the right of the decimal point 
+%                       when writing node coordinates.
+%                       When omitted, precision_nodecoor=8;
+%
+%   path_file_name: file name of bdf file, such as 'aaa.bdf', 'D:\aaa.bdf'.
+%                   When omitted, path_file_name='test.bdf';
+%
+%
+% This is sub-project of Im2mesh package. If you use this function, please
+% cite as follows: 
+%  Ma, J., & Li, Y. (2025). Im2mesh: A MATLAB/Octave package for generating
+%  finite element mesh based on 2D multi-phase image (2.1.5). Zenodo. 
+%  https://doi.org/10.5281/zenodo.14847059
 %
 % Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
 % the terms of the GNU General Public License (version 3).
@@ -14,23 +55,73 @@ function printBdf2d( vert, tria, tnum, precision_nodecoor, path_file_name )
 % Project website: https://github.com/mjx888/im2mesh
 %
 
-    
+    % format of bdf file
     % ------------------------------------------------------------------------
-    % check the number of inputs
-    if nargin == 4
-        % write to current folder
-        path_file_name = 'test.bdf';
-    elseif nargin == 5
-        % write to the specified file directory, e.g. 'C:\test.bdf'
-    else
-        error("check the number of inputs");
+    % BEGIN BULK
+    % GRID*,1,,0.50000000,0.50000000
+    % GRID*,2,,0.50000000,3.50000000
+    % CTRIA3*,1,1,1,3,*
+    % *,2
+    % CTRIA3*,2,1,2,3,*
+    % *,4
+    % ENDDATA
+    
+    % ---------------------------------------------------------------------
+    % Check the number of inputs. If missing, set as empty. 
+    if nargin < 2
+        error("Not enough input arguments.");
+    end
+    
+    if nargin < 3
+        tnum = [];
+    end
+    
+    if nargin < 4
+        ele_type = [];
+    end
+    
+    if nargin < 5
+        precision_nodecoor = [];
+    end
+    
+    if nargin < 6
+        path_file_name = [];
     end
 
+    % ---------------------------------------------------------------------
+    % check input size
+    if size(vert,2) >= 3
+        warning("Z coordnates of mesh nodes will be ignored.");
+        vert = vert( :, 1:2 );
+    end
+    
+    if ~isempty(tnum) && size(tnum,1) ~= size(ele,1)
+        error("The 3rd input argument tnum has wrong size.");
+    end
+    % ------------------------------------------------------------------------
+    % If input is empty, assign defaualt value to input
+    if isempty(tnum)
+        tnum = ones( size(ele,1), 1 );
+    end
+    
+    if isempty(ele_type)
+        % do nothing
+    end
+    
+    if isempty(precision_nodecoor)
+        precision_nodecoor = 8;
+    end
+
+    if isempty(path_file_name)
+        % write to current folder
+        path_file_name = 'test.bdf';
+    end
+    
     % ------------------------------------------------------------------------
     % Add node numbering and element numbering, and organize elements into 
     % cell array. eleC{i} represent elements in the i-th phase.
 
-    [nodecoor, ~, eleC] = getNodeEle( vert, tria, tnum );
+    [nodecoor, ~, eleC] = getNodeEle( vert, ele, tnum );
 
     % ------------------------------------------------------------------------
     numNode = size( nodecoor, 1 );
@@ -52,12 +143,18 @@ function printBdf2d( vert, tria, tnum, precision_nodecoor, path_file_name )
     
     % format_node_coor
     % '%.(precision)f'
-    fmNodeCo = [ '%.', num2str( precision_nodecoor ), 'f' ];                                           
-    
+    fmNodeCo = [ '%.', num2str( precision_nodecoor ), 'f' ];     
+
+    % ---------------------------------------------------------------------
+    % start writing to file
     % ------------------------------------------------------------------------
 	fid=fopen( path_file_name, 'wW' );
     % ------------------------------------------------------------------------
     fprintf( fid, 'BEGIN BULK\n');
+
+    fprintf( fid, [...
+        '$ BDF file generated by Im2mesh package'              '\n'...
+        ]);
     
     % print node
     % GRID*,3,,0.5000,2.5000
@@ -81,7 +178,7 @@ function printBdf2d( vert, tria, tnum, precision_nodecoor, path_file_name )
     
     if ele_wid == 4
         % linear triangular element
-        % CHEXA*,5,1,40,46,*
+        % CTRIA3*,5,1,40,46,*
         % *,47
 
         for i = 1: num_phase
@@ -105,7 +202,7 @@ function printBdf2d( vert, tria, tnum, precision_nodecoor, path_file_name )
                 );
         end
     else
-        error('Function printBdf2d only supports linear element.');
+        error('Function printBdf2d do not support quadratic elements.');
     end
     
     % ------------------------------------------------------------------------

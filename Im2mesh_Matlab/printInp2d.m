@@ -1,6 +1,6 @@
 function printInp2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_name )
-% printInp2d: write 2d finite element mesh (nodes and elements) into inp 
-%           file. Test in software Abaqus. 
+% printInp2d: write 2d finite element mesh (nodes and elements) to inp 
+%           file (Abaqus). Test in software Abaqus. 
 %           The exported inp file will have a model with one part, which 
 %           contains multiple sections. Each section corresponds to one 
 %           material phase in the mesh.
@@ -75,8 +75,8 @@ function printInp2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
 
     % ---------------------------------------------------------------------
     % Check the number of inputs. If missing, set as empty. 
-    if nargin < 2 || nargin > 6
-        error("Wrong number of inputs");
+    if nargin < 2
+        error("Not enough input arguments.");
     end
     
     if nargin < 3
@@ -98,10 +98,13 @@ function printInp2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
     % ---------------------------------------------------------------------
     % check input size
     if size(vert,2) >= 3
-        warning("Z coordnates of mesh node will be ignored.");
+        warning("Z coordnates of mesh nodes will be ignored.");
         vert = vert( :, 1:2 );
     end
     
+    if ~isempty(tnum) && size(tnum,1) ~= size(ele,1)
+        error("The 3rd input argument tnum has wrong size.");
+    end
     % ------------------------------------------------------------------------
     % If input is empty, assign defaualt value to input
     if isempty(tnum)

@@ -13,8 +13,8 @@ function printMsh( vert, tria, tnum, conn, precision_nodecoor, path_file_name )
 %   printMsh( vert, tria, tnum );
 %   printMsh( vert, tria, [], [], precision_nodecoor );
 %   printMsh( vert, tria, tnum, [], precision_nodecoor );
-%   printMsh( vert, tria, tnum, conn, precision_nodecoor );
-%   printMsh( vert, tria, tnum, conn, precision_nodecoor, path_file_name );
+%   printMsh( vert, tria, tnum, [], precision_nodecoor );
+%   printMsh( vert, tria, tnum, [], precision_nodecoor, path_file_name );
 %
 % input:
 %   tnum, conn, precision_nodecoor, path_file_name are optional.
@@ -34,6 +34,10 @@ function printMsh( vert, tria, tnum, conn, precision_nodecoor, path_file_name )
 %         When omitted, assign one phase.
 %     
 %   conn: C-by-2 array of constraining edges. Each row defines an edge
+%         If you don't know what is conn, just set conn as an empty array, 
+%         which will not affect the generated msh file. When conn is an 
+%         empty array, function printMsh will do computation to obatin the 
+%         missing conn parameter.
 %
 %   precision_nodecoor: number of digits to the right of the decimal point 
 %                       when writing node coordinates.
@@ -69,11 +73,11 @@ function printMsh( vert, tria, tnum, conn, precision_nodecoor, path_file_name )
     % $Elements
     % 
     % $EndElements
-
+    
     % ---------------------------------------------------------------------
     % Check the number of inputs. If missing, set as empty. 
-    if nargin < 2 || nargin > 6
-        error("Wrong number of inputs");
+    if nargin < 2
+        error("Not enough input arguments.");
     end
 
     if nargin < 3
@@ -99,9 +103,17 @@ function printMsh( vert, tria, tnum, conn, precision_nodecoor, path_file_name )
         vert = vert( :, 1:2 );
     end
     
-    if size(tria,2) >= 4
+    if size(tria,2) == 6
         warning("Mesh elements will be processed as linear trangles.");
         tria = tria( :, 1:3 );
+    end
+        
+    if size(tria,2) ~= 3 && size(tria,2) ~= 6
+        error("printMsh not work for quadrilateral elements.");
+    end
+    
+    if ~isempty(tnum) && size(tnum,1) ~= size(tria,1)
+        error("The 3rd input argument tnum has wrong size.");
     end
     
     % ---------------------------------------------------------------------
