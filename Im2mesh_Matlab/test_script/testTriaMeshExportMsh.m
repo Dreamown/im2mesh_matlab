@@ -35,20 +35,38 @@ plotBounds(boundsClear)
 
 %%
 plotMeshes(vert,tria,tnum);
+%%
+precision_nodecoor = 5;
+path_file_name = '2025.msh';
 
 %%
-printMsh( vert, conn, tria, tnum, 8);
+clc
+%%
+printMsh( vert );
+%%
+printMsh( vert, tria );
+%%
+printMsh( vert, tria, tnum );
+%%
+printMsh( vert, tria, [], [], precision_nodecoor );
+%%
+printMsh( vert, tria, tnum, [], precision_nodecoor );
+%%
+printMsh( vert, tria, tnum, conn, precision_nodecoor );
+%%
+printMsh( vert, tria, tnum, [], precision_nodecoor, path_file_name );
+
 
 %%
-printMsh( vert, tria, tnum, [], 8);
-
+vert(:,3) = vert(:,1);
 %%
-printMsh( vert, tria, [], [], 8 );
-
+tria(:,4) = tria(:,1);
 %%
-printMsh( vert, tria, tnum, [], 8 );
-
-
+printMsh( vert );
+%%
+printMsh( vert, tria );
+%%
+printMsh( vert, tria, tnum );
 
 
 
