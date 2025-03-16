@@ -135,9 +135,10 @@ function printBdf2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
         error('more than 16 digits')
     end
     
-    num_digits_of_int_part = 1 + floor( log10( max(nodecoor(end,2:3)) ) );
+    % num_digits_of_int_part
+    numDigitsIntPart = 1 + floor( log10( max(nodecoor(end,2:3)) ) );
                                                              % 182.9 -> 3
-    if num_digits_of_int_part + precision_nodecoor + 1 > 16
+    if (numDigitsIntPart + precision_nodecoor + 1) > 16
         error('more than 16 digits')
     end
     
