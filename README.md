@@ -51,7 +51,7 @@ After downloading Im2mesh package ([releases](https://github.com/mjx888/im2mesh/
 
 Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im2mesh_Octave". 16 examples are provided. 
 
-- If you're using MATLAB,  examples are live script `mlx` files (`demo1.mlx` ~ `demo16.mlx`).  Note that `demo02.mlx` requires MATLAB Partial Differential Equation (PDE) Toolbox. If you don't have PDE Toolbox, you can skip `demo02.mlx`.
+- If you're using MATLAB,  examples are live script `mlx` files (`demo1.mlx` ~ `demo16.mlx`). If you find some text in the `mlx` file is missing, please read the `html` file instead. Note that `demo02.mlx` requires MATLAB Partial Differential Equation (PDE) Toolbox. If you don't have PDE Toolbox, you can skip `demo02.mlx`.
 - If you're using Octave,  examples are `m` files (`demo1.m` ~ `demo10.m`).
 - Examples are also available as `html` files in the folder "demo_html".
 
@@ -84,7 +84,7 @@ Once my paper is published, I will update a new DOI here.
 
 ## Acknowledgments
 
-Great thanks Dr. Yang Lu for providing valuable suggestions and testing export formats. I also appreciate Dr. Darren Engwirda for the open-source mesh generator.
+Great thanks Dr. Yang Lu for providing valuable suggestions and testing of export formats. I also appreciate Dr. Darren Engwirda for the open-source mesh generator.
 
 ## Other related projects
 
