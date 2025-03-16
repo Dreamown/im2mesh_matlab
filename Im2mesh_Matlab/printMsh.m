@@ -1,4 +1,4 @@
-function printMsh( vert, tria, tnum, conn, precision_nodecoor, path_file_name )
+function printMsh( vert, ele, tnum, conn, precision_nodecoor, path_file_name )
 % printMsh: write 2d finite element mesh (nodes and elements) to msh file.
 %           msh is Gmsh mesh file format. MSH file format version: 4.1
 %           Test in software Gmsh 4.13.1
@@ -8,13 +8,13 @@ function printMsh( vert, tria, tnum, conn, precision_nodecoor, path_file_name )
 %
 %
 % usage:
-%   printMsh( vert, tria );
-%   printMsh( vert, tria, [], [], [], path_file_name );
-%   printMsh( vert, tria, tnum );
-%   printMsh( vert, tria, [], [], precision_nodecoor );
-%   printMsh( vert, tria, tnum, [], precision_nodecoor );
-%   printMsh( vert, tria, tnum, [], precision_nodecoor );
-%   printMsh( vert, tria, tnum, [], precision_nodecoor, path_file_name );
+%   printMsh( vert, ele );
+%   printMsh( vert, ele, [], [], [], path_file_name );
+%   printMsh( vert, ele, tnum );
+%   printMsh( vert, ele, [], [], precision_nodecoor );
+%   printMsh( vert, ele, tnum, [], precision_nodecoor );
+%   printMsh( vert, ele, tnum, [], precision_nodecoor );
+%   printMsh( vert, ele, tnum, [], precision_nodecoor, path_file_name );
 %
 % input:
 %   tnum, conn, precision_nodecoor, path_file_name are optional.
@@ -23,9 +23,9 @@ function printMsh( vert, tria, tnum, conn, precision_nodecoor, path_file_name )
 %         Nn is the number of nodes in the mesh. Each row of vert 
 %         contains the x, y coordinates for that mesh node.
 %     
-%   tria: Mesh elements. For linear triangular elements, 
+%   ele: Mesh elements. For linear triangular elements, 
 %         it s a Ne-by-3 matrix, where Ne is the number of elements in 
-%         the mesh. Each row in tria contains the indices of the nodes 
+%         the mesh. Each row in ele contains the indices of the nodes 
 %         for that mesh element.
 %     
 %   tnum: Label of phase, which corresponds to physical surface tag in Gmsh. 
@@ -103,27 +103,27 @@ function printMsh( vert, tria, tnum, conn, precision_nodecoor, path_file_name )
         vert = vert( :, 1:2 );
     end
     
-    if size(tria,2) == 6
+    if size(ele,2) == 6
         warning("Mesh elements will be processed as linear trangles.");
-        tria = tria( :, 1:3 );
+        ele = ele( :, 1:3 );
     end
         
-    if size(tria,2) ~= 3 && size(tria,2) ~= 6
+    if size(ele,2) ~= 3 && size(ele,2) ~= 6
         error("printMsh not work for quadrilateral elements.");
     end
     
-    if ~isempty(tnum) && size(tnum,1) ~= size(tria,1)
+    if ~isempty(tnum) && size(tnum,1) ~= size(ele,1)
         error("The 3rd input argument tnum has wrong size.");
     end
     
     % ---------------------------------------------------------------------
     % If input is empty, assign defaualt value to input
     if isempty(tnum)
-        tnum = ones( size(tria,1), 1 );
+        tnum = ones( size(ele,1), 1 );
     end
     
     if isempty(conn)
-        conn = tria2BoundEdge( tria, tnum );
+        conn = tria2BoundEdge( ele, tnum );
     end
 
     if isempty(precision_nodecoor)
@@ -183,7 +183,7 @@ function printMsh( vert, tria, tnum, conn, precision_nodecoor, path_file_name )
     numCurves = size(conn,1);
     
     % find line loops and tria mesh used to define surface (Gmsh)
-    [ phaseLoops, phaseTria ] = tria2Surface( vert,conn,tria,tnum );
+    [ phaseLoops, phaseTria ] = tria2Surface( vert,conn,ele,tnum );
     
     numSurfaces = 0;
     for i = 1: length(phaseLoops)
@@ -392,7 +392,7 @@ function printMsh( vert, tria, tnum, conn, precision_nodecoor, path_file_name )
     % example:
     % 3 30 1 30
 
-    numEle = size(tria,1);
+    numEle = size(ele,1);
     fprintf( fid, '%d %d %d %d\n', ...
             numSurfaces, numEle, 1, numEle );
 
