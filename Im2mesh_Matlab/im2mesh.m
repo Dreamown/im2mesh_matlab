@@ -1,4 +1,4 @@
-function [ vert, tria, tnum, vert2, tria2, conn, boundsClear ] = im2mesh( im, opt )
+function [ vert, tria, tnum, vert2, tria2, conn, bounds ] = im2mesh( im, opt )
 % im2mesh: generate triangular mesh based on grayscale segmented image
 %
 % usage:
@@ -7,8 +7,16 @@ function [ vert, tria, tnum, vert2, tria2, conn, boundsClear ] = im2mesh( im, op
 %
 %   [ vert, tria, tnum, vert2, tria2 ] = im2mesh( im );  % default opt setting
 %   [ vert, tria, tnum, vert2, tria2 ] = im2mesh( im, opt );
+%     
+%   [ vert, tria, tnum, vert2, tria2, conn, bounds ] = im2mesh( im );
+%   [ vert, tria, tnum, vert2, tria2, conn, bounds ] = im2mesh( im, opt );
+%     
+%   % If we do not need to generate mesh 
+%   % but we want to check the simplified polygonal boundary
+%   opt.tf_mesh = false;
+%   bounds = im2mesh( im, opt );
 %
-% input
+% input:
 %   im        % grayscale segmented image
 %   
 %   opt - a structure array. It is the options for im2mesh.
@@ -101,7 +109,7 @@ function [ vert, tria, tnum, vert2, tria2, conn, boundsClear ] = im2mesh( im, op
 %
 %     conn: C-by-2 array of constraining edges. Each row defines an edge.
 %
-%     boundsClear: Nesting cell array of simplified polygonal boundaries.
+%     bounds: Nesting cell array of simplified polygonal boundaries.
 %         bounds{i}{j} is one of the polygonal boundaries,  
 %         corresponding to region with certain gray level in image im.
 %         Polygons in bounds{i} have the same grayscale level.
@@ -160,20 +168,21 @@ function [ vert, tria, tnum, vert2, tria2, conn, boundsClear ] = im2mesh( im, op
         boundsClear = boundsClear( opt.select_phase );
     end
     
+    bounds = boundsClear;
+    
     if opt.tf_mesh == 1     % generate mesh
         % get nodes and edges of polygonal boundary
-        [ poly_node, poly_edge ] = getPolyNodeEdge( boundsClear );
+        [ poly_node, poly_edge ] = getPolyNodeEdge( bounds );
         % generate triangular mesh
         [ vert,tria,tnum,vert2,tria2,conn ] = poly2mesh( poly_node, poly_edge, ...
                                     opt.hmax, opt.mesh_kind, opt.grad_limit );
     else
         % no meshing
-        % just return boundsClear as the 7-th output parameter
-
-        if nargout ~= 7
-            error('Missing the 7-th output parameter.');
+        % return bounds as output parameter
+        if nargout ~= 1
+            error('In this case, function im2mesh returns only one output parameter.');
         else
-            vert = []; tria = []; tnum = []; vert2 = []; tria2 = []; conn = [];
+            vert = bounds;
             return
         end
     end
