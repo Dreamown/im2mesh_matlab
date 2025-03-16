@@ -5,14 +5,16 @@
 **Im2mesh** is an open-source MATLAB/Octave package for generating finite element mesh based on 2D segmented multi-phase image. It provides a robust workflow capable of processing various input images, such as microstructure images of engineering materials. Due to its generalized framework, Im2mesh can handle segmented image with more than 10 phases.  Im2mesh was originally released on [MathWorks File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/71772-im2mesh-2d-image-to-finite-element-mesh) in 2019. Im2mesh can also be used as a mesh generation interface for MATLAB multi-part geometry.
 
 <p align="center">
-  <img src = "https://mjx888.github.io/im2mesh_demo_html/example_kumamon.jpg" height="100"> &nbsp
+  <img src = "https://mjx888.github.io/im2mesh_demo_html/example_tree.jpg" height="100"> &nbsp
   <img src = "https://mjx888.github.io/im2mesh_demo_html/example_shape.jpg" height="100"> &nbsp
   <img src = "https://mjx888.github.io/im2mesh_demo_html/example_concrete.jpg" height="100"> 
 </p>
 
 
+
 **News:**
 
+- Version 2.2.5 can export mesh as `msh` file (Gmsh mesh format).
 - Version 2.2.1 can edit polygonal boundary before mesh generation.
 - Version 2.2.0 supports using Gmsh as mesh generator (unstructured quadrilateral mesh).
 - Version 2.1.6 updates the DOI. Im2mesh is now citable.
@@ -24,7 +26,8 @@
 - Able to avoid sharp corners when simplifying polylines.
 - Support phase selection before meshing.
 - 3 mesh generators are available for selection: [MESH2D](https://github.com/dengwirda/mesh2d), [generateMesh](https://www.mathworks.com/help/pde/ug/pde.pdemodel.generatemesh.html), and [Gmsh](https://gmsh.info/).
-- Generated mesh can be exported as `inp` file (Abaqus) and `bdf` file (Nastran bulk data, compatible with COMSOL). Mesh can be exported as many formats via Gmsh, such as STL.
+- Generated mesh can be exported as `inp` file (Abaqus), `bdf` file (Nastran bulk data, compatible with COMSOL), and `msh` file (Gmsh mesh format). 
+- Mesh can also be exported as many other formats via Gmsh, such as `stl` and `vtk`.
 - Graphical user interface (GUI) version is available as a MATLAB app.
 
 <p align="center">
@@ -56,7 +59,7 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 
 - [demo01](https://mjx888.github.io/im2mesh_demo_html/demo01.html) - Demonstrate function `im2mesh`, which use MESH2D as mesh generator.
 - [demo02](https://mjx888.github.io/im2mesh_demo_html/demo02.html) - Demonstrate function `im2meshBuiltIn`, which use MATLAB built-in function `generateMesh` as mesh generator.
-- [demo03](https://mjx888.github.io/im2mesh_demo_html/demo03.html) - How to export mesh as `inp`, `bdf`, and `node`/`ele` file
+- [demo03](https://mjx888.github.io/im2mesh_demo_html/demo03.html) - How to export mesh as `inp`, `bdf`, `msh`, and `node`/`ele` file
 - [demo04](https://mjx888.github.io/im2mesh_demo_html/demo04.html) - What is inside function `im2mesh`.
 - [demo05](https://mjx888.github.io/im2mesh_demo_html/demo05.html) - Parameter `tf_avoid_sharp_corner`
 - [demo06](https://mjx888.github.io/im2mesh_demo_html/demo06.html) - Thresholds in polyline smoothing
@@ -81,7 +84,7 @@ Once my paper is published, I will update a new DOI here.
 
 ## Acknowledgments
 
-Great thanks Dr. Yang Lu and Dr. Jonathan Vande Geest for providing valuable suggestions. I also appreciate Dr. Darren Engwirda for the open-source mesh generator.
+Great thanks Dr. Yang Lu for providing valuable suggestions and testing export formats. I also appreciate Dr. Darren Engwirda for the open-source mesh generator.
 
 ## Other related projects
 
