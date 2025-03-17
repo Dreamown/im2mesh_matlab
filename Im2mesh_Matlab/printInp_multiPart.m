@@ -25,6 +25,8 @@ function printInp_multiPart( nodecoor_cell, ele_cell, ele_type, precision_nodeco
     % 	
 	%	Constraint
     % ------------------------------------------------------------------------
+
+    warning("printInp_multiPart is deprecated. Please use function printInp2d instead.");
 	
     % check the number of inputs
     if nargin == 4

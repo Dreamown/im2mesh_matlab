@@ -16,6 +16,8 @@ function printInp_multiSect( nodecoor_list, ele_cell, ele_type, precision_nodeco
 % Project website: https://github.com/mjx888/im2mesh
 %
 
+    warning("printInp_multiSect is deprecated. Please use function printInp2d instead.");
+
 	% format of Inp file
 	% ------------------------------------------------------------------------
 	% Heading

@@ -14,7 +14,8 @@ function printBdf( nodecoor_list, ele_cell, precision_nodecoor, path_file_name )
 % Project website: https://github.com/mjx888/im2mesh
 %
 
-    % ------------------------------------------------------------------------
+    
+    warning("printBdf is deprecated. Please use function printBdf2d instead.");
     
     % ------------------------------------------------------------------------
     % check the number of inputs
