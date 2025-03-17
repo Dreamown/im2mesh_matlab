@@ -16,11 +16,11 @@ function [edge, phaseEdge] = tria2BoundEdge( tria, tnum )
 %         boundary edges in all surfaces. Each row is one edge.
 %
 %
-% Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
-% the terms of the GNU General Public License (version 3).
+% Copyright (C) 2019-2025 by Jiexian Ma
 % 
 % Project website: https://github.com/mjx888/im2mesh
 %
+
     % --------------------------------------------------------------------
     % get phaseEdge (nesting cell array)
     num_phase = length( unique(tnum) );
