@@ -34,8 +34,7 @@ function [ phaseLoops, phaseTria ] = tria2Surface( vert,conn,tria,tnum )
 %    i-th physical surface. phaseTria{i}{j} is a p-by-3 array.
 %
 %
-% Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
-% the terms of the GNU General Public License (version 3).
+% Copyright (C) 2019-2025 by Jiexian Ma
 % 
 % Project website: https://github.com/mjx888/im2mesh
 %
