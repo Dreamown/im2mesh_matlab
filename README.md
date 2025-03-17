@@ -14,7 +14,7 @@
 
 **News:**
 
-- Version 2.2.5 can export mesh as `msh` file (Gmsh mesh format).
+- Version 2.26 can export mesh as `msh` file (Gmsh mesh format).
 - Version 2.2.1 can edit polygonal boundary before mesh generation.
 - Version 2.2.0 supports using Gmsh as mesh generator (unstructured quadrilateral mesh).
 - Version 2.1.6 updates the DOI. Im2mesh is now citable.
