@@ -75,6 +75,7 @@ function printMsh( vert, ele, tnum, conn, precision_nodecoor, path_file_name )
     % $EndElements
     
     % ---------------------------------------------------------------------
+    % ---------------------------------------------------------------------
     % Check the number of inputs. If missing, set as empty. 
     if nargin < 2
         error("Not enough input arguments.");
@@ -99,7 +100,7 @@ function printMsh( vert, ele, tnum, conn, precision_nodecoor, path_file_name )
     % ---------------------------------------------------------------------
     % check input size
     if size(vert,2) >= 3
-        warning("Z coordnates of mesh node will be ignored.");
+        warning("Z coordnates of mesh nodes will be ignored.");
         vert = vert( :, 1:2 );
     end
     
@@ -134,7 +135,23 @@ function printMsh( vert, ele, tnum, conn, precision_nodecoor, path_file_name )
         % write to current folder
         path_file_name = 'test.msh';
     end
+
+    % ---------------------------------------------------------------------
+    % check input type
+
+    % Validate that 'precision_nodecoor' is a positive integer
+    a = precision_nodecoor;
+    if ~isnumeric(a) || ~isscalar(a) || a <= 0 || mod(a, 1) ~= 0
+        error('Input "precision_nodecoor" must be a positive integer.');
+    end
+
+    % Validate that 'path_file_name' is a string
+    b = path_file_name;
+    if ~(ischar(b) || isstring(b))
+        error('Input "path_file_name" must be a string.');
+    end
     
+    % ---------------------------------------------------------------------
     % ---------------------------------------------------------------------
     % format of number
     % '%.(precision)f'

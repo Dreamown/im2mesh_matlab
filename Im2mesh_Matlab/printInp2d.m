@@ -62,7 +62,7 @@ function printInp2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
 
 
 	% format of inp file
-	% ------------------------------------------------------------------------
+	% ---------------------------------------------------------------------
 	% Heading
 	%
 	% Node
@@ -71,8 +71,9 @@ function printInp2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
     %
     % Section
     %
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
 
+    % ---------------------------------------------------------------------
     % ---------------------------------------------------------------------
     % Check the number of inputs. If missing, set as empty. 
     if nargin < 2
@@ -105,7 +106,7 @@ function printInp2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
     if ~isempty(tnum) && size(tnum,1) ~= size(ele,1)
         error("The 3rd input argument tnum has wrong size.");
     end
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
     % If input is empty, assign defaualt value to input
     if isempty(tnum)
         tnum = ones( size(ele,1), 1 );
@@ -136,21 +137,43 @@ function printInp2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
         % write to current folder
         path_file_name = 'test.inp';
     end
+
+    % ---------------------------------------------------------------------
+    % check input type
+
+    % Validate that 'precision_nodecoor' is a positive integer
+    a = precision_nodecoor;
+    if ~isnumeric(a) || ~isscalar(a) || a <= 0 || mod(a, 1) ~= 0
+        error('Input "precision_nodecoor" must be a positive integer.');
+    end
+
+    % Validate that 'path_file_name' is a string
+    b = path_file_name;
+    if ~(ischar(b) || isstring(b))
+        error('Input "path_file_name" must be a string.');
+    end
+
+    % Validate that 'ele_type' is a string
+    c = ele_type;
+    if ~(ischar(c) || isstring(c))
+        error('Input "ele_type" must be a string.');
+    end
     
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
+    % ---------------------------------------------------------------------
     % Add node numbering and element numbering, and organize elements into 
     % cell array. eleC{i} represent elements in the i-th phase.
     
     [ nodecoor, ~, eleC ] = getNodeEle( vert, ele, tnum );
     
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
     % convert number 1 2 3 to character A B C
     num_sect = length( eleC );
     sect_ascii = 65: ( 65 + num_sect - 1);
     % section character
     sect_char = char( sect_ascii );     % 'ABCD...'
     
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
     % format of number
 
     % format_node_coor
@@ -162,9 +185,9 @@ function printInp2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
     
     % ---------------------------------------------------------------------
     % start writing to file
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
 	fid=fopen(path_file_name,'wW');
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
 	% Heading
     fprintf( fid, [...
         '*Heading'                                              '\n'...
@@ -174,7 +197,7 @@ function printInp2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
         ] ...
         );
     
-	% ------------------------------------------------------------------------
+	% ---------------------------------------------------------------------
     % Node
     fprintf( fid, '*Node\n' );
     
@@ -191,7 +214,7 @@ function printInp2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
         nodecoor' ...
         );
     
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
     % Element
     
     for i = 1: num_sect
@@ -208,7 +231,7 @@ function printInp2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
         printEle( fid, eleC{i}, fmEleNum, fmNodeNum );
     end
     
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
     % Section
 
     for i = 1: num_sect
@@ -228,11 +251,11 @@ function printInp2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
     
 	fprintf( fid, '**' );
     
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
     fclose(fid);
 	
 	disp('printInp2d Done! Check the inp file!');
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
 end
 
 function printEle( fid, ele, format_ele_num, format_node_num )

@@ -56,7 +56,7 @@ function printBdf2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
 %
 
     % format of bdf file
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
     % BEGIN BULK
     % GRID*,1,,0.50000000,0.50000000
     % GRID*,2,,0.50000000,3.50000000
@@ -66,6 +66,7 @@ function printBdf2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
     % *,4
     % ENDDATA
     
+    % ---------------------------------------------------------------------
     % ---------------------------------------------------------------------
     % Check the number of inputs. If missing, set as empty. 
     if nargin < 2
@@ -98,7 +99,7 @@ function printBdf2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
     if ~isempty(tnum) && size(tnum,1) ~= size(ele,1)
         error("The 3rd input argument tnum has wrong size.");
     end
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
     % If input is empty, assign defaualt value to input
     if isempty(tnum)
         tnum = ones( size(ele,1), 1 );
@@ -117,16 +118,32 @@ function printBdf2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
         path_file_name = 'test.bdf';
     end
     
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
+    % check input type
+
+    % Validate that 'precision_nodecoor' is a positive integer
+    a = precision_nodecoor;
+    if ~isnumeric(a) || ~isscalar(a) || a <= 0 || mod(a, 1) ~= 0
+        error('Input "precision_nodecoor" must be a positive integer.');
+    end
+
+    % Validate that 'path_file_name' is a string
+    b = path_file_name;
+    if ~(ischar(b) || isstring(b))
+        error('Input "path_file_name" must be a string.');
+    end
+
+    % ---------------------------------------------------------------------
+    % ---------------------------------------------------------------------
     % Add node numbering and element numbering, and organize elements into 
     % cell array. eleC{i} represent elements in the i-th phase.
 
     [nodecoor, ~, eleC] = getNodeEle( vert, ele, tnum );
 
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
     numNode = size( nodecoor, 1 );
 
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
     % format of number
     
     % field width of node numbering
@@ -148,9 +165,9 @@ function printBdf2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
 
     % ---------------------------------------------------------------------
     % start writing to file
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
 	fid=fopen( path_file_name, 'wW' );
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
     fprintf( fid, 'BEGIN BULK\n');
 
     fprintf( fid, [...
@@ -164,7 +181,7 @@ function printBdf2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
             nodecoor' ...
             );
 
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
     % renumber global element numbering in eleC{i}(:,1)
     num_phase = length( eleC );
     count = 0;
@@ -173,7 +190,7 @@ function printBdf2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
         count = count + size(eleC{i},1);
     end
 
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
     % print element
     ele_wid =  size( eleC{1}, 2 );
     
@@ -206,12 +223,12 @@ function printBdf2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
         error('Function printBdf2d do not support quadratic elements.');
     end
     
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
 	fprintf( fid, 'ENDDATA' );
     
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
     fclose(fid);
 	
 	disp('printBdf2d Done! Check the bdf file!');
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
 end
