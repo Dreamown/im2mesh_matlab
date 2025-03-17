@@ -15,6 +15,11 @@ function ele = fixOrdering( vert, ele )
 %         the mesh. Each row in ele contains the indices of the nodes 
 %         for that mesh element.
 %
+%
+% Copyright (C) 2019-2025 by Jiexian Ma
+% 
+% Project website: https://github.com/mjx888/im2mesh
+%
     
     vert = vert(:,1:2);
     ele_width = size(ele,2);
