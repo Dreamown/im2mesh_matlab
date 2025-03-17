@@ -4,8 +4,16 @@ function printTria( vert, tria, tnum, precision_nodecoor )
 %            Precision is number of digits behind decimal point, for node
 %            coordinates
 %            
-% Revision history:
-%   Jiexian Ma, mjx0799@gmail.com, Oct 2020
+% This is sub-project of Im2mesh package. If you use this function, please
+% cite as follows: 
+%  Ma, J., & Li, Y. (2025). Im2mesh: A MATLAB/Octave package for generating
+%  finite element mesh based on 2D multi-phase image (2.1.5). Zenodo. 
+%  https://doi.org/10.5281/zenodo.14847059
+%
+% Copyright (C) 2019-2025 by Jiexian Ma
+% 
+% Project website: https://github.com/mjx888/im2mesh
+%
     
     num_node = size( vert, 1 );
     num_ele = size( tria, 1 );

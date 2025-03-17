@@ -4,7 +4,7 @@ function [edge, phaseEdge] = tria2BoundEdge( tria, tnum )
 % input:
 %   tria: Mesh elements (for linear element). For triangular elements, 
 %           it s a Ne-by-3 matrix, where Ne is the number of elements in 
-%           the mesh. Each row in eleL contains the indices of the nodes 
+%           the mesh. Each row in tria contains the indices of the nodes 
 %           for that mesh element.
 %     
 %   tnum: Label of phase, which corresponds to physical surface tag in Gmsh. 
@@ -16,11 +16,11 @@ function [edge, phaseEdge] = tria2BoundEdge( tria, tnum )
 %         boundary edges in all surfaces. Each row is one edge.
 %
 %
-% Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
-% the terms of the GNU General Public License (version 3).
+% Copyright (C) 2019-2025 by Jiexian Ma
 % 
 % Project website: https://github.com/mjx888/im2mesh
 %
+
     % --------------------------------------------------------------------
     % get phaseEdge (nesting cell array)
     num_phase = length( unique(tnum) );

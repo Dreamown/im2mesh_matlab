@@ -10,7 +10,7 @@ function [ phaseLoops, phaseTria ] = tria2Surface( vert,conn,tria,tnum )
 %     
 %   tria: Mesh elements (for linear element). For triangular elements, 
 %           it s a Ne-by-3 matrix, where Ne is the number of elements in 
-%           the mesh. Each row in eleL contains the indices of the nodes 
+%           the mesh. Each row in tria contains the indices of the nodes 
 %           for that mesh element.
 %     
 %   tnum: Label of phase, which corresponds to physical surface tag in Gmsh. 
@@ -34,8 +34,7 @@ function [ phaseLoops, phaseTria ] = tria2Surface( vert,conn,tria,tnum )
 %    i-th physical surface. phaseTria{i}{j} is a p-by-3 array.
 %
 %
-% Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
-% the terms of the GNU General Public License (version 3).
+% Copyright (C) 2019-2025 by Jiexian Ma
 % 
 % Project website: https://github.com/mjx888/im2mesh
 %

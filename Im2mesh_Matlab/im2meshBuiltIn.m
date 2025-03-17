@@ -1,4 +1,4 @@
-function [ vert, tria, tnum, vert2, tria2 ] = im2meshBuiltIn( im, opt )
+function [ vert, tria, tnum, vert2, tria2, model1, model2 ] = im2meshBuiltIn( im, opt )
 % im2meshBuiltIn: generate triangular mesh based on segmented image
 %                 using matlab built-in function generateMesh
 % usage:
@@ -73,7 +73,7 @@ function [ vert, tria, tnum, vert2, tria2 ] = im2meshBuiltIn( im, opt )
 %     
 %     tria: Mesh elements (for linear element). For triangular elements, 
 %           it s a Ne-by-3 matrix, where Ne is the number of elements in 
-%           the mesh. Each row in eleL contains the indices of the nodes 
+%           the mesh. Each row in tria contains the indices of the nodes 
 %           for that mesh element.
 %     
 %     tnum: Label of phase. Ne-by-1 array, where Ne is the number of 
@@ -85,6 +85,11 @@ function [ vert, tria, tnum, vert2, tria2 ] = im2meshBuiltIn( im, opt )
 %     tria2: Mesh elements (for quadratic element). For triangular 
 %           elements, it s a Ne-by-6 matrix.
 %
+%     model1 - PDE model object with linear elements
+%     
+%     model2 - PDE model object with 2nd order elements
+%     
+%     PDE model object: https://www.mathworks.com/help/pde/ug/pde.pdemodel.html
 %
 % You can use function plotMeshes( vert, tria, tnum ) to view mesh.
 %
@@ -140,7 +145,7 @@ function [ vert, tria, tnum, vert2, tria2 ] = im2meshBuiltIn( im, opt )
     % Convert boundaries to a cell array of polyshape object
     pcell = bound2polyshape( boundsClear );
     % generate mesh
-    [vert,tria,tnum,vert2,tria2] = poly2meshBuiltIn( poly_node, poly_edge, pcell, ...
+    [vert,tria,tnum,vert2,tria2,~,~,model1,model2] = poly2meshBuiltIn( poly_node, poly_edge, pcell, ...
                                         opt.hgrad, opt.hmax, opt.hmin );
 
 end

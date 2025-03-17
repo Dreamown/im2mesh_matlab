@@ -22,7 +22,7 @@ function area = quadarea(vert, ele)
     for i = 1:Ne
         % Extract the node indices for element i
         nodes = ele(i, :);
-
+        
         % Extract the coordinates of the 4 vertices
         x = vert(nodes, 1);
         y = vert(nodes, 2);
