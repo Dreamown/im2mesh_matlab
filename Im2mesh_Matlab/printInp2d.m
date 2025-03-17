@@ -54,8 +54,7 @@ function printInp2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
 %  finite element mesh based on 2D multi-phase image (2.1.5). Zenodo. 
 %  https://doi.org/10.5281/zenodo.14847059
 %
-% Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
-% the terms of the GNU General Public License (version 3).
+% Copyright (C) 2019-2025 by Jiexian Ma
 % 
 % Project website: https://github.com/mjx888/im2mesh
 %
