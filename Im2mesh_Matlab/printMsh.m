@@ -75,6 +75,7 @@ function printMsh( vert, ele, tnum, conn, precision_nodecoor, path_file_name )
     % $EndElements
     
     % ---------------------------------------------------------------------
+    % check inputs
     % ---------------------------------------------------------------------
     % Check the number of inputs. If missing, set as empty. 
     if nargin < 2
@@ -150,8 +151,13 @@ function printMsh( vert, ele, tnum, conn, precision_nodecoor, path_file_name )
     if ~(ischar(b) || isstring(b))
         error('Input "path_file_name" must be a string.');
     end
+
+    % ---------------------------------------------------------------------
+    % fix node ordering for elements with negative area
+    ele = fixOrdering( vert, ele );
     
     % ---------------------------------------------------------------------
+    % prepare for writing file
     % ---------------------------------------------------------------------
     % format of number
     % '%.(precision)f'

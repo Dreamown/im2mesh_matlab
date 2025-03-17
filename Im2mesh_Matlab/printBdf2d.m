@@ -67,6 +67,7 @@ function printBdf2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
     % ENDDATA
     
     % ---------------------------------------------------------------------
+    % check inputs
     % ---------------------------------------------------------------------
     % Check the number of inputs. If missing, set as empty. 
     if nargin < 2
@@ -134,6 +135,11 @@ function printBdf2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
     end
 
     % ---------------------------------------------------------------------
+    % fix node ordering for elements with negative area
+    ele = fixOrdering( vert, ele );
+    
+    % ---------------------------------------------------------------------
+    % prepare for writing file
     % ---------------------------------------------------------------------
     % Add node numbering and element numbering, and organize elements into 
     % cell array. eleC{i} represent elements in the i-th phase.

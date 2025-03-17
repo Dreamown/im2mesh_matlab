@@ -74,6 +74,7 @@ function printInp2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
     % ---------------------------------------------------------------------
 
     % ---------------------------------------------------------------------
+    % check inputs
     % ---------------------------------------------------------------------
     % Check the number of inputs. If missing, set as empty. 
     if nargin < 2
@@ -158,8 +159,13 @@ function printInp2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
     if ~(ischar(c) || isstring(c))
         error('Input "ele_type" must be a string.');
     end
+
+    % ---------------------------------------------------------------------
+    % fix node ordering for elements with negative area
+    ele = fixOrdering( vert, ele );
     
     % ---------------------------------------------------------------------
+    % prepare for writing file
     % ---------------------------------------------------------------------
     % Add node numbering and element numbering, and organize elements into 
     % cell array. eleC{i} represent elements in the i-th phase.
