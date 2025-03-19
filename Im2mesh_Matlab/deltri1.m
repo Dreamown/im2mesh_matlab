@@ -6,6 +6,8 @@ function [vert,conn,tria,tnum] = deltri1( node, edge, part )
 %   Darren Engwirda : 2017 --
 %   Email           : d.engwirda@gmail.com
 %   Last updated    : 08/07/2018
+%
+% copyright (C) by Darren Engwirda
 
 
     %---------------------------------------------- extract args
