@@ -11,6 +11,9 @@ function [same,sloc] = isvertex(iset,jset)
 %   Darren Engwirda : 2017 --
 %   Email           : de2363@columbia.edu
 %   Last updated    : 29/01/2017
+%
+% copyright (C) by Darren Engwirda
+
 %---------------------------------------------- basic checks
     if ( ~isnumeric(iset) || ~isnumeric(jset) )
         error('setset2:incorrectInputClass' , ...
