@@ -30,6 +30,9 @@ function tricost(varargin)
 %           tricost(vert,tria,tnum);
 %   by Jiexian Ma
 %-----------------------------------------------------------
+%
+% copyright (C) by Darren Engwirda
+
 
     vert = [] ; tria = [] ;
     tnum = [] ; hvrt = [] ;
