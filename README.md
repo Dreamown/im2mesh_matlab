@@ -86,7 +86,17 @@ Once my paper is published, I will update a new DOI here.
 
 ## Acknowledgments
 
-Great thanks Dr. Yang Lu for providing valuable suggestions and testing of export formats. I also appreciate Dr. Darren Engwirda for the open-source mesh generator.
+Many thanks to Dr. Yang Lu for providing valuable suggestions and testing of export formats. 
+
+This project incorporates code from the following open-source projects. I appreciate the contributions of the original authors. Each incorporated code retains its original copyright.
+
+- [MESH2D](https://github.com/dengwirda/mesh2d) by Darren Engwirda
+- [dpsimplify](https://www.mathworks.com/matlabcentral/fileexchange/21132-line-simplification) by Wolfgang Schwanghart
+- [p_poly_dist](https://www.mathworks.com/matlabcentral/fileexchange/12744-distance-from-points-to-polyline-or-polygon) by Michael Yoshpe
+- [MeshQualityQuads](https://www.mathworks.com/matlabcentral/fileexchange/33108-unstructured-quadrilateral-mesh-quality-assessment) by Allan Peter Engsig-Karup
+- [ccma](https://github.com/UniBwTAS/ccma) by UniBwTAS
+
+
 
 ## Other related projects
 
