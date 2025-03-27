@@ -6,11 +6,6 @@
 
 Im2mesh can also be used as a mesh generation interface for MATLAB multi-part geometry.
 
-<p align="center">
-  <img src = "https://mjx888.github.io/im2mesh_demo_html/example_tree.jpg" height="100"> &nbsp
-  <img src = "https://mjx888.github.io/im2mesh_demo_html/example_shape.jpg" height="100"> &nbsp
-  <img src = "https://mjx888.github.io/im2mesh_demo_html/example_concrete.jpg" height="100"> 
-</p>
 
 
 **News:**
@@ -31,9 +26,6 @@ Im2mesh can also be used as a mesh generation interface for MATLAB multi-part ge
 - Mesh can also be exported as many other formats via Gmsh, such as `stl` and `vtk`.
 - Graphical user interface (GUI) version is available as a MATLAB app.
 
-<p align="center">
-  <img src = "https://mjx888.github.io/im2mesh_demo_html/GUI.png" height="300"> 
-</p>
 
 
 ## Dependencies
