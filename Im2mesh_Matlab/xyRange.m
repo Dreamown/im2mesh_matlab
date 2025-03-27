@@ -5,6 +5,9 @@ function [xminG,xmaxG,yminG,ymaxG] = xyRange( inarg )
 %   inarg: a nested cell array of polygonal boundary 
 %          or a cell array of polyshape
 % 
+% Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
+% Distributed under the terms of the GNU General Public License (version 3)
+%
 
     % --------------------------------------------------------------------
     % check input

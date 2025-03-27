@@ -16,7 +16,8 @@ function [edge, phaseEdge] = tria2BoundEdge( tria, tnum )
 %         boundary edges in all surfaces. Each row is one edge.
 %
 %
-% Copyright (C) 2019-2025 by Jiexian Ma
+% Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
+% Distributed under the terms of the GNU General Public License (version 3)
 % 
 % Project website: https://github.com/mjx888/im2mesh
 %

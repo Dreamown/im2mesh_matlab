@@ -1,11 +1,16 @@
 function xyNew = insertMidPnt( xy, iters )
-% insertMidPnt: inserts midpoints between vertices of a polyline
+% insertMidPnt: repeatedly inserts midpoints between vertices of a polyline
 %
 % takes the coordinates x, y of a 2D polyline, and returns new coordinates 
 % xNew, yNew. The new coordinates will have midpoints inserted on each edge
 %
 % xy is n-by-2 array. Each row is a vertex in 2D polyline.
 % iters is the number of iterations
+%
+% Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
+% Distributed under the terms of the GNU General Public License (version 3)
+% 
+% Project website: https://github.com/mjx888/im2mesh
 %
 
     % ---------------------------------------------------------------------

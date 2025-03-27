@@ -7,6 +7,12 @@ function xyNew = insertBiasedSeed( xy, iters, ratio )
 %
 % xy is a 2-by-2 array. Each row is a vertex for a 2D edge
 % iters is the number of iterations
+% ratio is a numeric, 0 < ratio < 1. Biased ratio.
+%
+% Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
+% Distributed under the terms of the GNU General Public License (version 3)
+% 
+% Project website: https://github.com/mjx888/im2mesh
 %
 
     % ---------------------------------------------------------------------

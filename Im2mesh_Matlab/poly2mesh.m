@@ -50,8 +50,8 @@ function [vert,tria,tnum,vert2,tria2,etri] = poly2mesh( poly_node, poly_edge, ..
 %   etri: C-by-2 array of constraining edges, where each row defines an edge
 %
 %
-% Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
-% the terms of the GNU General Public License (version 3).
+% Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
+% Distributed under the terms of the GNU General Public License (version 3)
 % 
 % Project website: https://github.com/mjx888/im2mesh
 %

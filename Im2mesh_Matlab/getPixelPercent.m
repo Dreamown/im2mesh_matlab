@@ -1,6 +1,8 @@
 function percent_pixel = getPixelPercent( im )
 % getPixelPercent: calculate the area perccentage of each grayscale in image
 % 
+% Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
+% Distributed under the terms of the GNU General Public License (version 3)
 
     intensity = unique( im );    % column vector
     num_phase = size( intensity, 1 );

@@ -38,8 +38,8 @@ function printGeo( C, point, line, opt, path_file_name )
 %     printGeo( phaseLoops, point, line, opt, path_to_geo );
 %
 %
-% Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
-% the terms of the GNU General Public License (version 3).
+% Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
+% Distributed under the terms of the GNU General Public License (version 3)
 % 
 % Project website: https://github.com/mjx888/im2mesh
 %

@@ -62,8 +62,8 @@ function new_bounds = getCtrlPnts( bounds, tf_avoid_sharp_corner, size_im )
 %     new_poly2 = [ 2 3; 1 3; NaN NaN; 1 3; 1 2; 1 1; 1 0;
 %                     1 -1; NaN NaN; 1 -1; 2 -1; 2 3 ];
 %
-% Im2mesh is copyright (C) 2019-2025 by Jiexian Ma and is distributed under
-% the terms of the GNU General Public License (version 3).
+% Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
+% Distributed under the terms of the GNU General Public License (version 3)
 % 
 % Project website: https://github.com/mjx888/im2mesh
 %

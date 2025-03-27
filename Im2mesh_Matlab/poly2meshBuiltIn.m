@@ -54,14 +54,11 @@ function [vert,tria,tnum,vert2,tria2,mesh1,mesh2,model1,model2] = poly2meshBuilt
 %
 % You can use function plotMeshes( vert, tria, tnum ) to view mesh.
 %
-% Author:
-%   Jiexian Ma, mjx0799@gmail.com, Jan 2025
-% Cite As
-%   Jiexian Ma (2025). Im2mesh (2D image to triangular meshes) (https://ww
-%   w.mathworks.com/matlabcentral/fileexchange/71772-im2mesh-2d-image-to-t
-%   riangular-meshes), MATLAB Central File Exchange. Retrieved Jan 23, 202
-%   5.
-%   
+% Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
+% Distributed under the terms of the GNU General Public License (version 3)
+% 
+% Project website: https://github.com/mjx888/im2mesh
+%
 
     % ---------------------------------------------------------------------
     % Use function regroup to organize cell array poly_node, poly_edge into
