@@ -22,6 +22,7 @@ function plotBounds( bounds, tf_show_ctrlpnt, lin_spec )
 %   lin_spec - Line specification. Default value is 'k'. (black line)
 %
 
+    % ---------------------------------------------------------------------
     % check the number of inputs
     if nargin == 1
         tf_show_ctrlpnt = false;
@@ -34,16 +35,29 @@ function plotBounds( bounds, tf_show_ctrlpnt, lin_spec )
         error("check the number of inputs");
     end
 
+    % ---------------------------------------------------------------------
+    % find x y range
+    [xmin, xmax, ymin, ymax] = xyRange( bounds );
+
+    xWid = xmax - xmin;
+    yWid = ymax - ymin;
+
+    xlim_vec = [ xmin-0.1*xWid, xmax ];
+    ylim_vec = [ ymin-0.1*yWid, ymax ];
+
+    % ---------------------------------------------------------------------
+    % plot
     figure;
     hold on
-    axis image off;
+    axis equal
+    % axis image off;
     
     for i = 1: length(bounds)
         for j = 1: length(bounds{i})
             poly = bounds{i}{j};
-            
             plot( poly(:,1), poly(:,2), lin_spec );
-
+            
+            % show starting point and ctrl points
             if tf_show_ctrlpnt == true
                 % show starting points with 'x'
                 plot( poly(1,1), poly(1,2), 'k x' );
@@ -59,5 +73,9 @@ function plotBounds( bounds, tf_show_ctrlpnt, lin_spec )
             end
         end
     end
+
+    xlim(xlim_vec);
+    ylim(ylim_vec);
+
     hold off
 end

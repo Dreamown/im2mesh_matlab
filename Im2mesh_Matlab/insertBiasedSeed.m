@@ -1,10 +1,11 @@
-function xyNew = insertMidPnt( xy, iters )
-% insertMidPnt: inserts midpoints between vertices of a polyline
+function xyNew = insertBiasedSeed( xy, iters, ratio )
+% insertBiasedSeed: inserts biased points between vertices of an edge
 %
-% takes the coordinates x, y of a 2D polyline, and returns new coordinates 
-% xNew, yNew. The new coordinates will have midpoints inserted on each edge
+% Take the coordinates x, y of a 2D edge, and returns new coordinates
+% xNew, yNew. The new coordinates will have biased points inserted on each
+% edge
 %
-% xy is n-by-2 array. Each row is a vertex in 2D polyline.
+% xy is a 2-by-2 array. Each row is a vertex for a 2D edge
 % iters is the number of iterations
 %
 
@@ -12,10 +13,17 @@ function xyNew = insertMidPnt( xy, iters )
     % check the number of inputs
     if nargin == 1
         iters = 1;
+        ratio = 0.5;
     elseif nargin == 2
+        ratio = 0.5;
+    elseif nargin == 3
         % all input arguments are given
     else
         error("Check the number of inputs");
+    end
+
+    if size(xy,1) ~= 2
+        error('Input should be a 2-by-2 array. Each row is a vertex.')
     end
     
     % ---------------------------------------------------------------------
@@ -28,24 +36,20 @@ function xyNew = insertMidPnt( xy, iters )
     
         % Number of edges is (n-1). 
         % We add two vertices per edge + final closure.
-        m = 2*(n - 1) + 1;
+        m = n + 1;
         xNew = zeros(m, 1);
         yNew = zeros(m, 1);
     
         % Fill new arrays
-        for j = 1 : (n - 1)
-            % Original vertex goes to index 2i-1
-            xNew(2*j - 1) = x(j);
-            yNew(2*j - 1) = y(j);
-    
-            % Midpoint goes to index 2i
-            xNew(2*j) = 0.5 * (x(j) + x(j+1));
-            yNew(2*j) = 0.5 * (y(j) + y(j+1));
-        end
-    
+        xNew(1) = x(1);
+        yNew(1) = y(1);
+        
+        xNew(2) = ratio * x(1) + (1-ratio) * x(2);
+        yNew(2) = ratio * y(1) + (1-ratio) * y(2);
+        
         % last vertex
-        xNew(end) = x(end);
-        yNew(end) = y(end);
+        xNew(3:end) = x(2:end);
+        yNew(3:end) = y(2:end);
     
         xyNew = [xNew, yNew];
 
@@ -54,3 +58,13 @@ function xyNew = insertMidPnt( xy, iters )
     end
     % ---------------------------------------------------------------------
 end
+
+
+
+
+
+
+
+
+
+

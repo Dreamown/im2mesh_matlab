@@ -1,7 +1,7 @@
 function printBdf2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_name )
 % printBdf2d: write 2d finite element mesh (nodes and elements) to bdf 
 %           file (Nastran bulk data, compatible with COMSOL). 
-%           Use functions: getNodeEle
+%           Use functions: getNodeEle.m  fixOrdering.m
 %           
 %           Works for linear triangular and linear quadrilateral element.
 %           Not work for quadratic element.
@@ -49,7 +49,7 @@ function printBdf2d( vert, ele, tnum, ele_type, precision_nodecoor, path_file_na
 %  finite element mesh based on 2D multi-phase image (2.1.5). Zenodo. 
 %  https://doi.org/10.5281/zenodo.14847059
 %
-% Copyright (C) 2019-2025 by Jiexian Ma
+% Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
 % 
 % Project website: https://github.com/mjx888/im2mesh
 %

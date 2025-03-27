@@ -9,6 +9,7 @@ function new_bounds = getCtrlPnts( bounds, tf_avoid_sharp_corner, size_im )
 % usage:
 %   new_bounds = getCtrlPnts( bounds, tf_avoid_sharp_corner, size_im );
 %   new_bounds = getCtrlPnts( bounds, tf_avoid_sharp_corner );
+%   new_bounds = getCtrlPnts( bounds );
 %
 % input:
 %   bounds - cell array. bounds{i}{j} is one of the polygonal boundaries,  
@@ -68,7 +69,10 @@ function new_bounds = getCtrlPnts( bounds, tf_avoid_sharp_corner, size_im )
 %
     
     % check the number of inputs
-    if nargin == 2
+    if nargin == 1
+        tf_avoid_sharp_corner = false;
+        size_im =[];
+    elseif nargin == 2
         size_im =[];
     elseif nargin == 3
         % normal case
@@ -196,12 +200,6 @@ function new_bounds = getCtrlPnts( bounds, tf_avoid_sharp_corner, size_im )
             
             % -------------------------------------------------------
             % step 4
-            if tf_avoid_sharp_corner
-                label_ctrlpnt = addExtraPnts( label_ctrlpnt );
-            end
-
-            % -------------------------------------------------------
-            % step 5
             % check whether bounds{i}{j} pass corners of image
             [ tf_pass, ind ] = isPassCorner( bounds{i}{j}, size_im );
 
@@ -210,10 +208,16 @@ function new_bounds = getCtrlPnts( bounds, tf_avoid_sharp_corner, size_im )
             end
 
             % -------------------------------------------------------
-            % step 6
+            % step 5
             new_bounds{i}{j} = insertNaN( bounds{i}{j}, label_ctrlpnt );
-    
+            
+            % -------------------------------------------------------
         end
+    end
+
+    % handle sharp corners
+    if tf_avoid_sharp_corner
+        new_bounds = bluntSharpCorner( new_bounds );
     end
 end
 

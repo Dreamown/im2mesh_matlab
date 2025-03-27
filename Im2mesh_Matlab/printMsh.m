@@ -2,7 +2,7 @@ function printMsh( vert, ele, tnum, conn, precision_nodecoor, path_file_name )
 % printMsh: write 2d finite element mesh (nodes and elements) to msh file.
 %           msh is Gmsh mesh file format. MSH file format version: 4.1
 %           Test in software Gmsh 4.13.1
-%           Use functions: tria2Surface.m  tria2BoundEdge.m
+%           Use functions: tria2Surface.m  tria2BoundEdge.m  fixOrdering.m
 %           
 %           printMsh only works for 2d trangles & linear element.
 %
@@ -53,7 +53,7 @@ function printMsh( vert, ele, tnum, conn, precision_nodecoor, path_file_name )
 %  finite element mesh based on 2D multi-phase image (2.1.5). Zenodo. 
 %  https://doi.org/10.5281/zenodo.14847059
 %
-% Copyright (C) 2019-2025 by Jiexian Ma
+% Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
 % 
 % Project website: https://github.com/mjx888/im2mesh
 %

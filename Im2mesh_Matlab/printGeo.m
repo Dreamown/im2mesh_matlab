@@ -19,17 +19,20 @@ function printGeo( C, point, line, opt, path_file_name )
 %
 %
 % Example:
-%     % rename variables to consistent with gmsh
-%     point = vertex;
-%     line = edge;
+%     [ phaseLoops, point, line ] = bound2SurfaceLoop( bounds );
 %     
-%     % setup parameters
+%     % setup parameters (10 parameters in total)
+%     opt = [];
 %     opt.sizeMin = 0.1;
 %     opt.sizeMax = 50;
 %     opt.algthm = 6;
 %     opt.recombAll = 0;
 %     opt.recombAlgthm = 3;
 %     opt.eleOrder = 1;
+%     opt.scalingFactor = 1;
+%     opt.tf_gradient = false;
+%     opt.sizeAtBound = 1.5;
+%     opt.sizeSlope = 0.2;
 %     
 %     path_to_geo = 'gmshTemp.geo';
 %     printGeo( phaseLoops, point, line, opt, path_to_geo );
@@ -41,6 +44,11 @@ function printGeo( C, point, line, opt, path_file_name )
 % Project website: https://github.com/mjx888/im2mesh
 %
 
+    %---------------------------------------------------------------------
+    % verify field names and set values for opt
+    opt = setOption( opt );
+
+    %---------------------------------------------------------------------
     % Open a file for writing
     fid = fopen(path_file_name, 'wW');
     
@@ -157,27 +165,101 @@ function printGeo( C, point, line, opt, path_file_name )
         phyID = phyID + 1;
         
     end % i
+
     %---------------------------------------------------------------------
     fprintf(fid, '// Mesh \n');
-    fprintf(fid, 'Mesh.MeshSizeMin = %.3f;\n',            opt.sizeMin);
-    fprintf(fid, 'Mesh.MeshSizeMax = %.3f;\n',            opt.sizeMax);
-    fprintf(fid, 'Mesh.Algorithm = %d;\n',                opt.algthm);
-    fprintf(fid, 'Mesh.RecombineAll = %d;\n',             opt.recombAll);
-    fprintf(fid, 'Mesh.RecombinationAlgorithm = %d;\n',   opt.recombAlgthm);
-    fprintf(fid, 'Mesh.ElementOrder = %d;\n',             opt.eleOrder);
-    fprintf(fid, 'Mesh 2;\n');
+    fprintf(fid, 'Mesh.ScalingFactor = %.8f;\n',    opt.scalingFactor );
     fprintf(fid, '\n');
 
+    if opt.tf_includeMesh == true
+        fprintf(fid, 'Mesh.MeshSizeMin = %.3f;\n',            opt.sizeMin );
+        fprintf(fid, 'Mesh.MeshSizeMax = %.3f;\n',            opt.sizeMax );
+        fprintf(fid, 'Mesh.Algorithm = %d;\n',                opt.algthm );
+        fprintf(fid, 'Mesh.RecombineAll = %d;\n',             opt.recombAll );
+        fprintf(fid, 'Mesh.RecombinationAlgorithm = %d;\n',   opt.recombAlgthm );
+        fprintf(fid, 'Mesh.ElementOrder = %d;\n',             opt.eleOrder );
+        fprintf(fid, '\n');
+
+        if opt.tf_gradient == true
+            fprintf(fid, 'Field[1] = Distance;\n');
+            fprintf(fid, 'Field[1].EdgesList = {1:%d};\n', size(line,1) );
+            fprintf(fid, 'Field[2] = MathEval;\n');
+            fprintf(fid, 'Field[2].F = "F1 * %.4f + %.4f";\n', opt.sizeSlope, opt.sizeAtBound );
+            fprintf(fid, 'Background Field = 2;\n');
+            fprintf(fid, '\n');
+    
+            fprintf(fid, 'Mesh.MeshSizeExtendFromBoundary = 0;\n');
+            fprintf(fid, 'Mesh.MeshSizeFromPoints = 0;\n');
+            fprintf(fid, 'Mesh.MeshSizeFromCurvature = 0;\n');
+        end
+        
+        fprintf(fid, '\n');
+        fprintf(fid, 'Mesh 2;\n');
+        fprintf(fid, '\n');
+    end
+
+    %---------------------------------------------------------------------
     fprintf(fid, '// set format\n');
     fprintf(fid, 'Mesh.Format=10;\n');
     fprintf(fid, '\n');
-
+    
+    %---------------------------------------------------------------------
     fprintf(fid, '// End of geo file\n');
     
     fclose(fid);
 
+    disp('printGeo Done! Check the geo file!');
+    %---------------------------------------------------------------------
 end
 
+
+function new_opt = setOption( opt )
+% setOption: verify field names in opt and set values in new_opt according
+% to opt
+
+    % initialize new_opt with default field names & value 
+    new_opt.sizeMin = 0.1;
+    new_opt.sizeMax = 50;
+    new_opt.algthm = 6;
+    new_opt.recombAll = 0;
+    new_opt.recombAlgthm = 3;
+    new_opt.eleOrder = 1;
+    new_opt.scalingFactor = 1;
+
+    new_opt.tf_gradient = false;
+    new_opt.sizeAtBound = 1.5;
+    new_opt.sizeSlope = 0.2;
+
+    new_opt.tf_includeMesh = true;
+
+
+    if isempty(opt)
+        return
+    end
+
+    if ~isstruct(opt)
+        error("opt is not a structure array. Not valid input.")
+    end
+
+    % get the field names of opt
+    nameC = fieldnames(opt);
+
+    % verify field names in opt and set values in new_opt
+    % compare the field name of opt with new_opt using for loop
+    % if a field name of opt exist in new_opt, assign the that field value 
+    % in opt to new_opt
+    % if a field name of opt not exist in new_opt, show error
+
+    for i = 1: length(nameC)
+        if isfield( new_opt, nameC{i} )
+            value = getfield( opt, nameC{i} );
+            new_opt = setfield( new_opt, nameC{i}, value );
+        else
+            error("Field name %s in opt is not correct.", nameC{i});
+        end
+    end
+
+end
 
 
 
