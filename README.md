@@ -74,7 +74,7 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 - [demo13](https://mjx888.github.io/im2mesh_demo_html/demo13.html) - How to use `Gmsh` as mesh generator
 - [demo14](https://mjx888.github.io/im2mesh_demo_html/demo14.html) - Use polyshape to define geometry for mesh generation
 - [demo15](https://mjx888.github.io/im2mesh_demo_html/demo15.html) - Edit polygonal boundaries before meshing
-- [demo16](https://mjx888.github.io/im2mesh_demo_html/demo16.html) - Add mesh seeds/nodes to polygonal boundaries
+- [demo16](https://mjx888.github.io/im2mesh_demo_html/demo16.html) - Add mesh seeds/nodes
 
 ## Cite as
 
