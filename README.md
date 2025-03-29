@@ -38,8 +38,8 @@ Im2mesh can also be used as a mesh generation interface for MATLAB multi-part ge
 
 ## Dependencies
 
-- When using Im2mesh package or Im2mesh_GUI in MATLAB, you need to install MATLAB software and the following MATLAB toolboxes: Image Processing Toolbox, Mapping Toolbox.
-- When using Im2mesh_GUI as a standalone desktop application, there is no need to install MATLAB software or any MATLAB toolboxes. You can download the installer for Im2mesh_GUI standalone desktop app from: [link](https://mjx888.github.io/others/Installer_Im2mesh_GUI.zip)
+- When using Im2mesh package or Im2mesh_GUI in MATLAB, you need to install MATLAB and the following MATLAB toolboxes: Image Processing Toolbox, Mapping Toolbox.
+- When using Im2mesh_GUI as a standalone desktop application, there is no need to install MATLAB or any MATLAB toolboxes. You can download the installer for standalone desktop app from: [link](https://mjx888.github.io/others/Installer_Im2mesh_GUI.zip)
 
 ## Version compatibility
 
