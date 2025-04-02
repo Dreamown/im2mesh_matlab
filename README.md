@@ -4,7 +4,7 @@
 
 **Im2mesh** is an open-source MATLAB/Octave package for generating finite element mesh based on 2D segmented multi-phase image. It provides a robust workflow capable of processing various input images, such as microstructure images of engineering materials. Due to its generalized framework, Im2mesh can handle segmented image with more than 10 phases.  Im2mesh was originally released on [MathWorks File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/71772-im2mesh-2d-image-to-finite-element-mesh) in 2019. 
 
-Im2mesh can also be used as a mesh generation interface for MATLAB multi-part geometry.
+Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part geometry.
 
 <p align="center">
   <img src = "https://mjx888.github.io/im2mesh_demo_html/example_tree.jpg" height="100"> &nbsp
@@ -15,7 +15,7 @@ Im2mesh can also be used as a mesh generation interface for MATLAB multi-part ge
 
 **News:**
 
-- Version 2.30 adds more settings for mesh generation and file export; rewrites demo15 and demo16.
+- Version 2.33 can refine mesh locally (see demo17).
 - Version 2.2.1 can edit polygonal boundary before mesh generation.
 - Version 2.2.0 supports using Gmsh as mesh generator (unstructured quadrilateral mesh).
 - Version 2.1.6 updates the DOI. Im2mesh is now citable.
@@ -75,6 +75,7 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 - [demo14](https://mjx888.github.io/im2mesh_demo_html/demo14.html) - Use polyshape to define geometry for mesh generation
 - [demo15](https://mjx888.github.io/im2mesh_demo_html/demo15.html) - Edit polygonal boundaries before meshing
 - [demo16](https://mjx888.github.io/im2mesh_demo_html/demo16.html) - Add mesh seeds/nodes
+- [demo17](https://mjx888.github.io/im2mesh_demo_html/demo17.html) - Refine mesh
 
 ## Cite as
 
