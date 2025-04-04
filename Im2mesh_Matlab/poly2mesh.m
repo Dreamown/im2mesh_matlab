@@ -75,6 +75,8 @@ function [vert,tria,tnum,vert2,tria2,etri] = poly2mesh( poly_node, poly_edge, hm
 % Project website: https://github.com/mjx888/im2mesh
 %
 
+    warning("poly2mesh is deprecated. Please use function bounds2mesh instead.");
+    
     % ---------------------------------------------------------------------
     % check the number of inputs
     if nargin == 5          % default case. Smooth but no refine.
@@ -124,6 +126,7 @@ function [vert,tria,tnum,vert2,tria2,etri] = poly2mesh( poly_node, poly_edge, hm
     
     [vlfs,tlfs, hlfs] = lfshfn2( node, edge, part, optLfs );
 
+    % ---------------------------------------------------------------------
     % modify mesh size field hlfs according to opt.local_max
     if ~isempty(opt.local_max)
         % create a vector for local max mesh size
@@ -146,6 +149,7 @@ function [vert,tria,tnum,vert2,tria2,etri] = poly2mesh( poly_node, poly_edge, hm
         hlfs = limhfn2(vlfs,tlfs,hlfs,grad_limit) ;
     end
     
+    % ---------------------------------------------------------------------
     hlfs = min(hmax,hlfs);
     
     [slfs] = idxtri2(vlfs,tlfs);
