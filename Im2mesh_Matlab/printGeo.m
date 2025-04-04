@@ -1,24 +1,16 @@
 function printGeo( C, point, line, opt, path_file_name )
 % printGeo: write geometry data (surface) into geo file (Gmsh input file format)
 %
-% input:
-% C is a nesting cell array for storing multiple loops. C is a 1-by-P cell 
-%   array. C{i} means the i-th physical surface. C{i} is a 1-by-S cell 
-%   array. C{i}{j} means the j-th plane surface within the i-th physical 
-%   surface. C{i}{j} is 1-by-L cell array. C{i}{j}{k} means the k-th loop 
-%   of the j-th plane surface within the i-th physical surface. C{i}{j}{k} 
-%   stores the line indices within a loop. C{i}{j}{k} is an N-by-1 array.
+% usage1:
+%   opt = [];       % use default setting
+%   printGeo( C, point, line, opt, path_file_name );    
 %
-%  point - V-by-2 array. x,y coordinates of vertices. 
-%           Each row is one vertex.
+% usage2:
+%   opt = [];
+%   opt.sizeMax = 5;
+%   printGeo( C, point, line, opt, path_file_name );
 %
-%  line - E-by-2 array. Node numbering of two connecting vertices of
-%           edges. Each row is one edge.
-%
-%  path_file_name - file name of geo file, e.g. 'gmshTemp.geo'
-%
-%
-% Example:
+% usage3:
 %     [ phaseLoops, point, line ] = bound2SurfaceLoop( bounds );
 %     
 %     % setup parameters (10 parameters in total)
@@ -36,6 +28,59 @@ function printGeo( C, point, line, opt, path_file_name )
 %     
 %     path_to_geo = 'gmshTemp.geo';
 %     printGeo( phaseLoops, point, line, opt, path_to_geo );
+%
+% input:
+% C is a nesting cell array for storing multiple loops. C is a 1-by-P cell 
+%   array. C{i} means the i-th physical surface. C{i} is a 1-by-S cell 
+%   array. C{i}{j} means the j-th plane surface within the i-th physical 
+%   surface. C{i}{j} is 1-by-L cell array. C{i}{j}{k} means the k-th loop 
+%   of the j-th plane surface within the i-th physical surface. C{i}{j}{k} 
+%   stores the line indices within a loop. C{i}{j}{k} is an N-by-1 array.
+%
+%  point - V-by-2 array. x,y coordinates of vertices. 
+%           Each row is one vertex.
+%
+%  line - E-by-2 array. Node numbering of two connecting vertices of
+%           edges. Each row is one edge.
+%
+%  path_file_name - file name of geo file, e.g. 'gmshTemp.geo'
+%
+%  opt - a structure array. It is the options for printGeo.
+%         It stores parameter settings for printGeo.
+% 
+%  opt.sizeMin - Minimum mesh element size. Default value: 0.1
+% 
+%  opt.sizeMax - Maximum mesh element size. Default value: 50.
+% 
+%  opt.algthm - 2D mesh algorithm (1: MeshAdapt, 2: Automatic, 
+%   3: Initial mesh only, 5: Delaunay, 6: Frontal-Delaunay, 7: BAMG, 
+%   8: Frontal-Delaunay for Quads, 9: Packing of Parallelograms, 
+%   11: Quasi-structured Quad). Default value: 6. Please refer to section 
+%   1.2.1 in Gmsh manual about mesh algorithm. Default value: 6
+% 
+%  opt.eleOrder - 1 or 2. Default value: 1
+% 
+%  opt.recombAll - Boolean. Value: 0 or 1. Whether to apply recombination 
+%   algorithm to all surfaces, ignoring per-surface spec. Default value: 0
+% 
+%  opt.recombAlgthm - Mesh recombination algorithm (0: simple, 1: blossom, 
+%   2: simple full-quad, 3: blossom full-quad). Default value: 3
+% 
+%  opt.scalingFactor - Global scaling factor applied to the saved mesh. 
+%   Default value: 1.
+% 
+%  opt.tf_gradient - Boolean. Value: 0 or 1. Whether to use linear size 
+%   gradient as mesh size field. Default value: 0. When tf_gradient is 0, 
+%   mesh size field is not specified. When tf_gradient is 1, the element 
+%   size linearly increases as the distance from constraint edges (i.e., 
+%   polygonal boundary) increases. Element size = SizeAtBound + SizeSlope ×
+%   distance from edges. This is inspired by the code of Dorian Depriester. 
+% 
+%  opt.sizeAtBound - Element size at constraint edges (i.e., polygonal 
+%   boundary). For linear size gradient. Default value: 1.5
+% 
+%  opt.sizeSlope - Slope in mesh size field. For linear size gradient. 
+%   Default value: 0.2
 %
 %
 % Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com

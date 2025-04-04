@@ -3,14 +3,13 @@ function p = bound2polyshape(bounds)
 % array of polyshape objects.
 %
 % input:
-% bounds - cell array. bounds{i}{j} is one of the polygonal boundaries,  
-%          corresponding to region with certain grayscale level in image.
-%          Polygons in bounds{i} have the same grayscale level.
-%          bounds{i}{j}(:,1) is x coordinate (column direction).
-%          bounds{i}{j}(:,2) is y coordinate (row direction). You can use
-%          plot( bounds{i}{j}(:,1), bounds{i}{j}(:,2) ) to view the
-%          polygon. Use plotBounds( bounds ) to view all polygons, check
-%          plotBounds.m.
+%   bounds - a nested cell array of 2d polygonal boundaries.
+%            Polygons in bounds{i} belong to the i-th part or phase.
+%            bounds{i}{j} is one of the polygons in the i-th part.
+%            bounds{i}{j} is a n-by-2 array for x y coordinates of vertices
+%            in a polygon. You can use 
+%            plot( bounds{i}{j}(:,1), bounds{i}{j}(:,2) ) to view the
+%            polygon. Use plotBounds( bounds ) to view all polygons.
 %
 % output:
 % p - cell array. p{i} is a polyshape object, which corresponds to polygons

@@ -1,5 +1,6 @@
 function [ vert, tria, tnum, vert2, tria2, conn, bounds ] = im2mesh( im, opt )
 % im2mesh: generate triangular mesh based on grayscale segmented image
+%          Mesh generator: MESH2D (https://github.com/dengwirda/mesh2d)
 %
 % usage:
 %   [ vert, tria, tnum ] = im2mesh( im );   % default opt setting
@@ -17,74 +18,74 @@ function [ vert, tria, tnum, vert2, tria2, conn, bounds ] = im2mesh( im, opt )
 %   bounds = im2mesh( im, opt );
 %
 % input:
-%   im        % grayscale segmented image
+%   im - grayscale segmented image
 %   
 %   opt - a structure array. It is the options for im2mesh.
 %         It stores parameter settings for im2mesh.
 %
-%   opt.tf_avoid_sharp_corner   % For function getCtrlPnts
-%                               % Whether to avoid sharp corner when 
-%                               % simplifying polygon.
-%                               % Value: true or false
-%                               % If true, two extra control points
-%                               % will be added around one original 
-%                               % control point to avoid sharp corner 
-%                               % when simplifying polygon.
-%                               % Sharp corner in some cases will make 
-%                               % poly2mesh not able to converge.
+%   opt.tf_avoid_sharp_corner - For function getCtrlPnts
+%                               Whether to avoid sharp corner when 
+%                               simplifying polygon.
+%                               Value: true or false
+%                               Sharp corner in some cases will make MESH2D
+%                               not able to converge.
+%                               Default value: false
 %
-%   opt.lambda      % Parameter for funtion smoothBounds (Taubin smoothing)
-%   opt.mu          % Parameter for funtion smoothBounds (Taubin smoothing)
-%   opt.iters       % Parameter for funtion smoothBounds (Taubin smoothing)
+%   opt.lambda - Taubin smoothing. Default value: 0.5
+%   opt.mu     - Taubin smoothing. Default value: -0.5
+%   opt.iters  - Taubin smoothing. Default value: 100
 %
-%   opt.threshold_num_turning   % For funtion smoothBounds
-%                               % Threshold value for the number of turning
-%                               % points in a polyline. 
+%   opt.threshold_num_turning - For funtion smoothBounds
+%                               Threshold value for the number of turning
+%                               points in a polyline. 
+%                               Default value: 0
 %
-%   opt.threshold_num_vert_Smo  % For funtion smoothBounds
-%                               % Threshold value for the number of 
-%                               % vertices in a polyline.
+%   opt.threshold_num_vert_Smo - For funtion smoothBounds
+%                                Threshold value for the number of 
+%                                vertices in a polyline.
+%                                Default value: 0
 %     
-%   opt.tolerance   % For funtion simplifyBounds
-%                   % Tolerance for polygon simplification.
-%                   % Check Douglas-Peucker algorithm.
-%                   % If u don't need to simplify, try tolerance = eps.
-%                   % If the value of tolerance is too large, some 
-%                   % polygons will become line segment after 
-%                   % simplification, and these polygons will be 
-%                   % deleted by function delZeroAreaPoly.
+%   opt.tolerance - For funtion simplifyBounds
+%                   Tolerance for polygon simplification.
+%                   Check Douglas-Peucker algorithm.
+%                   If u don't need to simplify, try tolerance = eps.
+%                   If the value of tolerance is too large, some polygons
+%                   will become line segment after simplification, and 
+%                   these polygons will be deleted by function 
+%                   delZeroAreaPoly.
+%                   Default value: 0.3
 %
-%   opt.threshold_num_vert_Sim  % For funtion simplifyBounds
-%                               % Threshold value for number of vertices in
-%                               % a polyline. 
+%   opt.threshold_num_vert_Sim - For funtion simplifyBounds
+%                                Threshold value for number of vertices in
+%                                a polyline. 
+%                                Default value: 0
 %
-%   opt.hmax      % For funtion poly2mesh
-%                 % Maximum mesh-size
+%   opt.hmax - Maximum mesh-size. Default value: 500
 %     
-%   opt.mesh_kind   % For funtion poly2mesh
-%                   % Method used to create mesh-size functions based on 
-%                   % an estimate of the "local-feature-size".
-%                   % Value: 'delaunay' or 'delfront' 
-%                   % "standard" Delaunay-refinement or
-%                   % "Frontal-Delaunay" technique
+%   opt.mesh_kind - Method used to create mesh-size functions based on 
+%                   an estimate of the "local-feature-size".
+%                   Value: 'delaunay' or 'delfront' 
+%                   Delaunay-refinement or "Frontal-Delaunay" technique
+%                   Default value: 'delaunay'
 % 
-%   opt.grad_limit  % For funtion poly2mesh
-%                   % Scalar gradient-limit for mesh
+%   opt.grad_limit - Scalar gradient-limit for mesh. Default value: 0.25
 %                  
-%   opt.select_phase  % select phase for meshing
-%                   % Parameter type: vector
-%                   % If 'select_phase' is [], all the phases will be
-%                   % chosen to perform meshing
-%                   % 'select_phase' is an index vector for sorted 
-%                   % grayscales (ascending order) in an image.
-%                   % For example, an image with grayscales of 40, 90,
-%                   % 200, 240, 255. If u're interested in 40, 200, and
-%                   % 240, then set 'select_phase' as [1 3 4]. Those 
-%                   % phases corresponding to grayscales of 40, 200, 
-%                   % and 240 will be chosen to perform meshing.
+%   opt.select_phase - Select phase for meshing
+%                      Parameter type: vector
+%                      If 'select_phase' is [], all the phases will be
+%                      chosen to perform meshing
+%                      'select_phase' is an index vector for sorted 
+%                      grayscales (ascending order) in an image.
+%                      For example, an image with grayscales of 40, 90,
+%                      200, 240, 255. If u're interested in 40, 200, and
+%                      240, then set 'select_phase' as [1 3 4]. Those 
+%                      phases corresponding to grayscales of 40, 200, 
+%                      and 240 will be chosen to perform meshing.
+%                      Default value: []
 %
-%   opt.tf_mesh % Whether to mesh. Boolean.
-%               % If true, meshing, else, no meshing & return boundsClear
+%   opt.tf_mesh - Whether to mesh. Boolean.
+%                 If true, meshing, else, no meshing & return boundsClear
+%                 Default value: true
 %   
 % output:
 %   vert, tria define linear elements. vert2, tria2 define 2nd order elements.
@@ -127,6 +128,7 @@ function [ vert, tria, tnum, vert2, tria2, conn, bounds ] = im2mesh( im, opt )
 % Project website: https://github.com/mjx888/im2mesh
 %
 
+    % --------------------------------------------------------------------
     % check the number of inputs
     if nargin == 1
         opt = [];
@@ -136,9 +138,11 @@ function [ vert, tria, tnum, vert2, tria2, conn, bounds ] = im2mesh( im, opt )
         error("check the number of inputs");
     end
 
+    % --------------------------------------------------------------------
     % verify field names and set values for opt
     opt = setOption( opt );
     
+    % --------------------------------------------------------------------
     % image to polygon boundary
     boundsRaw = im2Bounds( im );
     boundsCtrlP = getCtrlPnts( boundsRaw, opt.tf_avoid_sharp_corner, size(im) );
@@ -157,6 +161,7 @@ function [ vert, tria, tnum, vert2, tria2, conn, bounds ] = im2mesh( im, opt )
     boundsClear = getCtrlPnts( boundsSimplified, false );
     boundsClear = simplifyBounds( boundsClear, 0 );
     
+    % --------------------------------------------------------------------
     % select phase
     if isempty(opt.select_phase)
         % = do nothing = all phases will be chosen
@@ -168,14 +173,13 @@ function [ vert, tria, tnum, vert2, tria2, conn, bounds ] = im2mesh( im, opt )
         boundsClear = boundsClear( opt.select_phase );
     end
     
+    % --------------------------------------------------------------------
     bounds = boundsClear;
     
     if opt.tf_mesh == 1     % generate mesh
-        % get nodes and edges of polygonal boundary
-        [ poly_node, poly_edge ] = getPolyNodeEdge( bounds );
-        % generate triangular mesh
-        [ vert,tria,tnum,vert2,tria2,conn ] = poly2mesh( poly_node, poly_edge, ...
-                                    opt.hmax, opt.mesh_kind, opt.grad_limit );
+        optB2M.mesh_kind = opt.mesh_kind;
+        [ vert,tria,tnum,vert2,tria2,conn ] = bounds2mesh( bounds, opt.hmax, opt.grad_limit, optB2M );
+    
     else
         % no meshing
         % return bounds as output parameter
@@ -186,7 +190,8 @@ function [ vert, tria, tnum, vert2, tria2, conn, bounds ] = im2mesh( im, opt )
             return
         end
     end
-
+    
+    % --------------------------------------------------------------------
 end
 
 
