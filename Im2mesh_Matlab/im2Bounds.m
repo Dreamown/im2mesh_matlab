@@ -12,8 +12,7 @@ function bounds = im2Bounds( im )
 %          bounds{i}{j}(:,1) is x coordinate (column direction).
 %          bounds{i}{j}(:,2) is y coordinate (row direction). You can use
 %          plot( bounds{i}{j}(:,1), bounds{i}{j}(:,2) ) to view the
-%          polygon. Use plotBounds( bounds ) to view all polygons, check
-%          plotBounds.m.
+%          polygon. Use plotBounds( bounds ) to view all polygons.
 %   bounds{i} is boundary polygons for one phase
 %
 %

@@ -1,6 +1,7 @@
 function [ vert, tria, tnum, vert2, tria2, model1, model2 ] = im2meshBuiltIn( im, opt )
 % im2meshBuiltIn: generate triangular mesh based on segmented image
 %                 using matlab built-in function generateMesh
+%
 % usage:
 %   [ vert, tria, tnum ] = im2meshBuiltIn( im );   % this use default setting
 %   [ vert, tria, tnum ] = im2meshBuiltIn( im, opt );
@@ -9,60 +10,62 @@ function [ vert, tria, tnum, vert2, tria2, model1, model2 ] = im2meshBuiltIn( im
 %   [ vert, tria, tnum, vert2, tria2 ] = im2meshBuiltIn( im, opt );
 %
 % input
-%   im        % grayscale segmented image
+%   im - grayscale segmented image
 %
 %   opt - a structure array. It is the options for im2meshBuiltIn.
 %         It stores parameter settings for im2meshBuiltIn.
 %
-%   opt.tf_avoid_sharp_corner   % For function getCtrlPnts
-%                               % Whether to avoid sharp corner when 
-%                               % simplifying polygon.
-%                               % Value: true or false
-%                               % If true, two extra control points
-%                               % will be added around one original 
-%                               % control point to avoid sharp corner 
-%                               % when simplifying polygon.
-%                               % Sharp corner in some cases will make 
-%                               % poly2mesh not able to converge.
+%   opt.tf_avoid_sharp_corner - For function getCtrlPnts
+%                               Whether to avoid sharp corner when 
+%                               simplifying polygon.
+%                               Value: true or false
+%                               Sharp corner in some cases will make MESH2D
+%                               not able to converge.
+%                               Default value: false
 %
-%   opt.lambda      % Parameter for funtion smoothBounds (Taubin smoothing)
-%   opt.mu          % Parameter for funtion smoothBounds (Taubin smoothing)
-%   opt.iters       % Parameter for funtion smoothBounds (Taubin smoothing)
+%   opt.lambda - Taubin smoothing. Default value: 0.5
+%   opt.mu     - Taubin smoothing. Default value: -0.5
+%   opt.iters  - Taubin smoothing. Default value: 100
 %
-%   opt.threshold_num_turning   % For funtion smoothBounds
-%                               % Threshold value for the number of turning
-%                               % points in a polyline. 
+%   opt.threshold_num_turning - For funtion smoothBounds
+%                               Threshold value for the number of turning
+%                               points in a polyline. 
+%                               Default value: 0
 %
-%   opt.threshold_num_vert_Smo  % For funtion smoothBounds
-%                               % Threshold value for the number of 
-%                               % vertices in a polyline.
+%   opt.threshold_num_vert_Smo - For funtion smoothBounds
+%                                Threshold value for the number of 
+%                                vertices in a polyline.
+%                                Default value: 0
 %     
-%   opt.tolerance   % For funtion simplifyBounds
-%                   % Tolerance for polygon simplification.
-%                   % Check Douglas-Peucker algorithm.
-%                   % If u don't need to simplify, try tolerance = eps.
-%                   % If the value of tolerance is too large, some 
-%                   % polygons will become line segment after 
-%                   % simplification, and these polygons will be 
-%                   % deleted by function delZeroAreaPoly.
+%   opt.tolerance - For funtion simplifyBounds
+%                   Tolerance for polygon simplification.
+%                   Check Douglas-Peucker algorithm.
+%                   If u don't need to simplify, try tolerance = eps.
+%                   If the value of tolerance is too large, some polygons
+%                   will become line segment after simplification, and 
+%                   these polygons will be deleted by function 
+%                   delZeroAreaPoly.
+%                   Default value: 0.3
 %
-%   opt.threshold_num_vert_Sim  % For funtion simplifyBounds
-%                               % Threshold value for number of vertices in
-%                               % a polyline. 
-%   opt.select_phase
+%   opt.threshold_num_vert_Sim - For funtion simplifyBounds
+%                                Threshold value for number of vertices in
+%                                a polyline. 
+%                                Default value: 0
+%
+%   opt.select_phase - Default value: []
 %     
 %  Please check documentation of matlab built-in function generateMesh for 
 %  parameter hgrad, hmax, and hmin. 
 %  https://www.mathworks.com/help/pde/ug/pde.pdemodel.generatemesh.html
 %
 %   opt.hgrad       % For funtion poly2meshBuiltIn
-%                   % Mesh growth rate
+%                   % Mesh growth rate. Default value: 1.25
 %     
 %   opt.hmax        % For funtion poly2meshBuiltIn
-%                   % Target maximum mesh edge length
+%                   % Target maximum mesh edge length. Default value: 500
 % 
-%   opt. hmin       % For funtion poly2meshBuiltIn
-%                   % Target minimum mesh edge length
+%   opt.hmin        % For funtion poly2meshBuiltIn
+%                   % Target minimum mesh edge length. Default value: 1
 %   
 % output:
 %   vert, tria define linear elements. vert2, tria2 define 2nd order elements.
@@ -98,7 +101,8 @@ function [ vert, tria, tnum, vert2, tria2, model1, model2 ] = im2meshBuiltIn( im
 % 
 % Project website: https://github.com/mjx888/im2mesh
 %
-   
+
+   % --------------------------------------------------------------------
     % check the number of inputs
     if nargin == 1
         opt = [];
@@ -108,9 +112,11 @@ function [ vert, tria, tnum, vert2, tria2, model1, model2 ] = im2meshBuiltIn( im
         error("check the number of inputs");
     end
 
+    % --------------------------------------------------------------------
     % verify field names and set values for opt
     opt = setOption( opt );
     
+    % --------------------------------------------------------------------
     % image to polygon boundary
     boundsRaw = im2Bounds( im );
     boundsCtrlP = getCtrlPnts( boundsRaw, opt.tf_avoid_sharp_corner, size(im) );
@@ -129,6 +135,7 @@ function [ vert, tria, tnum, vert2, tria2, model1, model2 ] = im2meshBuiltIn( im
     boundsClear = getCtrlPnts( boundsSimplified, false );
     boundsClear = simplifyBounds( boundsClear, 0 );
     
+    % --------------------------------------------------------------------
     % select phase
     if isempty(opt.select_phase)
         % = do nothing = all phases will be chosen
@@ -140,6 +147,7 @@ function [ vert, tria, tnum, vert2, tria2, model1, model2 ] = im2meshBuiltIn( im
         boundsClear = boundsClear( opt.select_phase );
     end
 
+    % --------------------------------------------------------------------
     % get nodes and edges of polygonal boundary
     [ poly_node, poly_edge ] = getPolyNodeEdge( boundsClear );
     % Convert boundaries to a cell array of polyshape object
@@ -148,6 +156,7 @@ function [ vert, tria, tnum, vert2, tria2, model1, model2 ] = im2meshBuiltIn( im
     [vert,tria,tnum,vert2,tria2,~,~,model1,model2] = poly2meshBuiltIn( poly_node, poly_edge, pcell, ...
                                         opt.hgrad, opt.hmax, opt.hmin );
 
+    % --------------------------------------------------------------------
 end
 
 
