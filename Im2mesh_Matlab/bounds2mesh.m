@@ -67,6 +67,7 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
 %   opt.disp - Verbosity. Set as 'inf' to mute verbosity.
 %              Default value: 10
 %
+%
 % output:
 %   vert, tria define linear elements. vert2, tria2 define 2nd order elements.
 %
@@ -128,7 +129,8 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
     end
 
     % ---------------------------------------------------------------------
-    % create geometry
+    % create geometry (planar straight-line graph)
+
     % get nodes and edges (cell array) of polygonal boundary
     [ poly_node, poly_edge ] = getPolyNodeEdge( bounds );
 
@@ -151,7 +153,26 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
     % part - cell array. Used to record phase info.
     %        part{i} is edge indexes of the i-th phase, indicating which 
     %        edges make up the boundary of the i-th phase.
+
+    % ---------------------------------------------------------------------
+    % Check min edge length. If smaller than threshold, show warning.
+
+    p1 = node(edge(:,1), :);
+    p2 = node(edge(:,2), :);
+    
+    % Euclidean length of every edge
+    edgeLen = hypot( p1(:,1)-p2(:,1), p1(:,2)-p2(:,2) );
+    minLen = min(edgeLen);
 	
+    threshold = 0.01;
+    if minLen < threshold
+        warning( '\n%s\n%s\n%s\n%s\n', ...
+        'Minimum edge smaller than 0.01 is detected in the input geometry.', ...
+        'Some boundary nodes may lose due to numerical roundoff error.', ...
+        'Please be cautious about the result of mesh generation.', ...
+        'You can scale the coordinates of input geometry globally to avoid this roundoff error.');
+    end
+
     % ---------------------------------------------------------------------
     % add extra nodes according to opt.pnt_size
 
@@ -295,7 +316,7 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
         etri = enew;
         tria = tnew;
     end
-    
+
     % ---------------------------------------------------------------------
     % Get 2nd order elements
     [ vert2, tria2 ] = insertNode( vert, tria );
