@@ -329,20 +329,43 @@ function label_ctrlpnt = updateLabel( poly1, poly2, label_ctrlpnt )
     if all(~tf_vector)	% none of the vertices of poly1 is on poly2
         return
     elseif all(tf_vector)   % all of the vertices of poly1 is on poly2
-        return              % the case of hidden control point
-    else                % some of the vertices of poly1 is on poly2
-        for i = 1: length(tf_vector)
-            if tf_vector(i)
-                % first or last vertex-index of a common edge
-                if i == 1 || i == length(tf_vector) ...
-                        || ~tf_vector(i-1) || ~tf_vector(i+1)
-                    label_ctrlpnt( i ) = true;
-                end
-            end
-        end
+                            % the case of hidden control point
+        % add mid point and search control point again 
+        poly11 = insertMidPnt( poly1 );     % (2p-1) by 2 array
+        poly22 = insertMidPnt( poly2 );
+        tf_v = isvertex( poly11, poly22 );   % boolean vector
+        if all(tf_v),  return; end
+        
+        % handle hidden control point
+        tf_v = ~tf_v;                                    % [ 0 1 0 0 0 1 0 ]
+        tf_v = circshift(tf_v, 1) | circshift(tf_v, -1); % [ 1 0 1 0 1 0 1 ]
+        idxTemp = find(tf_v);
+        idx = (idxTemp+1)/2;
+        label_ctrlpnt(idx) = true;
 
+    else                % some of the vertices of poly1 is on poly2
+        % % slow version
+        % for i = 1: length(tf_vector)
+        %     if tf_vector(i)
+        %         % first or last vertex-index of a common edge
+        %         if i == 1 || i == length(tf_vector) ...
+        %                 || ~tf_vector(i-1) || ~tf_vector(i+1)
+        %             label_ctrlpnt( i ) = true;
+        %         end
+        %     end
+        % end
+        
+        % fast version
+        % find "boundary" vertices of a common edge
+        % A TRUE element is *left* OR *right* neighbour is FALSE
+        leftNeighbour  = [false; tf_vector(1:end-1)];   % pad with FALSE on the left
+        rightNeighbour = [tf_vector(2:end) ; false];    % pad with FALSE on the right
+        
+        boundaryMask = tf_vector & ~(leftNeighbour & rightNeighbour);
+        %                 ^ TRUE vertex   ^ at least one neighbour is FALSE
+        
+        label_ctrlpnt( boundaryMask ) = true;
     end
-    
 end
 
 function tf = isBBoxIntersect( poly1, poly2 )
