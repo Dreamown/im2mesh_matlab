@@ -158,8 +158,9 @@ function [ vert, tria, tnum, vert2, tria2, conn, bounds ] = im2mesh( im, opt )
 
     % clear up redundant vertices
     % only control points and turning points will remain
-    boundsClear = getCtrlPnts( boundsSimplified, false );
-    boundsClear = simplifyBounds( boundsClear, 0 );
+    boundsClear = getCtrlPnts( boundsSimplified );
+    boundsClear = simplifyBounds( boundsClear, 0.5*opt.tolerance, ...
+                                            opt.threshold_num_vert_Sim );
     
     % --------------------------------------------------------------------
     % select phase
