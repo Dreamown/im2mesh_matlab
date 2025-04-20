@@ -60,6 +60,8 @@ function [vert,tria,tnum,vert2,tria2,mesh1,mesh2,model1,model2] = poly2meshBuilt
 % Project website: https://github.com/mjx888/im2mesh
 %
 
+    warning("poly2meshBuiltIn is deprecated. Please use function bounds2meshBuiltIn instead.");
+
     % ---------------------------------------------------------------------
     % Use function regroup to organize cell array poly_node, poly_edge into
     % array node, edge.
