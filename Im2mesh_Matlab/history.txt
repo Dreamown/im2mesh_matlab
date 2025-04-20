@@ -1,0 +1,6 @@
+fix the issue of failing to delete redundant vertex
+fix the crash issue of function bounds2meshBuiltIn
+
+poly2meshBuiltIn is deprecated
+
+need to add comment to function bounds2meshBuiltIn
