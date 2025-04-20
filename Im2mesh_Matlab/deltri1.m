@@ -34,7 +34,7 @@ function [vert,conn,tria,tnum] = deltri1( node, edge, part )
 
     for ppos = 1 : length(part)
        [stat] = inpoly2( tmid, node, PSLG(part{ppos},:) );
-       tnum(stat)  = ppos ;
+       tnum(stat)  = ppos;
     end
     %------------------------------------ keep "interior" tria's
     tria = tria(tnum>+0,:) ;
