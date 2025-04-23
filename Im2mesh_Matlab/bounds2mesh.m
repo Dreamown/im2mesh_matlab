@@ -67,10 +67,6 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
 %   opt.disp - Verbosity. Set as 'inf' to mute verbosity.
 %              Default value: 10
 %
-%   opt.tf_initial_mesh - Boolean. Value: 0 or 1. Whether to generate
-%                         inital mesh only.
-%                         Default value: 0
-%
 %
 % output:
 %   vert, tria define linear elements. vert2, tria2 define 2nd order elements.
@@ -176,7 +172,7 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
         'Please be cautious about the result of mesh generation.', ...
         'You can scale the coordinates of input geometry globally to avoid this roundoff error.');
     end
-    
+
     % ---------------------------------------------------------------------
     % add extra nodes according to opt.pnt_size
 
@@ -207,16 +203,6 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
         
         % add to global
         [ node, edge ] = joinNodeEdge( node,edge, node_ex,edge_ex );
-    end
-
-    % ---------------------------------------------------------------------
-    % check whether to return inital mesh only
-    
-    if opt.tf_initial_mesh == 1
-        % Delaunay triangulation using function deltri1
-        [vert,etri,tria,tnum] = deltri1( node, edge, part );
-        [vert2,tria2] = insertNode( vert, tria );     % 2nd order elements
-        return
     end
 
     % ---------------------------------------------------------------------
@@ -352,7 +338,6 @@ function new_opt = setOption( opt )
     new_opt.pnt_size = [];
     new_opt.interior_poly = {};
     new_opt.disp = 10;
-    new_opt.tf_initial_mesh = 0;
 
     if isempty(opt)
         return
