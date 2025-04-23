@@ -4,3 +4,15 @@ fix the crash issue of function bounds2meshBuiltIn
 poly2meshBuiltIn is deprecated
 
 need to add comment to function bounds2meshBuiltIn
+
+
+
+
+
+
+
+% Delaunay triangulation using function deltri1
+[vert,etri,tria,tnum] = deltri1( node, edge, part );
+[vert2,tria2] = insertNode( vert, tria );     % 2nd order elements
+return
+
