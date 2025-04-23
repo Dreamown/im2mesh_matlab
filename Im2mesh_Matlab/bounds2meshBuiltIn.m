@@ -103,45 +103,12 @@ function [vert,tria,tnum,vert2,tria2,model1,model2] = bounds2meshBuiltIn( bounds
 
     vert = model.Mesh.Nodes';
     tria = model.Mesh.Elements';
-    tnum = zeros(size(tria,+1),+1) ;
-
-    % tria midpoint
-    tmid = vert(tria(:,1),:) ...
-         + vert(tria(:,2),:) ...
-         + vert(tria(:,3),:) ;
-    tmid = tmid / +3.0;
-    
-    % calc. "inside" status
-    PSLG = edge;
-    for ppos = 1: length(part)
-       [stat] = inpoly2( tmid, node, PSLG(part{ppos},:) );
-       tnum(stat)  = ppos;
-    end
-    
-    % keep "interior" tria's
-    tria = tria(tnum>+0,:) ;
-    tnum = tnum(tnum>+0,:) ;
+    [vert,tria,tnum] = addPhaseLabel(vert,tria,node,edge,part);
 
     % ---------------------------------------------------------------------
     % remove background padding
     if opt.tf_padBG == 1
-        tn_BG = max(tnum);     % phase number of background padding
-        tf_BG = (tnum == tn_BG);
-        
-        tria( tf_BG, :) = [];
-        tnum( tf_BG ) = [];
-
-        % remove redundant vertex and update tria, tnum
-        % 1. Find all node indices that the mesh actually uses
-        keep = unique(tria(:));     % column vector of used node IDs
-        
-        % 2. Build a lookup table that maps old IDs -> new consecutive IDs
-        map = zeros( size(vert,1), 1 );
-        map(keep) = 1:numel(keep);  % assign new IDs only to kept nodes
-        
-        % 3. Update
-        vert = vert( keep, :);
-        tria = map(tria);
+        [vert,tria,tnum] = removeLastPhase(vert,tria,tnum);
     end
 
     % ---------------------------------------------------------------------
@@ -234,6 +201,49 @@ function newB = padBackground( bounds )
     % --------------------------------------------------------------------
 end
 
+function [vert,tria,tnum] = addPhaseLabel(vert,tria,node,edge,part)
+% add phase label to mesh according to node, edge, part
 
+    tnum = zeros(size(tria,+1),+1);
+
+    % tria midpoint
+    tmid = vert(tria(:,1),:) ...
+         + vert(tria(:,2),:) ...
+         + vert(tria(:,3),:) ;
+    tmid = tmid / +3.0;
+    
+    % calc. "inside" status
+    PSLG = edge;
+    for ppos = 1: length(part)
+       [stat] = inpoly2( tmid, node, PSLG(part{ppos},:) );
+       tnum(stat)  = ppos;
+    end
+    
+    % keep "interior" tria's
+    tria = tria(tnum>+0,:) ;
+    tnum = tnum(tnum>+0,:) ;
+end
+
+function [vert,tria,tnum] = removeLastPhase(vert,tria,tnum)
+% removeLastPhase: remove the last phase in the mesh
+
+    tn_BG = max(tnum);     % phase number of background padding
+    tf_BG = (tnum == tn_BG);
+    
+    tria( tf_BG, :) = [];
+    tnum( tf_BG ) = [];
+
+    % remove redundant vertex and update tria, tnum
+    % 1. Find all node indices that the mesh actually uses
+    keep = unique(tria(:));     % column vector of used node IDs
+    
+    % 2. Build a lookup table that maps old IDs -> new consecutive IDs
+    map = zeros( size(vert,1), 1 );
+    map(keep) = 1:numel(keep);  % assign new IDs only to kept nodes
+    
+    % 3. Update
+    vert = vert( keep, :);
+    tria = map(tria);
+end
 
 
