@@ -67,6 +67,10 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
 %   opt.disp - Verbosity. Set as 'inf' to mute verbosity.
 %              Default value: 10
 %
+%   opt.hinitial - initial mesh size when creating local feature size
+%                  function. It's used to avoid atrraction issue when 
+%                  specifying mesh size at multiple points.
+%                  Default value: []
 %
 % output:
 %   vert, tria define linear elements. vert2, tria2 define 2nd order elements.
@@ -165,6 +169,9 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
         'Please be cautious about the result of mesh generation.');
     end
 
+    % The issue of roundoff error occur occasionaly on my pc. Nonconsitent.
+    % Wierd. Maybe it is caused instability of my pc.
+
     % ---------------------------------------------------------------------
     % add extra nodes according to opt.pnt_size
 
@@ -199,9 +206,8 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
 
     % ---------------------------------------------------------------------
     % Create mesh size function
-    % LFSHFN2 routine is used to create mesh-size functions 
-    % based on an estimate of the "local-feature-size" 
-    % associated with a polygonal domain. 
+    % LFSHFN2 routine is used to create mesh-size functions based on an 
+    % estimate of the local-feature-size associated with a polygonal domain 
     
     optLfs.kind = opt.mesh_kind;    % Method for mesh-size functions
                                     % Value: 'delaunay' or 'delfront' 
@@ -211,8 +217,11 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
                                 % default +0.2500
 
     optLfs.disp = opt.disp;
+
+    if opt.hinitial <= 0,  opt.hinitial = [];  end
+    hinitial = opt.hinitial;
     
-    [vlfs,tlfs, hlfs] = lfshfn2( node, edge, part, optLfs );
+    [vlfs,tlfs, hlfs] = lfshfn2( node, edge, part, optLfs, hinitial );
 
     % ---------------------------------------------------------------------
     % modify mesh size field hlfs according to opt.local_max
@@ -330,6 +339,7 @@ function new_opt = setOption( opt )
     new_opt.pnt_size = [];
     new_opt.interior_poly = {};
     new_opt.disp = 10;
+    new_opt.hinitial = [];
 
     if isempty(opt)
         return
