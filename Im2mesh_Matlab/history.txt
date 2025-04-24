@@ -3,9 +3,14 @@ Fix the crash issue of function bounds2meshBuiltIn
 
 poly2meshBuiltIn is deprecated
 
+Function bounds2mesh
 Revise the default value and valid range of parameter 'opt.bound_size 'in function bounds2mesh
 opt.bound_size - Default value: 0
 Uniform mesh seed will be added to boundary when opt.bound_size > 0.
+## Need to revise demo17 correspondingly
+
+Function bounds2mesh add parameter opt.hinitial
+Used to avoid atrraction issue when specifying mesh size at multiple points.
 ## Need to revise demo17 correspondingly
 
 need to add comment to function bounds2meshBuiltIn
