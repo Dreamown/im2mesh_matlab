@@ -42,8 +42,8 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
 %                    boundary). This is used to refine mesh near all 
 %                    polygonal boundary, which maybe useful in some cases.
 %                    If you don t need to refine mesh near boundary, you 
-%                    can set bound_size to 0 or a value < 0.05 or ≥ 500.
-%                    Default value: 500
+%                    can set bound_size to 0.
+%                    Default value: 0
 %
 %   opt.local_max - n-by-2 array, used to specify max mesh size in a part.
 %                   '[2, 0.5; 3, 0.15]' means that max mesh size in part 2
@@ -115,7 +115,7 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
     % ---------------------------------------------------------------------
     % Add uniform seeds to all boundaries according to opt.bound_size
     
-    if opt.bound_size >= 0.05 || opt.bound_size < 500
+    if opt.bound_size > 0
         space = opt.bound_size;  % space between seeds
         n_digit = 2;
         
@@ -133,15 +133,8 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
 
     % get nodes and edges (cell array) of polygonal boundary
     [ poly_node, poly_edge ] = getPolyNodeEdge( bounds );
-
-    % poly_node{i}, poly_edge{i} corresponds to polygons in the i-th phase.
-    % poly_node{i} - N-by-2 array. x,y coordinates of vertices in polygon.
-    %                Each row is one vertex.
-    % poly_edge{i} - M-by-2 array. Node numbering of two connecting 
-    %                vertices in polygon. Each row is one edge.
     
-    % Use function regroup to organize cell array poly_node, poly_edge into
-    % array node, edge & part (planar straight-line graph)
+    % create planar straight-line graph
     [ node, edge, part ] = regroup( poly_node, poly_edge );
     
     % node, edge - array. Nodes and edges of all polygonal boundary
@@ -166,11 +159,10 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
 	
     threshold = 0.05;
     if minLen < threshold
-        warning( '\n%s\n%s\n%s\n%s\n', ...
+        warning( '\n%s\n%s\n%s\n%', ...
         'Edge length smaller than 0.05 is detected in the input geometry.', ...
         'Some boundary nodes may lose due to numerical roundoff error.', ...
-        'Please be cautious about the result of mesh generation.', ...
-        'You can scale the coordinates of input geometry globally to avoid this roundoff error.');
+        'Please be cautious about the result of mesh generation.');
     end
 
     % ---------------------------------------------------------------------
@@ -316,7 +308,7 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
         etri = enew;
         tria = tnew;
     end
-
+    
     % ---------------------------------------------------------------------
     % Get 2nd order elements
     [ vert2, tria2 ] = insertNode( vert, tria );
@@ -333,7 +325,7 @@ function new_opt = setOption( opt )
     new_opt.mesh_kind = 'delaunay';
     new_opt.tf_smooth = true;
     new_opt.num_split = 0;
-    new_opt.bound_size = 500;
+    new_opt.bound_size = 0;
     new_opt.local_max = [];
     new_opt.pnt_size = [];
     new_opt.interior_poly = {};
