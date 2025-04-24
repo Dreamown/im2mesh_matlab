@@ -166,9 +166,10 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
         warning( '\n%s\n%s\n%s\n%', ...
         'Edge length smaller than 0.05 is detected in the input geometry.', ...
         'Some boundary nodes may lose due to numerical roundoff error.', ...
-        'Please be cautious about the result of mesh generation.');
+        'Please check the mesh visually to confirm there is no distortion in the geometry.');
     end
 
+    % Note:
     % The issue of roundoff error occur occasionaly on my pc. Nonconsitent.
     % Wierd. Maybe it is caused instability of my pc.
 
