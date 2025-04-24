@@ -16,12 +16,17 @@ function [vert,tria,tnum,vert2,tria2,model1,model2] = bounds2meshBuiltIn( bounds
 %            plot( bounds{i}{j}(:,1), bounds{i}{j}(:,2) ) to view the
 %            polygon. Use plotBounds( bounds ) to view all polygons.
 %
-% (Please check documentation of matlab built-in function generateMesh.)
-%     hgrad       % Mesh growth rate
-%     
-%     hmax        % Target maximum mesh edge length
-% 
-%     hmin        % Target minimum mesh edge length
+%   (Please check documentation of matlab built-in function generateMesh.)
+%   hgrad       % Mesh growth rate
+%   hmax        % Target maximum mesh edge length
+%   hmin        % Target minimum mesh edge length
+%
+%   opt - a structure array. It is the options for bounds2meshBuiltIn.
+%         It stores extra parameter settings for bounds2meshBuiltIn.
+%
+%   opt.tf_padBG - Boolean. Whether to add padding to background to fix 
+%                  crash issue.
+%                  Default value: true
 %   
 % output:
 %   vert, tria define linear elements. vert2, tria2 define 2nd order elements.
