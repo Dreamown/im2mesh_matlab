@@ -65,6 +65,23 @@ function [vert,tria,tnum,vert2,tria2,model1,model2] = bounds2meshBuiltIn( bounds
 %
 
     % ---------------------------------------------------------------------
+    % check matlab version
+    if verLessThan('matlab','9.4')         % < R2018a (9.4)
+        error( '%s\n\n%s', ...
+            'Not support multidomain geometry.', ...
+            'Please update Matlab to a newer version (>R2018a).' ...
+            );
+    end                                    % >= R2018a (9.4)
+    
+    % check pde toolbox
+    toolboxes = ver;
+    installed = any(strcmp( 'Partial Differential Equation Toolbox', ...
+                            {toolboxes.Name}));
+    if ~installed
+        error('To use this function, please install Matlab PDE Toolbox');
+    end
+    
+    % ---------------------------------------------------------------------
     % check the number of inputs
     if nargin == 4
         opt = [];
@@ -100,7 +117,7 @@ function [vert,tria,tnum,vert2,tria2,model1,model2] = bounds2meshBuiltIn( bounds
     % pdegplot(model,'FaceLabels','on')
 
     generateMesh( model, 'Hgrad', hgrad, 'Hmax', hmax, ... 
-                            'Hmin', hmin, 'GeometricOrder', 'linear' );
+                         'Hmin', hmin, 'GeometricOrder', 'linear' );
     % pdemesh(model)
     
     % ---------------------------------------------------------------------
@@ -207,7 +224,7 @@ function newB = padBackground( bounds )
 end
 
 function [vert,tria,tnum] = addPhaseLabel(vert,tria,node,edge,part)
-% add phase label to mesh according to node, edge, part
+% addPhaseLabel: add phase label to mesh according to node, edge, part
 
     tnum = zeros(size(tria,+1),+1);
 
