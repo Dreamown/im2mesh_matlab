@@ -4,6 +4,7 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
 %              See demo17 for the usage example of function bounds2mesh.
 %
 % usage:
+%   [vert,tria,tnum] = bounds2mesh( bounds, hmax, grad_limit );
 %   [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_limit );
 %   [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_limit, opt );
 % 
@@ -131,7 +132,7 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
 	        end
         end
     end
-
+    
     % ---------------------------------------------------------------------
     % create geometry (planar straight-line graph)
 
@@ -172,37 +173,19 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
     % Note:
     % The issue of roundoff error occur occasionaly on my pc. Nonconsitent.
     % Wierd. Maybe it is caused instability of my pc.
-
+    
     % ---------------------------------------------------------------------
     % add extra nodes according to opt.pnt_size
 
     if ~isempty( opt.pnt_size )
-        xys = opt.pnt_size( :, 1:2 );
-        tf_vec = isvertex( xys, node );
-        
-        xys = xys( ~tf_vec, : );    % find 'xys' not existing in 'node'
-        node = [node; xys];         % append
+        node = addNode( node, opt.pnt_size );
     end
 
     % ---------------------------------------------------------------------
     % add extra nodes and interior edges according to opt.interior_poly
 
     if ~isempty( opt.interior_poly )
-        % convert polyline (opt.interior_poly) to node, edge (PSLG)
-        
-        pCell = opt.interior_poly;     % a cell array of polyline
-        node_ex = [];
-        edge_ex = [];
-        
-        for i = 1:length(pCell)
-            node_t = pCell{i};      % t means temp
-            nn = length(node_t);    % nn is the number of nodes
-            edge_t = [(1:nn-1)', (2:nn)'];
-            [ node_ex, edge_ex ] = joinNodeEdge( node_ex,edge_ex, node_t,edge_t );
-        end
-        
-        % add to global
-        [ node, edge ] = joinNodeEdge( node,edge, node_ex,edge_ex );
+        [ node, edge ] = addInteriorEdge( node, edge, opt.interior_poly );
     end
 
     % ---------------------------------------------------------------------
@@ -222,31 +205,16 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
     if opt.hinitial <= 0,  opt.hinitial = [];  end
     hinitial = opt.hinitial;
     
-    [vlfs,tlfs, hlfs] = lfshfn2( node, edge, part, optLfs, hinitial );
-
+    [vlfs,tlfs,hlfs] = lfshfn2( node, edge, part, optLfs, hinitial );
+    
     % ---------------------------------------------------------------------
     % modify mesh size field hlfs according to opt.local_max
     % opt.local_max is mesh size in a part
 
     if ~isempty(opt.local_max)
-        % create a vector for local max mesh size
-        size_vec = hmax * ones( size(hlfs,1), 1 );
+        hlfs = setLocalMax(node,edge,part,hmax,vlfs, hlfs, opt.local_max );
         
-        numPart2Refine = size( opt.local_max, 1 );
-        
-        % set size_vec
-        for i = 1: numPart2Refine
-	        idx = opt.local_max(i,1);    % part index
-	        lmax = opt.local_max(i,2);   % local max mesh size
-            
-	        tf_in = inpoly2( vlfs, node, edge(part{idx},:) );
-	        size_vec(tf_in) = lmax;
-        end
-        
-        hlfs = min( size_vec, hlfs );
-        
-        % push gradient limits
-        hlfs = limhfn2(vlfs,tlfs,hlfs,grad_limit) ;
+        hlfs = limhfn2(vlfs,tlfs,hlfs,grad_limit);  % push gradient limits
     end
     
     % ---------------------------------------------------------------------
@@ -254,19 +222,9 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
     % opt.pnt_size is mesh size at a point
     
     if ~isempty( opt.pnt_size )
-        xys = opt.pnt_size( :, 1:2 );   % point x y
-        lsize = opt.pnt_size( :, 3 );   % local mesh size at a point
-
-        [tf_vec, loc] = isvertex( xys, vlfs );
-        if ~all(tf_vec)
-            error('Wierd case. Probably the point is outside of polygon.');  
-        end
+        hlfs = setPntSize( vlfs, hlfs, opt.pnt_size );
         
-        % modify mesh size field hlfs
-        hlfs(loc) = lsize;
-        
-        % push gradient limits
-        hlfs = limhfn2(vlfs,tlfs,hlfs,grad_limit) ;
+        hlfs = limhfn2(vlfs,tlfs,hlfs,grad_limit);  % push gradient limits
     end
 
     % ---------------------------------------------------------------------
@@ -301,7 +259,7 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
     % element shape is preserved.
     
     if opt.num_split > 0
-        vnew = vert;
+        vnew = vert;    
         enew = etri;
         tnew = tria;
         
@@ -369,6 +327,78 @@ function new_opt = setOption( opt )
     end
 
 end
+
+
+function [ node, edge ] = addInteriorEdge( node, edge, polyCell )
+% addInteriorEdge: add extra nodes and interior edges according to polyCell
+% polyCell is a cell array of polyline
+
+    % convert polylines (polyCell) to node, edge (PSLG)
+    node_ex = [];
+    edge_ex = [];
+    
+    for i = 1:length(polyCell)
+        node_t = polyCell{i};      % t means temp
+        nn = length(node_t);       % nn is the number of nodes
+        edge_t = [(1:nn-1)', (2:nn)'];
+        [ node_ex, edge_ex ] = joinNodeEdge( node_ex,edge_ex, node_t,edge_t );
+    end
+    
+    % add to global
+    [ node, edge ] = joinNodeEdge( node,edge, node_ex,edge_ex );
+end
+
+
+function hlfs = setLocalMax( node, edge, part, hmax, vlfs, hlfs, local_max )
+% setLocalMax: modify mesh size field hlfs according to local_max
+% local_max is mesh size in a part
+
+    % create a vector for local max mesh size
+    size_vec = hmax * ones( size(hlfs,1), 1 );
+    
+    numPart2Refine = size( local_max, 1 );
+    
+    % set size_vec
+    for i = 1: numPart2Refine
+        idx = local_max(i,1);    % part index
+        lmax = local_max(i,2);   % local max mesh size
+        
+        tf_in = inpoly2( vlfs, node, edge(part{idx},:) );
+        size_vec(tf_in) = lmax;
+    end
+    
+    hlfs = min( size_vec, hlfs );
+    
+end
+
+function hlfs = setPntSize( vlfs, hlfs, pnt_size )
+% setPntSize: modify mesh size field hlfs according to pnt_size
+% pnt_size is mesh size at a point
+    
+    xys = pnt_size( :, 1:2 );   % point x y
+    lsize = pnt_size( :, 3 );   % local mesh size at a point
+
+    [tf_vec, loc] = isvertex( xys, vlfs );
+    if ~all(tf_vec)
+        error('Wierd case. Probably the point is outside of polygon.');  
+    end
+    
+    % modify mesh size field hlfs
+    hlfs(loc) = lsize;
+end
+
+function node = addNode( node, pnt_size )
+% addNode: add extra nodes according to pnt_size
+
+    xys = pnt_size( :, 1:2 );
+    tf_vec = isvertex( xys, node );
+    
+    xys = xys( ~tf_vec, : );    % find 'xys' not existing in 'node'
+    node = [node; xys];         % append
+end
+
+
+
 
 
 
