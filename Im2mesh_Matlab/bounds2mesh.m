@@ -183,7 +183,7 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
 
     % ---------------------------------------------------------------------
     % add extra nodes and interior edges according to opt.interior_poly
-
+    
     if ~isempty( opt.interior_poly )
         [ node, edge ] = addInteriorEdge( node, edge, opt.interior_poly );
     end
