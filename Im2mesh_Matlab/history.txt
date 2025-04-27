@@ -12,7 +12,9 @@ Function bounds2mesh - add parameter opt.hinitial. It's used to avoid atrraction
 
 
 
-
+new function:
+bounds2meshBuiltIn
+bounds2geo 	## need to add comments
 
 
 
