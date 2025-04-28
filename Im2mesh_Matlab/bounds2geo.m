@@ -117,7 +117,7 @@ function bounds2geo( bounds, path_to_geo, opt )
     
     fclose(fid);
 
-    disp('printGeo Done! Check the geo file!');
+    disp('bounds2geo Done! Check the geo file!');
     %---------------------------------------------------------------------
 end
 
