@@ -1,6 +1,6 @@
 function plotMeshes( vert, ele, tnum )
-% plotMeshes: plot triangular finite element mesh
-% Also works for quadratic or quadrilateral elements
+% plotMeshes: plot triangular or quadrilateral finite element mesh
+% Works for linear and quadratic elements
 %
 % Nodes must be counter-clockwise ordering in an linear element.
 %
