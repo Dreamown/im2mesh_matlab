@@ -26,8 +26,9 @@ function bounds2geo( bounds, path_to_geo, opt )
     opt = setOption( opt );
 
     %---------------------------------------------------------------------
-    % create mesh size field based on MESH2D
-    if opt.grad_mode == 2
+    % check opt.grad_mode
+
+    if opt.grad_mode == 2       % create mesh size field based on MESH2D
         hmax = opt.sizeMax;
         grad_limit = opt.sizeSlope;
         optLfs.bound_size = opt.sizeAtBound;
@@ -38,6 +39,7 @@ function bounds2geo( bounds, path_to_geo, opt )
         path_to_pos = 'sizes.pos';
         
         [vlfs,hlfs] = getLfsMESH2D( bounds, hmax, grad_limit, optLfs );
+        % save the mesh size field to .pos file
         printSizePos( vlfs, hlfs, path_to_pos );
     end
 
