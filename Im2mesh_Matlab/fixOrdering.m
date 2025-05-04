@@ -7,7 +7,7 @@ function ele = fixOrdering( vert, ele )
 %         area. Clockwise ordering produce negative area.
 %
 % usage:
-%   ele = fixOrdering( vert, ele )
+%   ele = fixOrdering( vert, ele );
 % 
 % input:
 %   vert: Mesh nodes. It’s a Nn-by-2 matrix, where 
