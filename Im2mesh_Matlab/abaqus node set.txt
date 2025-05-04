@@ -1,0 +1,91 @@
+% 	Nset
+% 		xmin, xmax, ymin, ymax
+% 		interfnode
+
+% get node set, used to define interface and boundary condition
+interfnode_cell = getInterf( nodecoor_cell );
+[ xmin_node_cell, xmax_node_cell, ...
+  ymin_node_cell, ymax_node_cell ] = getBCNode( nodecoor_cell );
+  
+  
+% ------------------------------------------------------------------------
+% Nset
+
+% xmin
+for i = 1: num_phase
+	if ~isempty( xmin_node_cell{i} )
+		fprintf( fid, [...
+			'*Nset, nset=Set-%c-Xmin, instance=Part-%c-1'   '\n'...
+			], part_char(i), part_char(i) );
+		printSet( fid, xmin_node_cell{i} );
+	end
+end
+
+% xmax
+for i = 1: num_phase
+	if ~isempty( xmax_node_cell{i} )
+		fprintf( fid, [...
+			'*Nset, nset=Set-%c-Xmax, instance=Part-%c-1'   '\n'...
+			], part_char(i), part_char(i) );
+		printSet( fid, xmax_node_cell{i} );
+	end
+end
+
+% ymin
+% u can use this node set to define boundary condition
+% example:
+% ** Name: BC-FixY Type: Displacement/Rotation
+% *Boundary
+% Set-A-Ymin, 2, 2
+for i = 1: num_phase
+	if ~isempty( ymin_node_cell{i} )
+		fprintf( fid, [...
+			'*Nset, nset=Set-%c-Ymin, instance=Part-%c-1'   '\n'...
+			], part_char(i), part_char(i) );
+		printSet( fid, ymin_node_cell{i} );
+	end
+end
+
+% ymax
+for i = 1: num_phase
+	if ~isempty( ymax_node_cell{i} )
+		fprintf( fid, [...
+			'*Nset, nset=Set-%c-Ymax, instance=Part-%c-1'   '\n'...
+			], part_char(i), part_char(i) );
+		printSet( fid, ymax_node_cell{i} );
+	end
+end
+
+% node at interface
+for i = 1: num_phase-1
+	for j = i+1: num_phase
+		if ~isempty( interfnode_cell{i,j} )
+			% node in part i of interface i,j
+			fprintf( fid, [...
+				'*Nset, nset=Set-%c-Interf%c%c, instance=Part-%c-1' '\n'...
+				], part_char(i), part_char(i), part_char(j), part_char(i) );
+			printSet( fid, interfnode_cell{i,j} );
+			
+			% node in part j of interface i,j
+			fprintf( fid, [...
+				'*Nset, nset=Set-%c-Interf%c%c, instance=Part-%c-1' '\n'...
+				], part_char(j), part_char(i), part_char(j), part_char(j) );
+			printSet( fid, interfnode_cell{j,i} );
+		end
+	end
+end
+
+fprintf( fid, '%s\n', '**' );
+
+
+% ------------------------------------------------------------------------
+function printSet( fid, nodeset )
+
+    for i=1:length(nodeset)
+        if mod( i, 16 ) == 0 || i == length(nodeset)
+            fprintf( fid, '%d\n', nodeset(i) );
+        else
+            fprintf( fid, '%d, ', nodeset(i) );
+        end
+    end
+end
