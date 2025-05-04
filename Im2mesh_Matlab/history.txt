@@ -14,7 +14,7 @@ Function bounds2mesh - add parameter opt.hinitial. It's used to avoid atrraction
 new function:
 bounds2meshBuiltIn
 bounds2geo 	 ## need to add comments
-msh2NodeEle	 ## need to fix demo13C
+msh2NodeEle	 ## need to fix demo13C  ## need to rename!
 
 
 
