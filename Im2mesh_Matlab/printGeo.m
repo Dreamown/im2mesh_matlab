@@ -89,6 +89,8 @@ function printGeo( C, point, line, opt, path_file_name )
 % Project website: https://github.com/mjx888/im2mesh
 %
 
+    warning("printGeo is deprecated. Please use function bounds2geo instead.");
+
     %---------------------------------------------------------------------
     % verify field names and set values for opt
     opt = setOption( opt );
