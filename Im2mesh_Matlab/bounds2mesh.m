@@ -77,22 +77,21 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
 %   vert, tria define linear elements. vert2, tria2 define 2nd order elements.
 %
 %   vert: Mesh nodes (for linear element). It’s a Nn-by-2 matrix, where 
-%           Nn is the number of nodes in the mesh. Each row of vert 
-%           contains the x, y coordinates for that mesh node.
+%         Nn is the number of nodes in the mesh. Each row of vert 
+%         contains the x, y coordinates for that mesh node.
 %     
 %   tria: Mesh elements (for linear element). For triangular elements, 
-%           it s a Ne-by-3 matrix, where Ne is the number of elements in 
-%           the mesh. Each row in tria contains the indices of the nodes 
-%           for that mesh element.
+%         it s a Ne-by-3 matrix, where Ne is the number of elements in 
+%         the mesh. Each row in tria contains the indices of the nodes 
+%         for that mesh element.
 %     
-%   tnum: Label of phase. Ne-by-1 array, where Ne is the number of 
-%           elements
+%   tnum: Label of phase. Ne-by-1 array, where Ne is the number of elements
 %       tnum(j,1) = k; means the j-th element belongs to the k-th phase.
 %     
 %   vert2: Mesh nodes (for quadratic element). It’s a Nn-by-2 matrix.
 %     
 %   tria2: Mesh elements (for quadratic element). For triangular 
-%           elements, it s a Ne-by-6 matrix.
+%          elements, it s a Ne-by-6 matrix.
 %
 %   etri: C-by-2 array of constraining edges, where each row defines an edge
 %
@@ -151,28 +150,6 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
     % part - cell array. Used to record phase info.
     %        part{i} is edge indexes of the i-th phase, indicating which 
     %        edges make up the boundary of the i-th phase.
-
-    % ---------------------------------------------------------------------
-    % Check min edge length. If smaller than threshold, show warning.
-
-    p1 = node(edge(:,1), :);
-    p2 = node(edge(:,2), :);
-    
-    % Euclidean length of every edge
-    edgeLen = hypot( p1(:,1)-p2(:,1), p1(:,2)-p2(:,2) );
-    minLen = min(edgeLen);
-	
-    threshold = 0.05;
-    if minLen < threshold
-        warning( '\n%s\n%s\n%s\n%', ...
-        'Edge length smaller than 0.05 is detected in the input geometry.', ...
-        'Some boundary nodes may lose due to numerical roundoff error.', ...
-        'Please check the mesh visually to confirm there is no distortion in the geometry.');
-    end
-
-    % Note:
-    % The issue of roundoff error occur occasionaly on my pc. Nonconsitent.
-    % Wierd. Maybe it is caused instability of my pc.
     
     % ---------------------------------------------------------------------
     % add extra nodes according to opt.pnt_size
@@ -240,7 +217,7 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
     optRef.disp = opt.disp;
     [vert,etri,tria,tnum] = refine2(node,edge,part,optRef,hfun, ...
                                     vlfs,tlfs,slfs,hlfs);
-                         
+    
     % ---------------------------------------------------------------------
     % Smooth mesh
     % SMOOTH2 routine provides iterative mesh "smoothing" capabilities, 
