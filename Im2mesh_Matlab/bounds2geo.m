@@ -1,5 +1,5 @@
 function bounds2geo( bounds, path_to_geo, opt )
-% bounds2geo: generate geo file for Gmsh. 
+% bounds2geo: generate geo file for Gmsh based on polygonal boundary
 %
 % geo file is a text file that contains Gmsh’s own scripting language. 
 % It s used to define geometry and mesh generation instructions for Gmsh.
@@ -10,32 +10,28 @@ function bounds2geo( bounds, path_to_geo, opt )
 %
 % usage2:
 %   path_to_geo = 'test.geo';
-%   bounds2geo( bounds, path_to_geo );
+%   opt = [];   % reset
+%   opt.sizeMax = 5;
+%   bounds2geo( bounds, path_to_geo, opt );
 %
 % usage3:
 %   path_to_geo = 'test.geo';
-%   bounds2geo( bounds, path_to_geo );
 %
+%   opt = [];   % reset
+%   opt.sizeMin = 0.1;
+%   opt.sizeMax = 500;
+%   opt.algthm = 6;
+%   opt.recombAll = 0;
+%   opt.recombAlgthm = 3;
+%   opt.eleOrder = 1;
+%   opt.scalingFactor = 1;
+%   opt.num_split = 0;
+%   opt.grad_mode = 0;
+%   opt.sizeAtBound = 500;
+%   opt.sizeSlope = 0.2;
 %
-%     opt.sizeMin = 0.1;
-%     opt.sizeMax = 500;
-%     opt.algthm = 6;
-%     opt.recombAll = 0;
-%     opt.recombAlgthm = 3;
-%     opt.eleOrder = 1;
-%     opt.scalingFactor = 1;
-%     opt.num_split = 0;
-% 
-%     opt.grad_mode = 0;
-%     opt.sizeAtBound = 500;
-%     opt.sizeSlope = 0.2;
-%     
-%     opt.local_max = [];
-%     opt.pnt_size = [];
-%     opt.interior_poly = {};
-%     opt.hinitial = [];
-% 
-%     opt.tf_includeMesh = true;
+%   bounds2geo( bounds, path_to_geo, opt );
+%
 %
 % input:
 %  bounds - a nested cell array of 2d polygonal boundaries.
@@ -56,19 +52,19 @@ function bounds2geo( bounds, path_to_geo, opt )
 %  opt.sizeMax - Maximum mesh element size. Default value: 500
 % 
 %  opt.algthm - 2D mesh algorithm (1: MeshAdapt, 2: Automatic, 
-%   3: Initial mesh only, 5: Delaunay, 6: Frontal-Delaunay, 7: BAMG, 
-%   8: Frontal-Delaunay for Quads, 9: Packing of Parallelograms, 
-%   11: Quasi-structured Quad). Default value: 6. Please refer to section 
-%   1.2.1 in Gmsh manual about mesh algorithm. 
-%   Default value: 6
+%       3: Initial mesh only, 5: Delaunay, 6: Frontal-Delaunay, 7: BAMG, 
+%       8: Frontal-Delaunay for Quads, 9: Packing of Parallelograms, 
+%       11: Quasi-structured Quad).
+%       Please refer to section 1.2.1 in Gmsh manual about mesh algorithm. 
+%       Default value: 6
 % 
 %  opt.recombAll - Boolean. Value: 0 or 1. Whether to apply recombination 
-%   algorithm to all surfaces, ignoring per-surface spec. 
-%   Default value: 0
+%                  algorithm to all surfaces, ignoring per-surface spec. 
+%                  Default value: 0
 % 
 %  opt.recombAlgthm - Mesh recombination algorithm (0: simple, 1: blossom, 
-%   2: simple full-quad, 3: blossom full-quad). 
-%   Default value: 3
+%                     2: simple full-quad, 3: blossom full-quad). 
+%                     Default value: 3
 % 
 %  opt.eleOrder - 1 or 2. Default value: 1
 %
@@ -79,27 +75,51 @@ function bounds2geo( bounds, path_to_geo, opt )
 %                  Each triangle is split into four new sub-triangles.
 %                  Default value: 0
 % 
-%  opt.grad_mode - Boolean. Value: 0 or 1. Whether to use linear size 
-%   gradient as mesh size field. Default value: 0. 
-%   When grad_mode is 0, mesh size field is not specified. 
-%   When grad_mode is 1, the element 
-%   size linearly increases as the distance from constraint edges (i.e., 
-%   polygonal boundary) increases. Element size = SizeAtBound + SizeSlope ×
-%   distance from edges.
+%  opt.grad_mode - Gradient mode. Iinteger. Value: 0, 1, 2.
+%                  Default value: 0. 
+%                  When grad_mode is 0, mesh size field is not specified. 
+%                  When grad_mode is 1, the element size linearly increases
+%                  as the distance from constraint edges (i.e., polygonal 
+%                  boundary) increases. See the equation below.
+%                  Element size = SizeAtBound + SizeSlope × distance from edges.
+%                  When grad_mode is 2, the mesh size field is created 
+%                  based on the local-feature-size function of MESH2D.
 % 
 %  opt.sizeAtBound - Element size at constraint edges (i.e., polygonal 
-%   boundary). For linear size gradient. 
-%   Default value: 500
+%                    boundary). 
+%                    Default value: 500
 % 
-%  opt.sizeSlope - Slope in mesh size field. For linear size gradient. 
-%   Default value: 0.2
+%  opt.sizeSlope - Slope in mesh size field.
+%                  Default value: 0.2
 %
-%     opt.local_max = [];
-%     opt.pnt_size = [];
-%     opt.interior_poly = {};
-%     opt.hinitial = [];
+%  Argument opt.sizeAtBound & opt.sizeSlope only work when opt.grad_mode
+%  is set as 1 or 2.
+%
+%  Argument opt.local_max, opt.pnt_size, opt.interior_poly, and 
+%  opt.hinitial only work when opt.grad_mode is set as 2. Their meaning and
+%  usage is the same as the ones in function bounds2mesh. They are used to 
+%  specify local feature size. Their default value are empty.
+%      opt.local_max = [];
+%      opt.pnt_size = [];
+%      opt.interior_poly = {};
+%      opt.hinitial = [];
 % 
-%     opt.tf_includeMesh = true;
+%  opt.tf_includeMesh - Boolean. Value: 0 or 1. Whether to include meshing
+%                       parameters in the generated geo file.
+%                       Default value: 1
+%
+% Notes:
+%  1. To generate triangular mesh, you can set opt.algthm to 1-7 and set 
+%     opt.recombAll to 0.
+%  2. To generate unstructured quadrilateral mesh, you can set opt.algthm 
+%     to 8 and set opt.recombAll to 1. You can try different 
+%     opt.recombAlgthm.
+%  3. To generate quasi-structured quadrilateral mesh, you can set 
+%     opt.algthm to 11 and set opt.recombAll to 0.
+%  4. When opt.grad_mode is 0, you can adjust the value of opt.sizeMax to 
+%     achieve better mesh quality. Typical value of opt.sizeMax is 4 to 20.
+%  5. When opt.grad_mode is 1, you can adjust opt.sizeAtBound, 
+%     opt.sizeSlope, and opt.sizeMax to achieve better mesh quality.
 %
 %
 % Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
@@ -333,7 +353,7 @@ function [vlfs,hlfs] = getLfsMESH2D( bounds, hmax, grad_limit, opt )
     
     optLfs.dhdx = grad_limit;   % dhdx is scalar gradient-limit
                                 % default +0.2500
-
+    
     optLfs.disp = +inf;
 
     if opt.hinitial <= 0,  opt.hinitial = [];  end
