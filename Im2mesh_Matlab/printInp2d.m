@@ -1,4 +1,4 @@
-function printInp2d( vert, ele, tnum, ele_type, precision, file_name )
+function printInp2d( vert, ele, tnum, ele_type, precision, file_name, opt )
 % printInp2d: write 2d finite element mesh (nodes and elements) to inp 
 %           file (Abaqus). Test in software Abaqus. 
 %           The exported inp file will have a model with one part, which 
@@ -18,7 +18,7 @@ function printInp2d( vert, ele, tnum, ele_type, precision, file_name )
 %   printInp2d( vert, ele, tnum, ele_type, precision, file_name );
 %
 % input:
-%   ele_type, precision, file_name are optional.
+%   tnum, ele_type, precision, file_name, opt are optional.
 %
 %   vert: Mesh nodes. It’s a Nn-by-2 matrix, where 
 %         Nn is the number of nodes in the mesh. Each row of vert 
@@ -46,6 +46,22 @@ function printInp2d( vert, ele, tnum, ele_type, precision, file_name )
 %
 %   file_name: file name of inp file, such as 'aaa.inp', 'D:\aaa.inp'.
 %                   When omitted, file_name='test.inp';
+%
+%   opt - a structure array. It is the extra options for printInp2d.
+%         It stores extra parameter settings for printInp2d.
+%
+%   opt.tf_printMaxMinNode - Boolean. Value: 0 or 1. Whether to print nodes
+%                            at max & min location of the mesh as node set.
+%                            Default value: 1
+%
+%   opt.tf_printInterfNode - Boolean. Value: 0 or 1. Whether to print nodes
+%                            at the interface of the mesh as node set.
+%                            Default value: 1
+%
+%   opt.user_nodeSet - User-defined node set. A nested cell array. 
+%                      Default value: {}
+%             Exampe:  opt.user_nodeSet{1} = { 'name1', [2 5 8] };
+%                      opt.user_nodeSet{2} = { 'name2', [36 23 56 80] };
 %
 %
 % This is sub-project of Im2mesh package. If you use this function, please
@@ -97,6 +113,14 @@ function printInp2d( vert, ele, tnum, ele_type, precision, file_name )
     if nargin < 6
         file_name = [];
     end
+
+    if nargin < 7
+        opt = [];
+    end
+
+    % ---------------------------------------------------------------------
+    % verify field names and set values for opt
+    opt = setOption( opt );
 
     % ---------------------------------------------------------------------
     % check input size
@@ -257,24 +281,74 @@ function printInp2d( vert, ele, tnum, ele_type, precision, file_name )
     
     % ---------------------------------------------------------------------
     % print node set
+
+    % node set at max & min location
+    if opt.tf_printMaxMinNode
+        printNodeSetMaxMin( fid, nodecoor, nodecoorC );
+    end
+    
+    % node set at the interface
+    if opt.tf_printInterfNode
+        printNodeSetInterface( fid, nodecoorC );
+    end
+    
+    % print user-defined node set
+    if ~isempty( opt.user_nodeSet )
+        printUserNodeSet( fid, opt.user_nodeSet );
+    end
+
+    % ---------------------------------------------------------------------
     % u can use node set to define boundary condition
     % example:
     % ** Name: BC-FixY Type: Displacement/Rotation
     % *Boundary
     % Set-A-Ymin, 2, 2
 
-    % node set at max & min location
-    printNodeSetMaxMin( fid, nodecoor, nodecoorC );
-    
-    % node set at the interface
-    printNodeSetInterface( fid, nodecoorC );
-    
     % ---------------------------------------------------------------------
     fclose(fid);
 	
 	disp('printInp2d Done! Check the inp file!');
     % ---------------------------------------------------------------------
 end
+
+
+function new_opt = setOption( opt )
+% setOption: verify field names in opt and set values in new_opt according
+% to opt
+
+    % initialize new_opt with default field names & value 
+    new_opt.tf_printMaxMinNode = true;
+    new_opt.tf_printInterfNode = true;
+    new_opt.user_nodeSet = {};
+    
+    if isempty(opt)
+        return
+    end
+
+    if ~isstruct(opt)
+        error("opt is not a structure array. Not valid input.")
+    end
+
+    % get the field names of opt
+    nameC = fieldnames(opt);
+
+    % verify field names in opt and set values in new_opt
+    % compare the field name of opt with new_opt using for loop
+    % if a field name of opt exist in new_opt, assign the that field value 
+    % in opt to new_opt
+    % if a field name of opt not exist in new_opt, show error
+
+    for i = 1: length(nameC)
+        if isfield( new_opt, nameC{i} )
+            value = getfield( opt, nameC{i} );
+            new_opt = setfield( new_opt, nameC{i}, value );
+        else
+            error("Field name %s in opt is not correct.", nameC{i});
+        end
+    end
+
+end
+
 
 function phase_char = num2char( k )
 % num2char: convert number 1 2 3 to character A B C
@@ -334,7 +408,7 @@ function printNodeSetMaxMin( fid, nodecoor, nodecoorC )
     
     % ---------------------------------------------------------------------
     % node set at xmin, xmax, ymin, ymax (globally)
-    
+    % ---------------------------------------------------------------------
     % xmin
     if ~isempty( xmin_node )
 	    fprintf( fid, [...
@@ -345,7 +419,7 @@ function printNodeSetMaxMin( fid, nodecoor, nodecoorC )
     end
 
     fprintf( fid, '%s\n', '**' );
-    
+    % ---------------------------------------------------------------------
     % xmax
     if ~isempty( xmax_node )
 	    fprintf( fid, [...
@@ -356,7 +430,7 @@ function printNodeSetMaxMin( fid, nodecoor, nodecoorC )
     end
     
     fprintf( fid, '%s\n', '**' );
-    
+    % ---------------------------------------------------------------------
     % ymin
     if ~isempty( ymin_node )
 	    fprintf( fid, [...
@@ -367,7 +441,7 @@ function printNodeSetMaxMin( fid, nodecoor, nodecoorC )
     end
     
     fprintf( fid, '%s\n', '**' );
-
+    % ---------------------------------------------------------------------
     % ymax
     if ~isempty( ymax_node )
 	    fprintf( fid, [...
@@ -381,7 +455,7 @@ function printNodeSetMaxMin( fid, nodecoor, nodecoorC )
 
     % ---------------------------------------------------------------------
     % node set at xmin, xmax, ymin, ymax for each phase
-    
+    % ---------------------------------------------------------------------
     % xmin
     for i = 1: num_phase
 	    if ~isempty( xmin_node_cell{i} )
@@ -394,7 +468,7 @@ function printNodeSetMaxMin( fid, nodecoor, nodecoorC )
     end
 
     fprintf( fid, '%s\n', '**' );
-    
+    % ---------------------------------------------------------------------
     % xmax
     for i = 1: num_phase
 	    if ~isempty( xmax_node_cell{i} )
@@ -407,7 +481,7 @@ function printNodeSetMaxMin( fid, nodecoor, nodecoorC )
     end
     
     fprintf( fid, '%s\n', '**' );
-    
+    % ---------------------------------------------------------------------
     % ymin
     for i = 1: num_phase
 	    if ~isempty( ymin_node_cell{i} )
@@ -420,7 +494,7 @@ function printNodeSetMaxMin( fid, nodecoor, nodecoorC )
     end
     
     fprintf( fid, '%s\n', '**' );
-
+    % ---------------------------------------------------------------------
     % ymax
     for i = 1: num_phase
 	    if ~isempty( ymax_node_cell{i} )
@@ -458,6 +532,26 @@ function printNodeSetInterface( fid, nodecoorC )
     
     fprintf( fid, '%s\n', '**' );
 end
+
+function printUserNodeSet( fid, nodeSet )
+% printUserNodeSet: print user-defined node set
+
+    num_set = length(nodeSet);
+    
+    for i = 1: num_set
+	    if ~isempty( nodeSet{i}{1} ) && ~isempty( nodeSet{i}{2} )
+		    fprintf( fid, [...
+			    '*Nset, nset=Set-%s'   '\n'...
+			    ], nodeSet{i}{1} );
+    
+		    printSet( fid, nodeSet{i}{2} );
+
+            fprintf( fid, '%s\n', '**' );
+	    end
+    end
+    
+end
+
 
 
 
