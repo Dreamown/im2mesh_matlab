@@ -1,14 +1,17 @@
 function printInp2d( vert, ele, tnum, ele_type, precision, file_name, opt )
 % printInp2d: write 2d finite element mesh (nodes and elements) to inp 
-%           file (Abaqus). Test in software Abaqus. 
+%           file (Abaqus). Tested in software Abaqus. 
 %           The exported inp file will have a model with one part, which 
 %           contains multiple sections. Each section corresponds to one 
 %           material phase in the mesh.
-%           Use functions: getNodeEle.m  fixOrdering.m  
-%                          getBCNode.m   getInterf.m
-%
+%           
 %           Works for linear and quadratic element.
 %           Works for triangular and quadrilateral element.
+%           Function printInp2d will automatically export node set.
+%           opt.user_nodeSet is used to defined customized node set.
+%
+%           Use functions: getNodeEle.m  fixOrdering.m  
+%                          getBCNode.m   getInterf.m
 %
 % usage:
 %   printInp2d( vert, ele );
@@ -29,7 +32,7 @@ function printInp2d( vert, ele, tnum, ele_type, precision, file_name, opt )
 %   ele: Mesh elements. 
 %        For linear triangular elements, it s a Ne-by-3 matrix. 
 %        For linear quadrilateral elements, it s a Ne-by-4 matrix
-%         
+
 %        Ne is the number of elements in the mesh. Each row in ele 
 %        contains the indices of the nodes for that mesh element.
 %   
