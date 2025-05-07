@@ -40,11 +40,11 @@ function printMsh( vert, ele, tnum, conn, precision, file_name )
 %         missing conn parameter.
 %
 %   precision: number of digits to the right of the decimal point 
-%                       when writing node coordinates.
-%                       When omitted, precision = 8;
+%              when writing node coordinates.
+%              When omitted, precision = 8;
 %
 %   file_name: file name of msh file, such as 'aaa.msh', 'D:\aaa.msh'.
-%                   When omitted, file_name = 'test.msh';
+%              When omitted, file_name = 'test.msh';
 %
 %
 % This is sub-project of Im2mesh package. If you use this function, please
@@ -56,6 +56,7 @@ function printMsh( vert, ele, tnum, conn, precision, file_name )
 % Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
 % 
 % Project website: https://github.com/mjx888/im2mesh
+%                  https://github.com/mjx888/writeMesh
 %
 
     % format of msh file
