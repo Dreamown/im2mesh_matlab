@@ -35,7 +35,6 @@ function [ phaseLoops, phaseTria ] = tria2Surface( vert,conn,tria,tnum )
 %
 %
 % Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
-% Distributed under the terms of the GNU General Public License (version 3)
 % 
 % Project website: https://github.com/mjx888/im2mesh
 %
@@ -117,7 +116,7 @@ function components = findIsolatedMeshRegions( T )
                     % convert to cell array if needed
                     val = {val};
                 end
-                val{end+1} = triIdx; %#ok<AGROW>
+                val{end+1} = triIdx;
                 edgeMap(key) = val;
             end
         end
@@ -178,7 +177,7 @@ function components = findIsolatedMeshRegions( T )
                     if ~visited(nb)
                         visited(nb) = true;
                         components(nb) = currentComp;
-                        stack(end+1) = nb; %#ok<AGROW> % push
+                        stack(end+1) = nb;
                     end
                 end
             end
@@ -325,7 +324,7 @@ function loops = groupBoundaryEdgesIntoLoops(boundaryEdges)
                 for cand = neighbors
                     eIdx = edgeMap(getKey(currentVertex, cand));
                     if ~visitedEdges(eIdx)
-                        unvisitedNext(end+1) = cand; %#ok<AGROW>
+                        unvisitedNext(end+1) = cand;
                     end
                 end
                 
@@ -343,7 +342,7 @@ function loops = groupBoundaryEdgesIntoLoops(boundaryEdges)
                 visitedEdges(nextEdgeIdx) = true;
                 
                 % Add nextVertex to the loop
-                loop(end+1) = nextVertex; %#ok<AGROW>
+                loop(end+1) = nextVertex;
                 
                 % Advance
                 prevVertex = currentVertex;
@@ -356,7 +355,7 @@ function loops = groupBoundaryEdgesIntoLoops(boundaryEdges)
                 end
             end
             
-            loops{end+1} = loop; %#ok<AGROW>
+            loops{end+1} = loop;
         end
     end
 end
