@@ -1,10 +1,10 @@
-function new_bounds = smoothBounds( bounds, lambda, mu, iters, threshold_num_turning, threshold_num_vert )
+function new_bounds = smoothBounds( bounds, lambda, mu, iters, thresh_num_turn, thresh_num_vert )
 % smoothBounds: smooth polygonal boundaries using 2d Taubin Smoothing 
 % (taubinSmooth.m)
 %
 % usage:
-%   new_bounds = smoothBounds( bounds, lambda, mu, iters, threshold_num_turning, threshold_num_vert );
-%   new_bounds = smoothBounds( bounds, lambda, mu, iters, threshold_num_turning );
+%   new_bounds = smoothBounds( bounds, lambda, mu, iters, thresh_num_turn, thresh_num_vert );
+%   new_bounds = smoothBounds( bounds, lambda, mu, iters, thresh_num_turn );
 %   new_bounds = smoothBounds( bounds, lambda, mu, iters );
 %   new_bounds = smoothBounds( bounds, lambda, mu, 0 );     % no smoothing
 %
@@ -30,13 +30,13 @@ function new_bounds = smoothBounds( bounds, lambda, mu, iters, threshold_num_tur
 %   iters: Number of smoothing steps. Non negative interger
 %          If iters == 0, no smooth.
 %
-%   threshold_num_turning:  Threshlod for the number of knick-point 
+%   thresh_num_turn:  Threshlod for the number of knick-point 
 %                           vertices or turning points. 
 %                           If the number of knick-point vertices or 
 %                           turning points in a polyline is smaller than 
 %                           this threshold, do not perform smoothing. 
 %
-%   threshold_num_vert: Threshlod for the number of vertices. 
+%   thresh_num_vert: Threshlod for the number of vertices. 
 %                       If the number of vertices in a polyline is smaller
 %                       than this threshold, do not perform smoothing.
 %
@@ -53,10 +53,10 @@ function new_bounds = smoothBounds( bounds, lambda, mu, iters, threshold_num_tur
     
     % check the number of inputs
     if nargin == 4
-        threshold_num_turning = 0;
-        threshold_num_vert = 0;
+        thresh_num_turn = 0;
+        thresh_num_vert = 0;
     elseif nargin == 5
-        threshold_num_vert = 0;
+        thresh_num_vert = 0;
     elseif nargin == 6
         % normal case
     else
@@ -88,12 +88,12 @@ function new_bounds = smoothBounds( bounds, lambda, mu, iters, threshold_num_tur
                 poly_turn_pnt = dpsimplify( poly_O, eps );
 
                 % check the number of turning points in a polyline
-                if length(poly_turn_pnt)-1 <= threshold_num_turning || ...
-                        length(poly_O)-1 <= threshold_num_vert
+                if length(poly_turn_pnt)-1 <= thresh_num_turn || ...
+                        length(poly_O)-1 <= thresh_num_vert
                     % If the number of turning-point vertices in a polyline
-                    % is smaller than threshold_num_turning, don't smooth.
+                    % is smaller than thresh_num_turn, don't smooth.
                     % If the number of vertices in a polyline is smaller 
-                    % than threshold_num_vert, don't smooth.
+                    % than thresh_num_vert, don't smooth.
                     continue
                 else
                     % smooth polyline using taubinSmooth function
