@@ -1,0 +1,61 @@
+Fix the issue of failing to delete redundant vertex.
+Fix the crash issue of function bounds2meshBuiltIn.
+Fix bugs related to function bound2SurfaceLoop and function printMsh.
+Improve the workflow when using Gmsh as mesh generator.
+
+
+Function poly2meshBuiltIn is deprecated. Please use function bounds2meshBuiltIn instead.
+
+Function bounds2mesh - Revise the default value and valid range of parameter 'opt.bound_size'. New default value: 0. Uniform mesh seed will be added to boundary when opt.bound_size > 0.
+
+Function bounds2mesh - add parameter opt.hinitial. It's used to avoid atrraction issue when specifying mesh size at multiple points.
+
+
+
+new function:
+bounds2meshBuiltIn
+extractMsh
+bounds2geo 	 ## need to add comments
+
+## need to improve demo13
+## need to revise demo14 (-> bounds2geo)
+
+### Add checking when exprt mesh to other formats via Gmsh
+
+
+    opt.sizeMin = 0.1;
+    opt.sizeMax = 500;
+    opt.algthm = 6;
+    opt.recombAll = 0;
+    opt.recombAlgthm = 3;
+    opt.eleOrder = 1;
+    opt.scalingFactor = 1;
+    opt.num_split = 0;
+
+    opt.grad_mode = 0;
+    opt.sizeAtBound = 500;
+    opt.sizeSlope = 0.2;
+    
+    opt.local_max = [];
+    opt.pnt_size = [];
+    opt.interior_poly = {};
+    opt.hinitial = [];
+
+    opt.tf_includeMesh = true;
+
+
+
+
+
+
+
+
+---------------------
+In Matlab, I have a 2d isolated triangular mesh defined two variables: vert, tria.
+
+vert: Mesh nodes. It’s a Nn-by-2 matrix, where Nn is the number of nodes in the mesh. Each row of vert contains the x, y coordinates for that mesh node.
+   
+tria: Mesh elements. For triangular elements, it s a Ne-by-3 matrix, where Ne is the number of elements in  the mesh. Each row in tria contains the indices of the nodes for that mesh element.
+
+I want to create a function to find boundary edges in the triangular mesh and then group boundary edges into separate loops. The output is a variable called 'loops'.
+'loops' is a cell array of loops; loops{i} is a list of vertex IDs [v1, v2, ..., vK] that form a closed boundary chain. The last vertex equals the first vertex.
