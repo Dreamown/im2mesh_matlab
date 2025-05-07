@@ -1,9 +1,9 @@
-function new_bounds = simplifyBounds( bounds, tolerance, threshold_num_vert )
+function new_bounds = simplifyBounds( bounds, tolerance, thresh_num_vert )
 % simplifyBounds: simplify polygonal boundaries using Douglas-Peucker 
 % Polyline Simplification (dpsimplify.m)
 %
 % usage:
-%   new_bounds = simplifyBounds( bounds, tolerance, threshold_num_vert );
+%   new_bounds = simplifyBounds( bounds, tolerance, thresh_num_vert );
 %   new_bounds = simplifyBounds( bounds, tolerance );
 %   new_bounds = simplifyBounds( bounds, 0 );   % no simplification
 %
@@ -21,7 +21,7 @@ function new_bounds = simplifyBounds( bounds, tolerance, threshold_num_vert )
 %   tolerance - parameter for polygon or polyline simplification.
 %               Function: dpsimplify.m (Douglas–Peucker algorithm)
 % 
-%   threshold_num_vert - threshold for the number of vertices.
+%   thresh_num_vert - threshold for the number of vertices.
 %                        If the number of vertices in a ppolyline is not 
 %                        larger than this threshold, do not perform 
 %                        simplification.
@@ -38,7 +38,7 @@ function new_bounds = simplifyBounds( bounds, tolerance, threshold_num_vert )
     
     % check the number of inputs
     if nargin == 2
-        threshold_num_vert = 0;
+        thresh_num_vert = 0;
     elseif nargin == 3
         % normal case
     else
@@ -62,7 +62,7 @@ function new_bounds = simplifyBounds( bounds, tolerance, threshold_num_vert )
                 poly_O = [ x{k}, y{k} ];  % N-by-2
                 
                 % check the number of vertices in a polyline
-                if length(poly_O)-1 <= threshold_num_vert
+                if length(poly_O)-1 <= thresh_num_vert
                     % If the number of vertices in a polyline is smaller 
                     % than threshold, don't perform smoothing.
                     continue
