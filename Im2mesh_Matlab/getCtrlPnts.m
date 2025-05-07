@@ -1,14 +1,14 @@
-function new_bounds = getCtrlPnts( bounds, tf_avoid_sharp_corner, size_im )
+function new_bounds = getCtrlPnts( bounds, tf_avoid_sharp, size_im )
 % getCtrlPnts: search and label control points in polygonal boundaries. 
 % bounds{i}{j} is a polygon boundary.
 %
 % Control point is the intersecting vertex between two polygons.
 % It will serve as fixed-point for polygon simplification and meshing.
-% Control points will be labeled with (NaN,NaN).
+% Control points will be labeled with (NaN,NaN) by function getCtrlPnts.
 %
 % usage:
-%   new_bounds = getCtrlPnts( bounds, tf_avoid_sharp_corner, size_im );
-%   new_bounds = getCtrlPnts( bounds, tf_avoid_sharp_corner );
+%   new_bounds = getCtrlPnts( bounds, tf_avoid_sharp, size_im );
+%   new_bounds = getCtrlPnts( bounds, tf_avoid_sharp );
 %   new_bounds = getCtrlPnts( bounds );
 %
 % input:
@@ -20,7 +20,7 @@ function new_bounds = getCtrlPnts( bounds, tf_avoid_sharp_corner, size_im )
 %            plot( bounds{i}{j}(:,1), bounds{i}{j}(:,2) ) to view the
 %            polygon. Use plotBounds( bounds ) to view all polygons.
 %
-%   tf_avoid_sharp_corner - boolean
+%   tf_avoid_sharp - boolean. Whether to avoid sharp corner.
 %
 %   size_im - Size of image. Type: 1-by-2 integer vector
 %
@@ -60,6 +60,7 @@ function new_bounds = getCtrlPnts( bounds, tf_avoid_sharp_corner, size_im )
 %     new_poly2 = [ 2 3; 1 3; NaN NaN; 1 3; 1 2; 1 1; 1 0;
 %                     1 -1; NaN NaN; 1 -1; 2 -1; 2 3 ];
 %
+%
 % Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
 % Distributed under the terms of the GNU General Public License (version 3)
 % 
@@ -68,7 +69,7 @@ function new_bounds = getCtrlPnts( bounds, tf_avoid_sharp_corner, size_im )
     
     % check the number of inputs
     if nargin == 1
-        tf_avoid_sharp_corner = false;
+        tf_avoid_sharp = false;
         size_im =[];
     elseif nargin == 2
         size_im =[];
@@ -214,7 +215,7 @@ function new_bounds = getCtrlPnts( bounds, tf_avoid_sharp_corner, size_im )
     end
 
     % handle sharp corners
-    if tf_avoid_sharp_corner
+    if tf_avoid_sharp
         new_bounds = bluntSharpCorner( new_bounds );
     end
 end
