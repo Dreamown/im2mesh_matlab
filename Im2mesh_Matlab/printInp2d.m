@@ -4,7 +4,8 @@ function printInp2d( vert, ele, tnum, ele_type, precision, file_name, opt )
 %           The exported inp file will have a model with one part, which 
 %           contains multiple sections. Each section corresponds to one 
 %           material phase in the mesh.
-%           Use functions: getNodeEle.m  fixOrdering.m
+%           Use functions: getNodeEle.m  fixOrdering.m  
+%                          getBCNode.m   getInterf.m
 %
 %           Works for linear and quadratic element.
 %           Works for triangular and quadrilateral element.
@@ -16,6 +17,7 @@ function printInp2d( vert, ele, tnum, ele_type, precision, file_name, opt )
 %   printInp2d( vert, ele, tnum, [], precision );
 %   printInp2d( vert, ele, tnum, ele_type, precision );
 %   printInp2d( vert, ele, tnum, ele_type, precision, file_name );
+%   printInp2d( vert, ele, tnum, ele_type, precision, file_name, opt );
 %
 % input:
 %   tnum, ele_type, precision, file_name, opt are optional.
@@ -36,26 +38,26 @@ function printInp2d( vert, ele, tnum, ele_type, precision, file_name, opt )
 %         tnum(j,1) = k; means the j-th element belongs to the k-th phase.
 %         When omitted, assign one phase.
 %     
-%   ele_type: element type in Abaqus
+%   ele_type: element type in Abaqus.
 %             When omitted, ele_typ will be determined based on the size of 
 %             variable ele.
 %
 %   precision: number of digits to the right of the decimal point 
-%                       when writing node coordinates.
-%                       When omitted, precision=8;
+%              when writing node coordinates.
+%              When omitted, precision=8;
 %
 %   file_name: file name of inp file, such as 'aaa.inp', 'D:\aaa.inp'.
-%                   When omitted, file_name='test.inp';
+%              When omitted, file_name='test.inp';
 %
 %   opt - a structure array. It is the extra options for printInp2d.
 %         It stores extra parameter settings for printInp2d.
 %
 %   opt.tf_printMaxMinNode - Boolean. Value: 0 or 1. Whether to print nodes
-%                            at max & min location of the mesh as node set.
+%                            at max & min location as node set.
 %                            Default value: 1
 %
 %   opt.tf_printInterfNode - Boolean. Value: 0 or 1. Whether to print nodes
-%                            at the interface of the mesh as node set.
+%                            at the interface as node set.
 %                            Default value: 1
 %
 %   opt.user_nodeSet - User-defined node set. A nested cell array. 
@@ -73,6 +75,7 @@ function printInp2d( vert, ele, tnum, ele_type, precision, file_name, opt )
 % Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
 % 
 % Project website: https://github.com/mjx888/im2mesh
+%                  https://github.com/mjx888/writeMesh
 %
 
 
