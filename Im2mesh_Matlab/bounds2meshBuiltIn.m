@@ -32,22 +32,22 @@ function [vert,tria,tnum,vert2,tria2,model1,model2] = bounds2meshBuiltIn( bounds
 %   vert, tria define linear elements. vert2, tria2 define 2nd order elements.
 %
 %   vert: Mesh nodes (for linear element). It’s a Nn-by-2 matrix, where 
-%           Nn is the number of nodes in the mesh. Each row of vert 
-%           contains the x, y coordinates for that mesh node.
+%         Nn is the number of nodes in the mesh. Each row of vert 
+%         contains the x, y coordinates for that mesh node.
 %     
 %   tria: Mesh elements (for linear element). For triangular elements, 
-%           it s a Ne-by-3 matrix, where Ne is the number of elements in 
-%           the mesh. Each row in tria contains the indices of the nodes 
-%           for that mesh element.
+%         it s a Ne-by-3 matrix, where Ne is the number of elements in 
+%         the mesh. Each row in tria contains the indices of the nodes 
+%         for that mesh element.
 %     
 %   tnum: Label of phase. Ne-by-1 array, where Ne is the number of 
-%           elements
+%         elements
 %       tnum(j,1) = k; means the j-th element belongs to the k-th phase.
 %     
 %   vert2: Mesh nodes (for quadratic element). It’s a Nn-by-2 matrix.
 %     
 %   tria2: Mesh elements (for quadratic element). For triangular 
-%           elements, it s a Ne-by-6 matrix.
+%          elements, it s a Ne-by-6 matrix.
 %
 %   model1 - PDE model object with linear elements
 %
