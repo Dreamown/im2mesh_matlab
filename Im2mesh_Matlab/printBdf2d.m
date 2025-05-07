@@ -36,11 +36,11 @@ function printBdf2d( vert, ele, tnum, ele_type, precision, file_name )
 %             ele_type is reserved for future development.
 %
 %   precision: number of digits to the right of the decimal point 
-%                       when writing node coordinates.
-%                       When omitted, precision=8;
+%              when writing node coordinates.
+%              When omitted, precision=8;
 %
 %   file_name: file name of bdf file, such as 'aaa.bdf', 'D:\aaa.bdf'.
-%                   When omitted, file_name='test.bdf';
+%              When omitted, file_name='test.bdf';
 %
 %
 % This is sub-project of Im2mesh package. If you use this function, please
@@ -52,6 +52,7 @@ function printBdf2d( vert, ele, tnum, ele_type, precision, file_name )
 % Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
 % 
 % Project website: https://github.com/mjx888/im2mesh
+%                  https://github.com/mjx888/writeMesh
 %
 
     % format of bdf file
