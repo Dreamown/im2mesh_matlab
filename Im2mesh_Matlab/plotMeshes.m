@@ -9,7 +9,7 @@ function plotMeshes( vert, ele, tnum )
 %   plotMeshes( vert, ele );        % one phase
 %
 % input:
-%   verrt - Node data. N-by-2 array.
+%   vert - Node data. N-by-2 array.
 %       vert(i,1:2) = [x_coordinate, y_coordinate] of the i-th node
 %
 %   ele - Node numbering for each element. 
