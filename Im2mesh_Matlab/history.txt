@@ -1,26 +1,42 @@
+
+
 Fix the issue of failing to delete redundant vertex.
 Fix the crash issue of function bounds2meshBuiltIn.
 Fix bugs related to function bound2SurfaceLoop and function printMsh.
-Improve the workflow when using Gmsh as mesh generator.
 
+Improve the workflow when using Gmsh as mesh generator.
+Function printInp2d is now able to export node set automatically.
 
 Function poly2meshBuiltIn is deprecated. Please use function bounds2meshBuiltIn instead.
+Function printGeo is deprecated. Please use function bounds2geo instead.
 
 Function bounds2mesh - Revise the default value and valid range of parameter 'opt.bound_size'. New default value: 0. Uniform mesh seed will be added to boundary when opt.bound_size > 0.
-
 Function bounds2mesh - add parameter opt.hinitial. It's used to avoid atrraction issue when specifying mesh size at multiple points.
 
-
-
-new function:
+New function:
 bounds2meshBuiltIn
 extractMsh
-bounds2geo 	 ## need to add comments
+bounds2geo
+
+Update:
+demo03, 11, 13, 14, 17
 
 ## need to improve demo13
 ## need to revise demo14 (-> bounds2geo)
 
-### Add checking when exprt mesh to other formats via Gmsh
+
+
+
+
+% convert to a cell array of polyshapes
+psCell = bound2polyshape(bounds);
+
+figure
+hold on; axis equal;
+for i = 1: length(psCell)
+    plot( psCell{i} );
+end
+hold off
 
 
     opt.sizeMin = 0.1;
@@ -51,11 +67,25 @@ bounds2geo 	 ## need to add comments
 
 
 ---------------------
-In Matlab, I have a 2d isolated triangular mesh defined two variables: vert, tria.
+bounds2mesh
+% ---------------------------------------------------------------------
+% Check min edge length. If smaller than threshold, show warning.
 
-vert: Mesh nodes. It’s a Nn-by-2 matrix, where Nn is the number of nodes in the mesh. Each row of vert contains the x, y coordinates for that mesh node.
-   
-tria: Mesh elements. For triangular elements, it s a Ne-by-3 matrix, where Ne is the number of elements in  the mesh. Each row in tria contains the indices of the nodes for that mesh element.
+p1 = node(edge(:,1), :);
+p2 = node(edge(:,2), :);
 
-I want to create a function to find boundary edges in the triangular mesh and then group boundary edges into separate loops. The output is a variable called 'loops'.
-'loops' is a cell array of loops; loops{i} is a list of vertex IDs [v1, v2, ..., vK] that form a closed boundary chain. The last vertex equals the first vertex.
+% Euclidean length of every edge
+edgeLen = hypot( p1(:,1)-p2(:,1), p1(:,2)-p2(:,2) );
+minLen = min(edgeLen);
+
+threshold = 0.05;
+if minLen < threshold
+	warning( '\n%s\n%s\n%s\n%', ...
+	'Edge length smaller than 0.05 is detected in the input geometry.', ...
+	'Some boundary nodes may lose due to numerical roundoff error.', ...
+	'Please check the mesh visually to confirm there is no distortion in the geometry.');
+end
+
+% Note:
+% The issue of roundoff error occur occasionaly on my pc. Nonconsitent.
+% Wierd. Maybe it is caused instability of my pc.
