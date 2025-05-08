@@ -15,9 +15,7 @@ Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part
 
 **News:**
 
-- Version 2.33 can refine mesh locally (see demo17).
-- Version 2.2.1 can edit polygonal boundary before mesh generation.
-- Version 2.2.0 supports using Gmsh as mesh generator (unstructured quadrilateral mesh).
+- Version 2.2.0 can use Gmsh as mesh generator (unstructured quadrilateral mesh).
 - Version 2.1.6 updates the DOI. Im2mesh is now citable.
 
 **Features:**
@@ -25,16 +23,21 @@ Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part
 - Accurately preserve the contact details between different phases. 
 - Incorporates polyline smoothing and simplification
 - Able to avoid sharp corners when simplifying polylines.
-- Support phase selection before meshing.
+- Able to edit polygonal boundary before mesh generation.
+- Support phase selection and local mesh refinement.
 - 4 mesh generators are available for selection: [MESH2D](https://github.com/dengwirda/mesh2d), [generateMesh](https://www.mathworks.com/help/pde/ug/pde.pdemodel.generatemesh.html), [Gmsh](https://gmsh.info/), and pixelMesh.
-- Generated mesh can be exported as `inp` file (Abaqus), `bdf` file (Nastran bulk data, compatible with COMSOL), `msh` file (Gmsh mesh format), and MATLAB PDE model object.
-- Mesh can also be exported as many other formats via Gmsh, such as `stl` and `vtk`.
-- Graphical user interface (GUI) version is available as a MATLAB app.
+- Graphical user interface (GUI) version is available as a MATLAB app and as a standalone desktop application.
 
 <p align="center">
   <img src = "https://mjx888.github.io/im2mesh_demo_html/GUI.png" height="300"> 
 </p>
+**Generated mesh can be exported as:** 
 
+- `inp` file with boundary node set (Abaqus)
+- `bdf` file (Nastran bulk data, compatible with COMSOL), 
+- `msh` file (Gmsh mesh format)
+- MATLAB PDE model object
+- For other formats (such as `stl` and `vtk`), you can import the generated `msh` file into software Gmsh and then export.
 
 ## Dependencies
 
