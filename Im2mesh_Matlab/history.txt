@@ -12,6 +12,9 @@ Function printGeo is deprecated. Please use function bounds2geo instead.
 
 Function bounds2mesh - Revise the default value and valid range of parameter 'opt.bound_size'. New default value: 0. Uniform mesh seed will be added to boundary when opt.bound_size > 0.
 Function bounds2mesh - add parameter opt.hinitial. It's used to avoid atrraction issue when specifying mesh size at multiple points.
+Function plotMeshes - add the 4-th parameter to setup colormap when plotting mesh.
+
+
 
 New function:
 bounds2meshBuiltIn
@@ -21,8 +24,35 @@ bounds2geo
 Update:
 demo03, 11, 13, 14, 17, 18
 
-## need to improve demo13
-## need to revise demo14 (-> bounds2geo)
+Revise:
+Function smoothBounds - thresh_num_vert can be interval
+
+
+
+
+
+
+Need to
+Revise:
+% clear up redundant vertices
+% only control points and knick-points will remain
+bounds = getCtrlPnts( bounds );
+bounds = simplifyBounds( bounds, tol/2, threshold );
+app.boundsSimpfied = bounds;
+->
+% clear up redundant vertices
+% only control points and knick-points will remain
+bounds = getCtrlPnts( bounds );
+bounds = simplifyBounds( bounds, tol/2, threshold );
+bounds = simplifyBounds( bounds, 0 );
+app.boundsSimpfied = bounds;
+
+
+
+
+
+
+
 
 
 
