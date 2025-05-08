@@ -31,14 +31,14 @@ function new_bounds = smoothBounds( bounds, lambda, mu, iters, thresh_num_turn, 
 %          If iters == 0, no smooth.
 %
 %   thresh_num_turn:  Threshlod for the number of knick-point 
-%                           vertices or turning points. 
-%                           If the number of knick-point vertices or 
-%                           turning points in a polyline is smaller than 
-%                           this threshold, do not perform smoothing. 
+%                     vertices or turning points. 
+%                     If the number of knick-point vertices or 
+%                     turning points in a polyline is smaller than 
+%                     this threshold, do not perform smoothing. 
 %
 %   thresh_num_vert: Threshlod for the number of vertices. 
-%                       If the number of vertices in a polyline is smaller
-%                       than this threshold, do not perform smoothing.
+%                    If the number of vertices in a polyline is smaller
+%                    than this threshold, do not perform smoothing.
 %
 % output:
 %   new_bounds - cell array. new_bounds{i}{j} is a polygon boundary with 
@@ -70,6 +70,9 @@ function new_bounds = smoothBounds( bounds, lambda, mu, iters, thresh_num_turn, 
         return
     end
 
+    % create a mapping vector for the actual number of iterations
+    iterMapVec = createIterVec( thresh_num_vert, iters );
+    
     % smooth each polygonal boundary
     for i = 1: length(bounds)
         for j = 1: length(bounds{i})
@@ -88,16 +91,16 @@ function new_bounds = smoothBounds( bounds, lambda, mu, iters, thresh_num_turn, 
                 poly_turn_pnt = dpsimplify( poly_O, eps );
 
                 % check the number of turning points in a polyline
-                if length(poly_turn_pnt)-1 <= thresh_num_turn || ...
-                        length(poly_O)-1 <= thresh_num_vert
+                if length(poly_turn_pnt)-1 < thresh_num_turn
                     % If the number of turning-point vertices in a polyline
                     % is smaller than thresh_num_turn, don't smooth.
-                    % If the number of vertices in a polyline is smaller 
-                    % than thresh_num_vert, don't smooth.
                     continue
                 else
+                    num_vert = length(poly_O);
+                    real_iter = getRealIter( num_vert, iterMapVec );
+                    
                     % smooth polyline using taubinSmooth function
-                    poly_temp = taubinSmooth( poly_O, lambda, mu, iters );
+                    poly_temp = taubinSmooth( poly_O, lambda, mu, real_iter );
                     
                     % update
                     x{k} = poly_temp(:,1);
@@ -133,6 +136,103 @@ function bounds = roundBounds( bounds, n_digit_decimal )
     bounds = btemp;
 
 end
+
+
+function real_iter = getRealIter( num_vert, iterMapVec )
+% getPWIter: get the real number (piecewise) of iterations 
+% 
+% real_iter is an integer. It's the real number of iterations when the
+% number of vertices is num_vert.
+%
+
+    if num_vert > numel(iterMapVec)
+        real_iter = iterMapVec(end);
+    else
+        real_iter = iterMapVec( num_vert );
+    end
+end
+
+
+function iterMapVec = createIterVec( thresh_bound, iter )
+% createIterVec: create a mapping vector for the actual number of iterations
+
+    % ---------------------------------------------------------------------
+    % chekc input
+    t = thresh_bound;
+    
+    if numel(t) == 1
+        t(2) = t(1);
+    end
+
+    if numel(t) == 2 && t(1) > t(2)
+        % switch value to make t(1) < t(2)
+        temp = t(2);
+        t(2) = t(1);
+        t(1) = temp;
+    end
+
+    if numel(t) > 2
+        error('Num of elements in thresh_num_vert should not larger than 2.');
+    end
+    
+    % ---------------------------------------------------------------------
+    % initialize
+    if t(2) > 0
+        len = ceil( t(2)+1 );
+    else
+        len = 2;
+    end
+
+    iterMapVec = iter * ones(len,1);
+    
+    % ---------------------------------------------------------------------
+    % single threshold
+    if numel(t) == 1 || t(1) == t(2)
+        iterMapVec( 1: ceil(t(1)-1) ) = 0;
+        return
+    end
+
+    % ---------------------------------------------------------------------
+    % two thresholds
+    t = round(t);
+    
+    if t(2) <= 0
+        return
+    end
+    
+    if t(1) > 0
+        iterMapVec( 1: t(1) ) = 0;
+        k = iter/(t(2)-t(1));
+        x = t(1) : t(2);
+        x = x(:);
+        y = k * ( x - t(1));
+        iterMapVec( x ) = round( y );
+        
+    elseif t(1) <= 0 && t(2) > 0
+        k = iter/(t(2)-t(1));
+        x = t(1) : t(2);
+        x = x(:);
+
+        idx = x<=0 ;
+        x(idx) = [];
+
+        y = k * ( x - t(1));
+        iterMapVec( x ) = round( y );
+    end
+
+    % ---------------------------------------------------------------------
+end
+
+
+
+
+
+
+
+
+
+
+
 
 
 
