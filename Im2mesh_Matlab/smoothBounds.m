@@ -71,7 +71,7 @@ function new_bounds = smoothBounds( bounds, lambda, mu, iters, thresh_num_turn, 
     end
 
     % create a mapping vector for the actual number of iterations
-    iterMapVec = createIterVec( thresh_num_vert, iters );
+    iterMapVec = createMapVec( thresh_num_vert, iters );
     
     % smooth each polygonal boundary
     for i = 1: length(bounds)
@@ -96,8 +96,14 @@ function new_bounds = smoothBounds( bounds, lambda, mu, iters, thresh_num_turn, 
                     % is smaller than thresh_num_turn, don't smooth.
                     continue
                 else
-                    num_vert = length(poly_O);
-                    real_iter = getRealIter( num_vert, iterMapVec );
+                    if poly_O(1,:) == poly_O(end,:)
+                        num_vert = length(poly_O) - 1;
+                    else
+                        num_vert = length(poly_O);
+                    end
+
+                    % the actual number of iterations
+                    real_iter = getRealValue( num_vert, iterMapVec );
                     
                     % smooth polyline using taubinSmooth function
                     poly_temp = taubinSmooth( poly_O, lambda, mu, real_iter );
@@ -138,23 +144,23 @@ function bounds = roundBounds( bounds, n_digit_decimal )
 end
 
 
-function real_iter = getRealIter( num_vert, iterMapVec )
-% getPWIter: get the real number (piecewise) of iterations 
+function real_value = getRealValue( num_vert, mapVec )
+% getRealValue: get the real number (piecewise)
 % 
-% real_iter is an integer. It's the real number of iterations when the
+% real_value is an integer. It's the real number when the
 % number of vertices is num_vert.
 %
 
-    if num_vert > numel(iterMapVec)
-        real_iter = iterMapVec(end);
+    if num_vert > numel(mapVec)
+        real_value = mapVec(end);
     else
-        real_iter = iterMapVec( num_vert );
+        real_value = mapVec( num_vert );
     end
 end
 
 
-function iterMapVec = createIterVec( thresh_bound, iter )
-% createIterVec: create a mapping vector for the actual number of iterations
+function mapVec = createMapVec( thresh_bound, ymax )
+% createMapVec: create a mapping vector
 
     % ---------------------------------------------------------------------
     % chekc input
@@ -183,33 +189,33 @@ function iterMapVec = createIterVec( thresh_bound, iter )
         len = 2;
     end
 
-    iterMapVec = iter * ones(len,1);
+    mapVec = ymax * ones(len,1);
     
     % ---------------------------------------------------------------------
     % single threshold
     if numel(t) == 1 || t(1) == t(2)
-        iterMapVec( 1: ceil(t(1)-1) ) = 0;
+        mapVec( 1: ceil(t(1)-1) ) = 0;
         return
     end
 
     % ---------------------------------------------------------------------
     % two thresholds
-    t = round(t);
+    t = round(t);   % !!!
     
     if t(2) <= 0
         return
     end
     
     if t(1) > 0
-        iterMapVec( 1: t(1) ) = 0;
-        k = iter/(t(2)-t(1));
+        mapVec( 1: t(1) ) = 0;
+        k = ymax/(t(2)-t(1));
         x = t(1) : t(2);
         x = x(:);
         y = k * ( x - t(1));
-        iterMapVec( x ) = round( y );
+        mapVec( x ) = round( y );
         
     elseif t(1) <= 0 && t(2) > 0
-        k = iter/(t(2)-t(1));
+        k = ymax/(t(2)-t(1));
         x = t(1) : t(2);
         x = x(:);
 
@@ -217,22 +223,11 @@ function iterMapVec = createIterVec( thresh_bound, iter )
         x(idx) = [];
 
         y = k * ( x - t(1));
-        iterMapVec( x ) = round( y );
+        mapVec( x ) = round( y );
     end
 
     % ---------------------------------------------------------------------
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 
