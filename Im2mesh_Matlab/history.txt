@@ -26,6 +26,7 @@ demo03, 11, 13, 14, 17, 18
 
 Revise:
 Function smoothBounds - thresh_num_vert can be interval
+Function simplifyBounds - thresh_num_vert can be interval
 
 
 
