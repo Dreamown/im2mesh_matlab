@@ -22,9 +22,11 @@ function new_bounds = simplifyBounds( bounds, tolerance, thresh_num_vert )
 %               Function: dpsimplify.m (Douglas–Peucker algorithm)
 % 
 %   thresh_num_vert - threshold for the number of vertices.
-%                        If the number of vertices in a ppolyline is not 
-%                        larger than this threshold, do not perform 
-%                        simplification.
+%                     If the number of vertices in a ppolyline is not 
+%                     larger than this threshold, do not perform 
+%                     simplification.
+%                     It can be set as an integer or an array with 
+%                     two elements. See section 4 in Tutorial.pdf
 %
 % output:
 %   new_bounds - cell array. new_bounds{i}{j} is without (NaN,NaN)
