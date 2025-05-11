@@ -39,6 +39,8 @@ function new_bounds = smoothBounds( bounds, lambda, mu, iters, thresh_num_turn, 
 %   thresh_num_vert: Threshlod for the number of vertices. 
 %                    If the number of vertices in a polyline is smaller
 %                    than this threshold, do not perform smoothing.
+%                    It can be set as an integer or an array with 
+%                    two elements. See section 4 in Tutorial.pdf
 %
 % output:
 %   new_bounds - cell array. new_bounds{i}{j} is a polygon boundary with 
