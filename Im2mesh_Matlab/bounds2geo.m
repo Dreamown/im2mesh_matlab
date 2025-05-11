@@ -75,7 +75,7 @@ function bounds2geo( bounds, path_to_geo, opt )
 %                  Each triangle is split into four new sub-triangles.
 %                  Default value: 0
 % 
-%  opt.grad_mode - Gradient mode. Iinteger. Value: 0, 1, 2.
+%  opt.grad_mode - Gradient mode. Integer. Value: 0, 1, 2.
 %                  Default value: 0. 
 %                  When grad_mode is 0, mesh size field is not specified. 
 %                  When grad_mode is 1, the element size linearly increases
