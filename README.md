@@ -23,17 +23,7 @@ Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part
 - 4 mesh generators are available for selection: [MESH2D](https://github.com/dengwirda/mesh2d), [generateMesh](https://www.mathworks.com/help/pde/ug/pde.pdemodel.generatemesh.html), [Gmsh](https://gmsh.info/), and pixelMesh.
 - Graphical user interface (GUI) version is available as a MATLAB app and as a standalone desktop application.
 
-<<<<<<< Updated upstream
-<p align="center">
-  <img src = "https://mjx888.github.io/im2mesh_demo_html/GUI.png" height="300"> 
-</p>
-<<<<<<< HEAD
-=======
 **Generated mesh can be exported as:** 
->>>>>>> Stashed changes
-=======
-**Generated mesh can be exported as:** 
->>>>>>> 625852038f868d4058ee9ea6878a937afdfa0a57
 
 - `inp` file with boundary node set (Abaqus)
 - `bdf` file (Nastran bulk data, compatible with COMSOL), 
