@@ -16,9 +16,8 @@ function [ vert, tria, tnum, vert2, tria2, model1, model2 ] = im2meshBuiltIn( im
 %         It stores parameter settings for im2meshBuiltIn.
 %
 %   opt.tf_avoid_sharp_corner - For function getCtrlPnts
-%                               Whether to avoid sharp corner when 
+%                               Boolean. Whether to avoid sharp corner when 
 %                               simplifying polygon.
-%                               Value: true or false
 %                               Sharp corner in some cases will make MESH2D
 %                               not able to converge.
 %                               Default value: false
@@ -27,15 +26,17 @@ function [ vert, tria, tnum, vert2, tria2, model1, model2 ] = im2meshBuiltIn( im
 %   opt.mu     - Taubin smoothing. Default value: -0.5
 %   opt.iters  - Taubin smoothing. Default value: 100
 %
-%   opt.threshold_num_turning - For funtion smoothBounds
-%                               Threshold value for the number of turning
-%                               points in a polyline. 
-%                               Default value: 0
+%   opt.thresh_turn - For funtion smoothBounds
+%                     Threshold value for the number of turning points in 
+%                     a polyline during polyline smoothing.
+%                     Default value: 0
 %
-%   opt.threshold_num_vert_Smo - For funtion smoothBounds
-%                                Threshold value for the number of 
-%                                vertices in a polyline.
-%                                Default value: 0
+%   opt.thresh_vert_smooth - For funtion smoothBounds
+%                            Threshold value for the number of vertices in 
+%                            a polyline during polyline smoothing.
+%                            It can be set as an integer or an array with 
+%                            two elements. See section 4 in Tutorial.pdf
+%                            Default value: 0
 %     
 %   opt.tolerance - For funtion simplifyBounds
 %                   Tolerance for polygon simplification.
@@ -47,10 +48,12 @@ function [ vert, tria, tnum, vert2, tria2, model1, model2 ] = im2meshBuiltIn( im
 %                   delZeroAreaPoly.
 %                   Default value: 0.3
 %
-%   opt.threshold_num_vert_Sim - For funtion simplifyBounds
-%                                Threshold value for number of vertices in
-%                                a polyline. 
-%                                Default value: 0
+%   opt.thresh_vert_simplify - For funtion simplifyBounds
+%                              Threshold value for number of vertices in
+%                              a polyline during polyline simplification.
+%                              It can be set as an integer or an array with 
+%                              two elements. See section 4 in Tutorial.pdf
+%                              Default value: 0
 %
 %   opt.select_phase - Default value: []
 %     
@@ -111,6 +114,8 @@ function [ vert, tria, tnum, vert2, tria2, model1, model2 ] = im2meshBuiltIn( im
     else
         error("check the number of inputs");
     end
+    
+    checkOutdatedArg( opt );
 
     % --------------------------------------------------------------------
     % verify field names and set values for opt
@@ -123,18 +128,19 @@ function [ vert, tria, tnum, vert2, tria2, model1, model2 ] = im2meshBuiltIn( im
     
     % smooth boundary
     boundsSmooth = smoothBounds( boundsCtrlP, opt.lambda, opt.mu, opt.iters, ...
-                    opt.threshold_num_turning, opt.threshold_num_vert_Smo );
+                    opt.thresh_turn, opt.thresh_vert_smooth );
 
     % simplify polygon boundary
     boundsSimplified = simplifyBounds( boundsSmooth, opt.tolerance, ...
-                                            opt.threshold_num_vert_Sim );
+                                            opt.thresh_vert_simplify );
     boundsSimplified = delZeroAreaPoly( boundsSimplified );
 
     % clear up redundant vertices
     % only control points and turning points will remain
     boundsClear = getCtrlPnts( boundsSimplified );
     boundsClear = simplifyBounds( boundsClear, 0.5*opt.tolerance, ...
-                                            opt.threshold_num_vert_Sim );
+                                            opt.thresh_vert_simplify );
+    boundsClear = simplifyBounds( boundsClear, 0 );
     
     % --------------------------------------------------------------------
     % select phase
@@ -149,17 +155,29 @@ function [ vert, tria, tnum, vert2, tria2, model1, model2 ] = im2meshBuiltIn( im
     end
 
     % --------------------------------------------------------------------
-    % get nodes and edges of polygonal boundary
-    [ poly_node, poly_edge ] = getPolyNodeEdge( boundsClear );
-    % Convert boundaries to a cell array of polyshape object
-    pcell = bound2polyshape( boundsClear );
     % generate mesh
-    [vert,tria,tnum,vert2,tria2,~,~,model1,model2] = poly2meshBuiltIn( poly_node, poly_edge, pcell, ...
-                                        opt.hgrad, opt.hmax, opt.hmin );
+    [vert,tria,tnum,vert2,tria2,model1,model2] = bounds2meshBuiltIn( boundsClear, opt.hgrad, opt.hmax, opt.hmin );
 
     % --------------------------------------------------------------------
 end
 
+function checkOutdatedArg( opt )
+% checkOutdatedArg: check oudated arguments
+
+    if ~isempty(opt)
+        if isfield( opt, 'threshold_num_turning' )
+            error('Argument opt.threshold_num_turning is deprecated. Please use opt.thresh_turn instead.');
+        end
+
+        if isfield( opt, 'threshold_num_vert_Smo' )
+            error('Argument opt.threshold_num_vert_Smo is deprecated. Please use opt.thresh_vert_smooth instead.');
+        end
+
+        if isfield( opt, 'threshold_num_vert_Sim' )
+            error('Argument opt.threshold_num_vert_Sim is deprecated. Please use opt.thresh_vert_simplify instead.');
+        end
+    end
+end
 
 function new_opt = setOption( opt )
 % setOption: verify field names in opt and set values in new_opt according
@@ -170,10 +188,10 @@ function new_opt = setOption( opt )
     new_opt.lambda = 0.5;
     new_opt.mu = -0.5;
     new_opt.iters = 100;
-    new_opt.threshold_num_turning = 0;
-    new_opt.threshold_num_vert_Smo = 0;
+    new_opt.thresh_turn = 0;
+    new_opt.thresh_vert_smooth = 0;
     new_opt.tolerance = 0.3;
-    new_opt.threshold_num_vert_Sim = 0;
+    new_opt.thresh_vert_simplify = 0;
     new_opt.select_phase = [];
     new_opt.hgrad = 1.25;
     new_opt.hmax = 500;
@@ -190,12 +208,12 @@ function new_opt = setOption( opt )
     % get the field names of opt
     nameC = fieldnames(opt);
 
-    % verify field names in opt and set values in new_opt
-    % compare the field name of opt with new_opt using for loop
-    % if a field name of opt exist in new_opt, assign the that field value 
-    % in opt to new_opt
-    % if a field name of opt not exist in new_opt, show error
-
+    % Verify field names in opt and set values in new_opt.
+    % Compare the field name of opt with new_opt using for loop.
+    % If a field name of opt exist in new_opt, assign the that field value 
+    % in opt to new_opt.
+    % If a field name of opt not exist in new_opt, show error.
+    
     for i = 1: length(nameC)
         if isfield( new_opt, nameC{i} )
             value = getfield( opt, nameC{i} );
