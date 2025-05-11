@@ -5,11 +5,12 @@ function plotMeshes( vert, ele, tnum, color_code )
 % Nodes must be counter-clockwise ordering in an linear element.
 %
 % usage:
-%   plotMeshes( vert, ele, tnum );  % multiple phases
 %   plotMeshes( vert, ele );        % one phase
+%   plotMeshes( vert, ele, tnum );  % multiple phases
 %
-%   plotMeshes( vert, ele, tnum, color_code );  % multiple phases
 %   plotMeshes( vert, ele, [], color_code );    % one phase
+%   plotMeshes( vert, ele, tnum, color_code );  % multiple phases
+%   plotMeshes( vert, ele, tnum, 2 );
 %
 % input:
 %   vert - Node data. N-by-2 array.
