@@ -5,14 +5,13 @@ function [ xmin_node_cell, xmax_node_cell, ...
 %       to xmin
 %
 % Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
-% Distributed under the terms of the GNU General Public License (version 3)
 % 
 % Project website: https://github.com/mjx888/im2mesh
 %
 
     num_phase = length( nodecoor_cell );
     
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
     % xmin_node_cell
     xmin_vector = zeros( 1, num_phase );  % xmin_vector stores xmin for each phase
     for i = 1: num_phase
@@ -26,7 +25,7 @@ function [ xmin_node_cell, xmax_node_cell, ...
         xmin_node_cell{i} = getXYNode( nodecoor_cell{i}, xmin, 'x' );
     end
 
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
     % xmax_node_cell
     xmax_vector = zeros( 1, num_phase );
     for i = 1: num_phase
@@ -40,7 +39,7 @@ function [ xmin_node_cell, xmax_node_cell, ...
         xmax_node_cell{i} = getXYNode( nodecoor_cell{i}, xmax, 'x' );
     end
     
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
     % ymin_node_cell
     ymin_vector = zeros( 1, num_phase );
     for i = 1: num_phase
@@ -54,7 +53,7 @@ function [ xmin_node_cell, xmax_node_cell, ...
         ymin_node_cell{i} = getXYNode( nodecoor_cell{i}, ymin, 'y' );
     end
     
-    % ------------------------------------------------------------------------
+    % ---------------------------------------------------------------------
     % ymax_node_cell
     ymax_vector = zeros( 1, num_phase );
     for i = 1: num_phase
@@ -67,7 +66,7 @@ function [ xmin_node_cell, xmax_node_cell, ...
     for i = idx
         ymax_node_cell{i} = getXYNode( nodecoor_cell{i}, ymax, 'y' );
     end
-    
+    % ---------------------------------------------------------------------
 end
 
 

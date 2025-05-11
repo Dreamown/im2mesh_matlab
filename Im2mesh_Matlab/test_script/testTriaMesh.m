@@ -24,6 +24,14 @@ boundsClear = simplifyBounds( boundsClear, 0 );
 %%
 select_phase = [2  4]';
 boundsClear = boundsClear( select_phase );
+
+%%
+[vert,tria,tnum] = bounds2mesh( boundsClear, 500, 0.5 );
+plotMeshes(vert,tria,tnum);
+
+%%
+
+
 %%
 % get nodes and edges of polygonal boundary
 [ poly_node, poly_edge ] = getPolyNodeEdge( boundsClear );

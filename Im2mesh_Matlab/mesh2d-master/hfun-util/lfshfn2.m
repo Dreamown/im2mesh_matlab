@@ -24,24 +24,30 @@ function [vert,tria,hlfs] = lfshfn2(varargin)
 %   TRIA(II,3),:) are the coordinates of the II-TH triangle.
 %
 %   See also TRIHFN2, LIMHFN2, IDXTRI2
-
+%
 %   Darren Engwirda : 2017 --
 %   Email           : d.engwirda@gmail.com
 %   Last updated    : 24/01/2017
+%
+% Add the 5th parameter 'hinitial' for lfshfn2. Default of hinitial is []
+% [vlfs,tlfs, hlfs] = lfshfn2( node, edge, part, opts, hinitial );
+% 20250424 Jiexian Ma
 
 %---------------------------------------------- extract args
     node = []; PSLG = []; part = {}; opts = [] ;
+    hinitial = [];  % 20250424
 
     if (nargin>=+1), node = varargin{1}; end
     if (nargin>=+2), PSLG = varargin{2}; end
     if (nargin>=+3), part = varargin{3}; end
     if (nargin>=+4), opts = varargin{4}; end
+    if (nargin>=+5), hinitial = varargin{5}; end    % 20250424
 
 %------------------------------ build coarse background grid
    [opts] = makeopt(opts);
 
    [vert,conn,tria,tnum] = ...
-        refine2(node,PSLG,part,opts) ;
+        refine2(node,PSLG,part,opts,hinitial) ;     % 20250424
 
 %------------------------------ estimate local-feature-size!
     hlfs = ...
