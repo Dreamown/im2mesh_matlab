@@ -138,6 +138,7 @@ function printInp2d( vert, ele, tnum, ele_type, precision, file_name, opt )
     if ~isempty(tnum) && size(tnum,1) ~= size(ele,1)
         error("The 3rd input argument tnum has wrong size.");
     end
+    
     % ---------------------------------------------------------------------
     % If input is empty, assign defaualt value to input
     if isempty(tnum)
