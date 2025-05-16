@@ -120,6 +120,8 @@ function bounds2geo( bounds, path_to_geo, opt )
 %     achieve better mesh quality. Typical value of opt.sizeMax is 4 to 20.
 %  5. When opt.grad_mode is 1, you can adjust opt.sizeAtBound, 
 %     opt.sizeSlope, and opt.sizeMax to achieve better mesh quality.
+%  6. When opt.grad_mode is 2, you can set opt.SizeAtBound to a larger 
+%     value (e.g., 10-500) and adjust opt.SizeSlope.
 %
 %
 % Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
