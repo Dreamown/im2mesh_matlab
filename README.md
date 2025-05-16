@@ -6,15 +6,11 @@
 
 Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part geometry, aka multi-domain or multi-phase geometry (see demo14-17).
 
-<p align="center">
-  <img src = "https://mjx888.github.io/im2mesh_demo_html/example_tree.jpg" height="100"> &nbsp
-  <img src = "https://mjx888.github.io/im2mesh_demo_html/example_shape.jpg" height="100"> &nbsp
-  <img src = "https://mjx888.github.io/im2mesh_demo_html/example_concrete.jpg" height="100"> 
-</p>
 
 
 **News:**
 
+- In version 2.42, function `plotMeshes` become more powerful, providing a few plot style settings.
 - Version 2.2.0 can use Gmsh as mesh generator (unstructured quadrilateral mesh).
 - Version 2.1.6 updates the DOI. Im2mesh is now citable.
 
@@ -28,9 +24,6 @@ Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part
 - 4 mesh generators are available for selection: [MESH2D](https://github.com/dengwirda/mesh2d), [generateMesh](https://www.mathworks.com/help/pde/ug/pde.pdemodel.generatemesh.html), [Gmsh](https://gmsh.info/), and pixelMesh.
 - Graphical user interface (GUI) version is available as a MATLAB app and as a standalone desktop application.
 
-<p align="center">
-  <img src = "https://mjx888.github.io/im2mesh_demo_html/GUI.png" height="300"> 
-</p>
 
 
 **Generated mesh can be exported as:** 
@@ -58,7 +51,7 @@ After downloading Im2mesh package ([releases](https://github.com/mjx888/im2mesh/
 
 Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im2mesh_Octave". 16 examples are provided. 
 
-- If you're using MATLAB,  examples are live script `mlx` files (`demo01.mlx` ~ `demo16.mlx`). If you find some text in the `mlx` file is missing, please read the `html` file instead. Note that `demo02.mlx` requires MATLAB Partial Differential Equation (PDE) Toolbox. If you don't have PDE Toolbox, you can skip `demo02.mlx`.
+- If you're using MATLAB,  examples are live script `mlx` files (`demo01.mlx` ~ `demo18.mlx`). If you find some text in the `mlx` file is missing, please read the `html` file instead. Note that `demo02.mlx` requires MATLAB Partial Differential Equation (PDE) Toolbox. If you don't have PDE Toolbox, you can skip `demo02.mlx`.
 - If you're using Octave,  examples are `m` files (`demo01.m` ~ `demo10.m`).
 - Examples are also available as `html` files in the folder "demo_html".
 

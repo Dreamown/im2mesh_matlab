@@ -166,6 +166,7 @@ function [ vert, tria, tnum, vert2, tria2, conn, bounds ] = im2mesh( im, opt )
     boundsClear = getCtrlPnts( boundsSimplified );
     boundsClear = simplifyBounds( boundsClear, 0.5*opt.tolerance, ...
                                             opt.thresh_vert_simplify );
+    boundsClear = getCtrlPnts( boundsClear );
     boundsClear = simplifyBounds( boundsClear, 0 );
     
     % --------------------------------------------------------------------

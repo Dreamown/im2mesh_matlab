@@ -140,6 +140,7 @@ function [ vert, tria, tnum, vert2, tria2, model1, model2 ] = im2meshBuiltIn( im
     boundsClear = getCtrlPnts( boundsSimplified );
     boundsClear = simplifyBounds( boundsClear, 0.5*opt.tolerance, ...
                                             opt.thresh_vert_simplify );
+    boundsClear = getCtrlPnts( boundsClear );
     boundsClear = simplifyBounds( boundsClear, 0 );
     
     % --------------------------------------------------------------------
