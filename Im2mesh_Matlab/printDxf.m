@@ -1,6 +1,13 @@
 function printDxf( bounds, file_name )
 % printDxf: print bounds to dxf files
 %
+% Multiple dxf files will be created depending on the number of phases in
+% the 'bounds'. 
+% For example, the length of 'bounds' is 4, meaning total 4
+% phases in 'bounds'. 5 dxf files will be created. One dxf file is for all
+% the phases, with different phases storing in different draw layer. The
+% other 4 dxf files are for each phase in 'bounds'.
+%
 % input:
 %   bounds - A nested cell array of 2d polygonal boundaries.
 %            Polygons in bounds{i} belong to the i-th part or phase.
@@ -45,6 +52,7 @@ function printDxf( bounds, file_name )
         polyCell2dxf( bounds{i}, layer_filename, layer_name );
     end
 
+	disp('printDxf Done! Check the dxf file!');
     % ---------------------------------------------------------------------
 end
 
