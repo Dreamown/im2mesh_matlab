@@ -34,9 +34,17 @@ function model3d = bounds2pde3d( bounds, height, scale_factor )
     % ---------------------------------------------------------------------
     % create initial 2d mesh
     
+    % obtain PSLG
     [ poly_node, poly_edge ] = getPolyNodeEdge( bounds );
     [ node, edge, part ] = regroup( poly_node, poly_edge );
-    min_len = 1;
+
+    % Extract the coordinates for each endpoint of every edge
+    p1 = node(edge(:, 1), :);
+    p2 = node(edge(:, 2), :);
+    
+    % Compute edge length
+    edgeLengths = sqrt(sum((p1 - p2).^2, 2));
+    min_len = min(edgeLengths);
     
     [vert,~,tria,tnum] = deltri1( node, edge, part );
     
@@ -80,10 +88,10 @@ function [vert3d,tria3d,tnum3d] = addPhaseLabel(vert3d,tria3d,node,edge,part)
     tnum3d = zeros(size(tria3d,+1),+1);
     
     % tria midpoint
-    tmid = vert3d(tria3d(:,1),:) ...
-         + vert3d(tria3d(:,2),:) ...
-         + vert3d(tria3d(:,3),:) ...
-         + vert3d(tria3d(:,4),:) ;
+    tmid = vert3d( tria3d(:,1), : ) ...
+         + vert3d( tria3d(:,2), : ) ...
+         + vert3d( tria3d(:,3), : ) ...
+         + vert3d( tria3d(:,4), : );
     tmid = tmid / +4.0;
     
     % calc. "inside" status
@@ -94,6 +102,6 @@ function [vert3d,tria3d,tnum3d] = addPhaseLabel(vert3d,tria3d,node,edge,part)
     end
     
     % keep "interior" tria's
-    tria3d = tria3d(tnum3d>+0,:);
-    tnum3d = tnum3d(tnum3d>+0,:);
+    tria3d = tria3d( tnum3d>+0, : );
+    tnum3d = tnum3d( tnum3d>+0, : );
 end
