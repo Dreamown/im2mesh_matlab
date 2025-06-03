@@ -14,12 +14,13 @@ function plotMeshes( vert, ele, tnum, color_code, opt )
 %   plotMeshes( vert, ele, tnum, 2 );
 %
 % usage 3:
+%   color_code = 2;
 %   opt = [];   % reset
 %   opt.mode = 2;
-%   plotMeshes(vert,ele,tnum,2,opt)
+%   plotMeshes( vert,ele,tnum, color_code, opt )
 %
 % usage 4:
-%   % more settings
+%   color_code = 2;
 %   opt = [];   % reset
 %   opt.mode = 1;
 %   opt.wid = 0.5;
@@ -27,7 +28,8 @@ function plotMeshes( vert, ele, tnum, color_code, opt )
 %   opt.beta = 0.5;
 %   opt.tf_gs = 1;
 %   opt.q_thresh = 0.6;
-%   plotMeshes(vert,ele,tnum,2,opt)
+%
+%   plotMeshes( vert,ele,tnum, color_code, opt )
 %
 % input:
 %   Argument tnum, color_code, and opt are optional.
@@ -144,7 +146,7 @@ function plotMeshes( vert, ele, tnum, color_code, opt )
     num_phase = length( tvalue );
     
     %--------------------------------------------------------------------
-    % setup color
+    % set color
     % Create variable 'colors' - num_phase-by-3 array.
     % Each row in 'colors' is one rgb color.
 
