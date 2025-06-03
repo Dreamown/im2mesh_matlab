@@ -67,12 +67,12 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 
 - [demo01](https://mjx888.github.io/im2mesh_demo_html/demo01.html) - Demonstrate function `im2mesh`, which use `MESH2D` as mesh generator.
 - [demo02](https://mjx888.github.io/im2mesh_demo_html/demo02.html) - Demonstrate function `im2meshBuiltIn`, which use MATLAB built-in function `generateMesh` as mesh generator.
-- [demo03](https://mjx888.github.io/im2mesh_demo_html/demo03.html) - Export: save mesh as `inp`, `bdf`, and `msh` file; save geometry as `geo` file or PSLG data.
+- [demo03](https://mjx888.github.io/im2mesh_demo_html/demo03.html) - Export: save mesh as `inp`, `bdf`, and `msh` file; save geometry as `dxf` file, `geo` file or PSLG data.
 - [demo04](https://mjx888.github.io/im2mesh_demo_html/demo04.html) - What is inside `im2mesh`
 - [demo05](https://mjx888.github.io/im2mesh_demo_html/demo05.html) - Avoid sharp corner
 - [demo06](https://mjx888.github.io/im2mesh_demo_html/demo06.html) - Thresholds in polyline smoothing
-- [demo07](https://mjx888.github.io/im2mesh_demo_html/demo07.html) - Parameter `grad_limit` in mesh generation
-- [demo08](https://mjx888.github.io/im2mesh_demo_html/demo08.html) - Parameter `hmax` in mesh generation
+- [demo07](https://mjx888.github.io/im2mesh_demo_html/demo07.html) - Parameter `grad_limit` and `hmax` in mesh generation
+- [demo08](https://mjx888.github.io/im2mesh_demo_html/demo08.html) - Function `plotMeshes`
 - [demo09](https://mjx888.github.io/im2mesh_demo_html/demo09.html) - How to select phases for meshing
 - [demo10](https://mjx888.github.io/im2mesh_demo_html/demo10.html) - Different polyline smoothing techniques
 - [demo11](https://mjx888.github.io/im2mesh_demo_html/demo11.html) - Find node sets at the interface and boundary
