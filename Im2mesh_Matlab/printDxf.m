@@ -1,5 +1,6 @@
 function printDxf( bounds, file_name )
-% printDxf: print bounds to dxf files. Using LINE entities.
+% printDxf: print polygonal boundary to dxf files. 
+% Using LINE entities.
 %
 % Multiple dxf files will be created depending on the number of phases in
 % the 'bounds'. 
