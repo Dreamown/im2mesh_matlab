@@ -6,6 +6,11 @@
 
 Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part geometry, aka multi-domain or multi-phase geometry (see demo14-17).
 
+<p align="center">
+  <img src = "https://mjx888.github.io/im2mesh_demo_html/example_tree.jpg" height="100"> &nbsp
+  <img src = "https://mjx888.github.io/im2mesh_demo_html/example_shape.jpg" height="100"> &nbsp
+  <img src = "https://mjx888.github.io/im2mesh_demo_html/example_concrete.jpg" height="100"> 
+</p>
 
 
 **News:**
@@ -24,6 +29,9 @@ Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part
 - 4 mesh generators are available for selection: [MESH2D](https://github.com/dengwirda/mesh2d), [generateMesh](https://www.mathworks.com/help/pde/ug/pde.pdemodel.generatemesh.html), [Gmsh](https://gmsh.info/), and pixelMesh.
 - Graphical user interface (GUI) version is available as a MATLAB app and as a standalone desktop application.
 
+<p align="center">
+  <img src = "https://mjx888.github.io/im2mesh_demo_html/GUI.png" height="300"> 
+</p>
 
 
 **Generated mesh can be exported as:** 
