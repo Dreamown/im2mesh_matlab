@@ -84,11 +84,17 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 - [demo17](https://mjx888.github.io/im2mesh_demo_html/demo17.html) - Refine mesh
 - [demo18](https://mjx888.github.io/im2mesh_demo_html/demo18.html) - Create tetrahedral mesh based on 2D image
 
+
+
+## Author
+
+Jiexian Ma
+
 ## Cite as
 
-If you use Im2mesh, please cite it as follows.
+If you use Im2mesh, please cite it as follows. You can click the DOI link below to see other citation styles.
 
-Ma, Jiexian, & Li, Yuanyuan (2025). Im2mesh: A MATLAB/Octave package for generating finite element mesh based on 2D multi-phase image (2.1.5). Zenodo. https://doi.org/10.5281/zenodo.14847059
+Ma, J., & Li, Y. (2025). Im2mesh: A MATLAB/Octave package for generating finite element mesh based on 2D multi-phase image (2.1.5). Zenodo. https://doi.org/10.5281/zenodo.14847059
 
 Once my paper is published, I will update a new DOI here.
 
