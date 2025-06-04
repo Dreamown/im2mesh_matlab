@@ -15,7 +15,8 @@ Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part
 
 **News:**
 
-- In version 2.42, function `plotMeshes` become more powerful, providing a few plot style settings.
+- Version 2.45 can export polygonal boundaries as `dxf` file.
+- Function `plotMeshes` become more powerful, providing a few plot style settings (see demo 08).
 - Version 2.2.0 can use Gmsh as mesh generator (unstructured quadrilateral mesh).
 - Version 2.1.6 updates the DOI. Im2mesh is now citable.
 
@@ -23,7 +24,6 @@ Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part
 
 - Accurately preserve the contact details between different phases. 
 - Incorporates polyline smoothing and simplification
-- Able to avoid sharp corners when simplifying polylines.
 - Able to edit polygonal boundary before mesh generation.
 - Support phase selection and local mesh refinement.
 - 4 mesh generators are available for selection: [MESH2D](https://github.com/dengwirda/mesh2d), [generateMesh](https://www.mathworks.com/help/pde/ug/pde.pdemodel.generatemesh.html), [Gmsh](https://gmsh.info/), and pixelMesh.
