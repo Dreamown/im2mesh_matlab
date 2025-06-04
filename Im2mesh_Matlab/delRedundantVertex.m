@@ -1,8 +1,8 @@
-function [ vert, tria ] = delRedundantVertex( vert, tria )
-% delRedundantVertex: delete redundant vertex in 'vert' and update 'tria'
+function [ vert, ele ] = delRedundantVertex( vert, ele )
+% delRedundantVertex: delete redundant vertex in 'vert' and update 'ele'
 
     % Find all node indices that the mesh actually uses
-    keep = unique(tria(:));     % column vector of used node IDs
+    keep = unique(ele(:));     % column vector of used node IDs
     
     % Build a lookup table that maps old IDs -> new consecutive IDs
     map = zeros( size(vert,1), 1 );
@@ -10,5 +10,5 @@ function [ vert, tria ] = delRedundantVertex( vert, tria )
     
     % Update
     vert = vert( keep, :);
-    tria = map(tria);
+    ele = map(ele);
 end
