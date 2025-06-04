@@ -15,7 +15,8 @@ Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part
 
 **News:**
 
-- In version 2.42, function `plotMeshes` become more powerful, providing a few plot style settings.
+- Version 2.45 can export polygonal boundaries as `dxf` file (CAD).
+- Function `plotMeshes` become more powerful, providing a few plot style settings (see demo 08).
 - Version 2.2.0 can use Gmsh as mesh generator (unstructured quadrilateral mesh).
 - Version 2.1.6 updates the DOI. Im2mesh is now citable.
 
@@ -23,7 +24,6 @@ Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part
 
 - Accurately preserve the contact details between different phases. 
 - Incorporates polyline smoothing and simplification
-- Able to avoid sharp corners when simplifying polylines.
 - Able to edit polygonal boundary before mesh generation.
 - Support phase selection and local mesh refinement.
 - 4 mesh generators are available for selection: [MESH2D](https://github.com/dengwirda/mesh2d), [generateMesh](https://www.mathworks.com/help/pde/ug/pde.pdemodel.generatemesh.html), [Gmsh](https://gmsh.info/), and pixelMesh.
@@ -67,12 +67,12 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 
 - [demo01](https://mjx888.github.io/im2mesh_demo_html/demo01.html) - Demonstrate function `im2mesh`, which use `MESH2D` as mesh generator.
 - [demo02](https://mjx888.github.io/im2mesh_demo_html/demo02.html) - Demonstrate function `im2meshBuiltIn`, which use MATLAB built-in function `generateMesh` as mesh generator.
-- [demo03](https://mjx888.github.io/im2mesh_demo_html/demo03.html) - Export: save mesh as `inp`, `bdf`, and `msh` file; save geometry as `geo` file or PSLG data.
-- [demo04](https://mjx888.github.io/im2mesh_demo_html/demo04.html) - What is inside `im2mesh`
+- [demo03](https://mjx888.github.io/im2mesh_demo_html/demo03.html) - Export: save mesh as `inp`, `bdf`, and `msh` file; save geometry as `dxf` file, `geo` file or PSLG data.
+- [demo04](https://mjx888.github.io/im2mesh_demo_html/demo04.html) - What is inside function `im2mesh`
 - [demo05](https://mjx888.github.io/im2mesh_demo_html/demo05.html) - Avoid sharp corner
 - [demo06](https://mjx888.github.io/im2mesh_demo_html/demo06.html) - Thresholds in polyline smoothing
-- [demo07](https://mjx888.github.io/im2mesh_demo_html/demo07.html) - Parameter `grad_limit` in mesh generation
-- [demo08](https://mjx888.github.io/im2mesh_demo_html/demo08.html) - Parameter `hmax` in mesh generation
+- [demo07](https://mjx888.github.io/im2mesh_demo_html/demo07.html) - Parameter `hmax` and `grad_limit` in mesh generation
+- [demo08](https://mjx888.github.io/im2mesh_demo_html/demo08.html) - Function `plotMeshes`
 - [demo09](https://mjx888.github.io/im2mesh_demo_html/demo09.html) - How to select phases for meshing
 - [demo10](https://mjx888.github.io/im2mesh_demo_html/demo10.html) - Different polyline smoothing techniques
 - [demo11](https://mjx888.github.io/im2mesh_demo_html/demo11.html) - Find node sets at the interface and boundary
@@ -82,7 +82,7 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 - [demo15](https://mjx888.github.io/im2mesh_demo_html/demo15.html) - Edit polygonal boundaries before meshing
 - [demo16](https://mjx888.github.io/im2mesh_demo_html/demo16.html) - Add mesh seeds/nodes
 - [demo17](https://mjx888.github.io/im2mesh_demo_html/demo17.html) - Refine mesh
-- [demo18](https://mjx888.github.io/im2mesh_demo_html/demo18.html) - Create tetrahedral mesh based on 2d image
+- [demo18](https://mjx888.github.io/im2mesh_demo_html/demo18.html) - Create tetrahedral mesh based on 2D image
 
 ## Cite as
 
