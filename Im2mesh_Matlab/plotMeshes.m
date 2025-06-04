@@ -1,8 +1,11 @@
 function plotMeshes( vert, ele, tnum, color_code, opt )
 % plotMeshes: plot triangular or quadrilateral finite element mesh
-% Works for linear and quadratic elements
+% Works for linear and quadratic elements. 
+% Works for triangular and quadrilateral mesh. 
 %
 % Nodes must be counter-clockwise ordering in an linear element.
+%
+% See demo08 for usage examples.
 %
 % usage 1:
 %   plotMeshes( vert, ele );        % one phase
@@ -11,7 +14,6 @@ function plotMeshes( vert, ele, tnum, color_code, opt )
 % usage 2:
 %   plotMeshes( vert, ele, [], color_code );    % one phase
 %   plotMeshes( vert, ele, tnum, color_code );  % multiple phases
-%   plotMeshes( vert, ele, tnum, 2 );
 %
 % usage 3:
 %   color_code = 2;
