@@ -71,7 +71,7 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 - [demo04](https://mjx888.github.io/im2mesh_demo_html/demo04.html) - What is inside function `im2mesh`
 - [demo05](https://mjx888.github.io/im2mesh_demo_html/demo05.html) - Avoid sharp corner
 - [demo06](https://mjx888.github.io/im2mesh_demo_html/demo06.html) - Thresholds in polyline smoothing
-- [demo07](https://mjx888.github.io/im2mesh_demo_html/demo07.html) - Parameter `grad_limit` and `hmax` in mesh generation
+- [demo07](https://mjx888.github.io/im2mesh_demo_html/demo07.html) - Parameter `hmax` and `grad_limit` in mesh generation
 - [demo08](https://mjx888.github.io/im2mesh_demo_html/demo08.html) - Function `plotMeshes`
 - [demo09](https://mjx888.github.io/im2mesh_demo_html/demo09.html) - How to select phases for meshing
 - [demo10](https://mjx888.github.io/im2mesh_demo_html/demo10.html) - Different polyline smoothing techniques
