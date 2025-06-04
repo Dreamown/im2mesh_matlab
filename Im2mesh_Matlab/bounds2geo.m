@@ -16,7 +16,6 @@ function bounds2geo( bounds, path_to_geo, opt )
 %
 % usage3:
 %   path_to_geo = 'test.geo';
-%
 %   opt = [];   % reset
 %   opt.sizeMin = 0.1;
 %   opt.sizeMax = 500;
@@ -26,12 +25,23 @@ function bounds2geo( bounds, path_to_geo, opt )
 %   opt.eleOrder = 1;
 %   opt.scalingFactor = 1;
 %   opt.num_split = 0;
-%   opt.grad_mode = 0;
-%   opt.sizeAtBound = 500;
-%   opt.sizeSlope = 0.2;
-%
 %   bounds2geo( bounds, path_to_geo, opt );
 %
+% usage4:
+%   path_to_geo = 'test.geo';
+%   opt = [];   % reset
+%   opt.sizeMin = 0.1;
+%   opt.sizeMax = 500;
+%   opt.algthm = 6;
+%   opt.recombAll = 0;
+%   opt.recombAlgthm = 3;
+%   opt.eleOrder = 1;
+%   opt.scalingFactor = 1;
+%   opt.num_split = 0;
+%   opt.grad_mode = 1;
+%   opt.sizeAtBound = 2;
+%   opt.sizeSlope = 0.25;
+%   bounds2geo( bounds, path_to_geo, opt );
 %
 % input:
 %  bounds - a nested cell array of 2d polygonal boundaries.
@@ -97,8 +107,8 @@ function bounds2geo( bounds, path_to_geo, opt )
 %
 %  Argument opt.local_max, opt.pnt_size, opt.interior_poly, and 
 %  opt.hinitial only work when opt.grad_mode is set as 2. Their meaning and
-%  usage is the same as the ones in function bounds2mesh. They are used to 
-%  specify local feature size. Their default value are empty.
+%  usage is the same as the ones in function bounds2mesh (see demo17). They
+%  are used to specify local feature size. Their default value are empty.
 %      opt.local_max = [];
 %      opt.pnt_size = [];
 %      opt.interior_poly = {};
