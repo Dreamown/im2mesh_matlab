@@ -1,31 +1,32 @@
-function printInp2d( vert, ele, tnum, ele_type, precision, file_name, opt )
-% printInp2d: write 2d finite element mesh (nodes and elements) to inp 
+function printInp3d( vert, ele, tnum, ele_type, precision, file_name, opt )
+% printInp3d: write 3d finite element mesh (nodes and elements) to inp 
 % file (Abaqus). Tested in software Abaqus 6.14. 
-%           
-% Works for mesh with single or multiple phases. Note that phase is also 
+%
+% Works for 3d mesh with single or multiple phases. Note that phase is also 
 % known as part, domain, or physical surface. In finite element modeling of
 % composite materials, each phase in the mesh represents a distinct 
 % material component.
 %
 % Works for linear and quadratic element.
-% Works for triangular and quadrilateral element.
+% Works for tetrahedral and hexahedral mesh.
 %
-% See the link below for usage examples of function printInp2d.
+% See the link below for usage examples of function printInp3d.
 %   https://github.com/mjx888/writeMesh/blob/main/README.md
-%   https://mjx888.github.io/writeMesh/demo05.html
-%   https://mjx888.github.io/writeMesh/demo06.html
 %
-% Use functions: getNodeEle.m  fixOrdering.m  
-%                getBCNode.m   getInterf.m
+% Use functions: getNodeEle3d.m
+%                getBCNode3d.m   getInterf3d.m
+%
+% If you encounter error when using printInp3d, please set both
+% opt.tf_printMaxMinNode and opt.tf_printInterfNode as 0.
 %
 % usage:
-%   printInp2d( vert, ele );
-%   printInp2d( vert, ele, [], [], [], file_name );
-%   printInp2d( vert, ele, tnum );
-%   printInp2d( vert, ele, tnum, [], precision );
-%   printInp2d( vert, ele, tnum, ele_type, precision );
-%   printInp2d( vert, ele, tnum, ele_type, precision, file_name );
-%   printInp2d( vert, ele, tnum, ele_type, precision, file_name, opt );
+%   printInp3d( vert, ele );
+%   printInp3d( vert, ele, [], [], [], file_name );
+%   printInp3d( vert, ele, tnum );
+%   printInp3d( vert, ele, tnum, [], precision );
+%   printInp3d( vert, ele, tnum, ele_type, precision );
+%   printInp3d( vert, ele, tnum, ele_type, precision, file_name );
+%   printInp3d( vert, ele, tnum, ele_type, precision, file_name, opt );
 %
 % input:
 %   tnum, ele_type, precision, file_name, opt are optional.
@@ -35,9 +36,8 @@ function printInp2d( vert, ele, tnum, ele_type, precision, file_name, opt )
 %         contains the x, y coordinates for that mesh node.
 %     
 %   ele: Mesh elements. 
-%        For linear triangular elements, it s a Ne-by-3 matrix. 
-%        For linear quadrilateral elements, it s a Ne-by-4 matrix
-
+%        For linear tetrahedral elements, it s a Ne-by-4 matrix. 
+%        For linear hexahedral elements, it s a Ne-by-8 matrix
 %        Ne is the number of elements in the mesh. Each row in ele 
 %        contains the indices of the nodes for that mesh element.
 %   
@@ -57,8 +57,8 @@ function printInp2d( vert, ele, tnum, ele_type, precision, file_name, opt )
 %   file_name: file name of inp file, such as 'aaa.inp', 'D:\aaa.inp'.
 %              When omitted, file_name='test.inp';
 %
-%   opt - a structure array. It is the extra options for printInp2d.
-%         It stores extra parameter settings for printInp2d.
+%   opt - a structure array. It is the extra options for printInp3d.
+%         It stores extra parameter settings for printInp3d.
 %
 %   opt.tf_printMaxMinNode - Boolean. Value: 0 or 1. Whether to print nodes
 %                            at max & min location as node set.
@@ -68,12 +68,21 @@ function printInp2d( vert, ele, tnum, ele_type, precision, file_name, opt )
 %                            at the interface as node set.
 %                            Default value: 1
 %
+%   opt.tolerance - Numeric value. It's the tolerance for coordinates when
+%                   searching boundary node set (at max & min location).
+%                   Sub-routine will automatically find extrema for x y z 
+%                   coordinates in the mesh. Those surface nodes with 
+%                   coordinate satisfy |coordinate - extrema|< tolerance
+%                   will be considered as boundary node set (at max & min 
+%                   location). See writeMesh demo09 for usage example.
+%                   Default value: 1E-10
+%
 %   opt.user_nodeSet - User-defined node set. A nested cell array. 
 %                      Default value: {}
 %             Exampe:  opt.user_nodeSet{1} = { 'name1', [2 5 8] };
 %                      opt.user_nodeSet{2} = { 'name2', [36 23 56 80] };
 %
-%   opt.mode - Mode of printInp2d. This parameter is used to configure the 
+%   opt.mode - Mode of printInp3d. This parameter is used to configure the 
 %              arrangement of text within the inp file, or its format.
 %              Value: 1, 2, or 3. Default value: 1
 %     When =1, the declaration of assembly and instance will be neglected. 
@@ -134,9 +143,9 @@ function printInp2d( vert, ele, tnum, ele_type, precision, file_name, opt )
 
     % ---------------------------------------------------------------------
     % check input size
-    if size(vert,2) >= 3
-        warning("Z coordnates of mesh nodes will be ignored.");
-        vert = vert( :, 1:2 );
+    if size(vert,2) >= 4
+        warning("Only 1st to 3rd column in vert will be considered.");
+        vert = vert( :, 1:3 );
     end
     
     if ~isempty(tnum) && size(tnum,1) ~= size(ele,1)
@@ -153,14 +162,14 @@ function printInp2d( vert, ele, tnum, ele_type, precision, file_name, opt )
         ele_wid = size( ele, 2 );
         
         switch ele_wid
-            case 3
-                ele_type = 'CPS3';
-            case 6
-                ele_type = 'CPS6';
             case 4
-                ele_type = 'CPS4';
+                ele_type = 'C3D4';
+            case 10
+                ele_type = 'C3D10';
             case 8
-                ele_type = 'CPS8';
+                ele_type = 'C3D8';
+            case 20
+                ele_type = 'C3D20';
             otherwise
                 error("Bad input in mesh elements.")
         end
@@ -197,9 +206,9 @@ function printInp2d( vert, ele, tnum, ele_type, precision, file_name, opt )
     end
 
     % ---------------------------------------------------------------------
-    % fix node ordering for elements with negative area
+    % fix node ordering for elements with negative volume
     % ---------------------------------------------------------------------
-    ele = fixOrdering( vert, ele );
+    % ele = fixOrdering3d( vert, ele );     % Under development
     
     % ---------------------------------------------------------------------
     % check mode & print inp
@@ -236,6 +245,7 @@ function new_opt = setOption( opt )
     % initialize new_opt with default field names & value 
     new_opt.tf_printMaxMinNode = true;
     new_opt.tf_printInterfNode = true;
+    new_opt.tolerance = 1E-10;
     new_opt.user_nodeSet = {};
     new_opt.mode = 1;
     
@@ -291,7 +301,7 @@ function printMode1( vert, ele, tnum, ele_type, precision, file_name, opt )
     % Add node numbering and element numbering, and organize elements into 
     % cell array. eleC{i} represent elements in the i-th phase.
     
-    [ nodecoor, nodecoorC, eleC ] = getNodeEle( vert, ele, tnum );
+    [ nodecoor, nodecoorC, eleC ] = getNodeEle3d( vert, ele, tnum );
     num_phase = length( eleC );
     np = num_phase;
     
@@ -325,13 +335,11 @@ function printMode1( vert, ele, tnum, ele_type, precision, file_name, opt )
     
     % print coordinates of nodes
     % example:
-    % 3,4.69000000,23.82000000
-    %
-    % '%d,%.4f,%.4f,%.4f\n'
+    % 3,4.69,23.82,0.50
     
     fprintf( fid, ...
         [ ...
-        fmNodeNum, ',', fmNodeCo, ',', fmNodeCo, '\n' ...
+        fmNodeNum, ',', fmNodeCo, ',', fmNodeCo, ',', fmNodeCo, '\n' ...
         ], ...
         nodecoor' ...
         );
@@ -350,8 +358,7 @@ function printMode1( vert, ele, tnum, ele_type, precision, file_name, opt )
             ], ele_type, num2label(i,np) );
         
         % example:
-        % 3,173,400,475     % linear tria element
-        % 87,428,584,561,866,867,868    % quadratic tria element
+        % 3,173,400,475
 
         printEle( fid, eleC{i}, fmEleNum, fmNodeNum );
 
@@ -380,10 +387,10 @@ function printMode1( vert, ele, tnum, ele_type, precision, file_name, opt )
     
     % ---------------------------------------------------------------------
     % print node set
-
+    
     % node set at max & min location
     if opt.tf_printMaxMinNode
-        printNsMaxMin( fid, nodecoor, nodecoorC );
+        printNsMaxMin( fid, nodecoor, nodecoorC, ele, opt.tolerance );
     end
     
     % node set at the interface
@@ -406,7 +413,7 @@ function printMode1( vert, ele, tnum, ele_type, precision, file_name, opt )
     % ---------------------------------------------------------------------
     fclose(fid);
 	
-	disp('printInp2d Done! Check the inp file!');
+	disp('printInp3d Done! Check the inp file!');
     % ---------------------------------------------------------------------
 end
 
@@ -438,7 +445,7 @@ function printMode2( vert, ele, tnum, ele_type, precision, file_name, opt )
     % Add node numbering and element numbering, and organize elements into 
     % cell array. eleC{i} represent elements in the i-th phase.
     
-    [ nodecoor, nodecoorC, eleC ] = getNodeEle( vert, ele, tnum );
+    [ nodecoor, nodecoorC, eleC ] = getNodeEle3d( vert, ele, tnum );
     num_phase = length( eleC );
     np = num_phase;
     
@@ -477,13 +484,11 @@ function printMode2( vert, ele, tnum, ele_type, precision, file_name, opt )
     
     % print coordinates of nodes
     % example:
-    % 3,4.69000000,23.82000000
-    %
-    % '%d,%.4f,%.4f,%.4f\n'
+    % 3,4.69,23.82,0.50
     
     fprintf( fid, ...
         [ ...
-        fmNodeNum, ',', fmNodeCo, ',', fmNodeCo, '\n' ...
+        fmNodeNum, ',', fmNodeCo, ',', fmNodeCo, ',', fmNodeCo, '\n' ...
         ], ...
         nodecoor' ...
         );
@@ -502,8 +507,7 @@ function printMode2( vert, ele, tnum, ele_type, precision, file_name, opt )
             ], ele_type, num2label(i,np) );
         
         % example:
-        % 3,173,400,475     % linear tria element
-        % 87,428,584,561,866,867,868    % quadratic tria element
+        % 3,173,400,475
 
         printEle( fid, eleC{i}, fmEleNum, fmNodeNum );
 
@@ -550,7 +554,7 @@ function printMode2( vert, ele, tnum, ele_type, precision, file_name, opt )
 
     % node set at max & min location
     if opt.tf_printMaxMinNode
-        printNsMaxMin( fid, nodecoor, nodecoorC, instanceName );
+        printNsMaxMin( fid, nodecoor, nodecoorC, ele, opt.tolerance, instanceName );
     end
     
     % node set at the interface
@@ -571,7 +575,7 @@ function printMode2( vert, ele, tnum, ele_type, precision, file_name, opt )
     % ---------------------------------------------------------------------
     fclose(fid);
 	
-	disp('printInp2d Done! Check the inp file!');
+	disp('printInp3d Done! Check the inp file!');
     % ---------------------------------------------------------------------
 end
 
@@ -610,7 +614,7 @@ function printMode3( vert, ele, tnum, ele_type, precision, file_name, opt )
     % Add node numbering and element numbering, and organize elements into 
     % cell array. eleC{i} represent elements in the i-th phase.
     
-    [ ~, nodecoorC, eleC ] = getNodeEle( vert, ele, tnum );
+    [ ~, nodecoorC, eleC ] = getNodeEle3d( vert, ele, tnum );
     num_phase = length( eleC );
     np = num_phase;
     
@@ -652,13 +656,11 @@ function printMode3( vert, ele, tnum, ele_type, precision, file_name, opt )
         
         % print coordinates of nodes
         % example:
-        % 3,4.69000000,23.82000000
-        %
-        % '%d,%.4f,%.4f,%.4f\n'
+        % 3,4.69,23.82,0.50
         
         fprintf( fid, ...
             [ ...
-            fmNodeNum, ',', fmNodeCo, ',', fmNodeCo, '\n' ...
+            fmNodeNum, ',', fmNodeCo, ',', fmNodeCo, ',', fmNodeCo, '\n' ...
             ], ...
             nodecoorC{i}' ...
             );
@@ -677,7 +679,6 @@ function printMode3( vert, ele, tnum, ele_type, precision, file_name, opt )
         
         % example:
         % 3,173,400,475     % linear tria element
-        % 87,428,584,561,866,867,868    % quadratic tria element
 
         printEle( fid, eleC{i}, fmEleNum, fmNodeNum );
 
@@ -727,7 +728,7 @@ function printMode3( vert, ele, tnum, ele_type, precision, file_name, opt )
 
     % node set at max & min location
     if opt.tf_printMaxMinNode
-        printNsMaxMinXParts( fid, nodecoorC );
+        printNsMaxMinXParts( fid, nodecoorC, ele, opt.tolerance );
     end
     
     % node set at the interface
@@ -743,7 +744,7 @@ function printMode3( vert, ele, tnum, ele_type, precision, file_name, opt )
     % ---------------------------------------------------------------------
     fclose(fid);
 	
-	disp('printInp2d Done! Check the inp file!');
+	disp('printInp3d Done! Check the inp file!');
     % ---------------------------------------------------------------------
 end
 
@@ -786,8 +787,7 @@ function printEle( fid, ele, format_ele_num, format_node_num )
     
     % fprintf( fid, '%d,%d,%d,%d,%d\n', ele' );
     % example:
-    % 3,173,400,475                 % linear tria element
-    % 87,428,584,561,866,867,868    % quadratic tria element
+    % 3,173,400,475
 
     fprintf( fid, ...
         [   format_ele_num, ',', ...
@@ -810,39 +810,66 @@ function printSet( fid, nodeSet )
     end
 end
 
-function printNsMaxMin( fid, nodecoor, nodecoorC, instanceName )
+function printNsMaxMin( fid, nodecoor, nodecoorC, ele, tolerance, instanceName )
 % printNsMaxMin: print node set at max min location
+% Used by printMode1, printMode2
 %
 % usage:
-%   printNsMaxMin( fid, nodecoor, nodecoorC );
-%   printNsMaxMin( fid, nodecoor, nodecoorC, instanceName );
+%   printNsMaxMin( fid, nodecoor, nodecoorC, ele, tolerance );               % for printMode1
+%   printNsMaxMin( fid, nodecoor, nodecoorC, ele, tolerance, instanceName ); % for printMode2
 
     % ---------------------------------------------------------------------
-    if nargin < 4
+    if nargin < 6
         instanceName = [];
     end
     
-    % ---------------------------------------------------------------------
-    % get node set
-
     num_phase = length(nodecoorC);
     np = num_phase;
+    
+    % ---------------------------------------------------------------------
+    % remove internal nodes in nodecoor, nodecoorC 
+    
+    % check
+    if size(nodecoor, 1) > intmax('int32')
+        error('Contact the author.')
+    end
+    
+    surface_node = int32( getSurfaceNode3d(ele) );  % index
+    
+    % nodecoor
+    pristine_node = int32( nodecoor(:,1) );  % index
+    tf_vec = ismember( pristine_node, surface_node);
+    nodecoor = nodecoor( tf_vec, : );
+
+    % nodecoorC
+    for i = 1: num_phase
+        pristine_node = int32( nodecoorC{i}(:,1) );  % index
+        tf_vec = ismember( pristine_node, surface_node);
+        nodecoorC{i} = nodecoorC{i}( tf_vec, : );
+    end
+    
+    % ---------------------------------------------------------------------
+    % get node set at max min location
 
     % node set at xmin, xmax, ymin, ymax (globally)
     [ xmin_node, xmax_node, ...
-      ymin_node, ymax_node ] = getBCNode( {nodecoor} );
+      ymin_node, ymax_node, ...
+      zmin_node, zmax_node ] = getBCNode3d( {nodecoor}, tolerance );
     
     xmin_node = xmin_node{1};
     xmax_node = xmax_node{1};
     ymin_node = ymin_node{1};
     ymax_node = ymax_node{1};
+    zmin_node = zmin_node{1};
+    zmax_node = zmax_node{1};
 
     % node set at xmin, xmax, ymin, ymax for each phase
     [ xmin_node_cell, xmax_node_cell, ...
-      ymin_node_cell, ymax_node_cell ] = getBCNode( nodecoorC );
+      ymin_node_cell, ymax_node_cell, ...
+      zmin_node_cell, zmax_node_cell ] = getBCNode3d( nodecoorC, tolerance );
 
     % ---------------------------------------------------------------------
-    % node set at xmin, xmax, ymin, ymax (globally)
+    % node set at xmin, xmax, ymin, ymax, zmin, zmax (globally)
     % ---------------------------------------------------------------------
     % xmin
     if ~isempty( xmin_node )
@@ -895,9 +922,35 @@ function printNsMaxMin( fid, nodecoor, nodecoorC, instanceName )
     end
     
     fprintf( fid, '%s\n', '**' );
+    % ---------------------------------------------------------------------
+    % zmin
+    if ~isempty( zmin_node )
+        if isempty( instanceName )
+            fprintf( fid, ['*Nset, nset=Set-Zmin' '\n'] );
+        else
+            fprintf( fid, ['*Nset, nset=Set-Zmin, instance=%s' '\n'], instanceName );
+        end
+
+	    printSet( fid, zmin_node );
+    end
+    
+    fprintf( fid, '%s\n', '**' );
+    % ---------------------------------------------------------------------
+    % zmax
+    if ~isempty( zmax_node )
+        if isempty( instanceName )
+            fprintf( fid, ['*Nset, nset=Set-Zmax' '\n'] );
+        else
+            fprintf( fid, ['*Nset, nset=Set-Zmax, instance=%s' '\n'], instanceName );
+        end
+        
+	    printSet( fid, zmax_node );
+    end
+    
+    fprintf( fid, '%s\n', '**' );
 
     % ---------------------------------------------------------------------
-    % node set at xmin, xmax, ymin, ymax for each phase
+    % node set at xmin, xmax, ymin, ymax, zmin, zmax for each phase
     % ---------------------------------------------------------------------
     if num_phase == 1
         return
@@ -967,15 +1020,48 @@ function printNsMaxMin( fid, nodecoor, nodecoorC, instanceName )
     
     fprintf( fid, '%s\n', '**' );
     % ---------------------------------------------------------------------
+    % zmin
+    for i = 1: num_phase
+	    if ~isempty( zmin_node_cell{i} )
+            if isempty( instanceName )
+                fprintf( fid, ['*Nset, nset=Set-Zmin-%s' '\n'], num2label(i,np) );
+            else
+                fprintf( fid, ['*Nset, nset=Set-Zmin-%s, instance=%s' '\n'], ...
+                        num2label(i,np), instanceName );
+            end
+    
+		    printSet( fid, zmin_node_cell{i} );
+	    end
+    end
+    
+    fprintf( fid, '%s\n', '**' );
+    % ---------------------------------------------------------------------
+    % zmax
+    for i = 1: num_phase
+	    if ~isempty( zmax_node_cell{i} )
+            if isempty( instanceName )
+                fprintf( fid, ['*Nset, nset=Set-Zmax-%s' '\n'], num2label(i,np) );
+            else
+                fprintf( fid, ['*Nset, nset=Set-Zmax-%s, instance=%s' '\n'], ...
+                        num2label(i,np), instanceName );
+            end
+    
+		    printSet( fid, zmax_node_cell{i} );
+	    end
+    end
+    
+    fprintf( fid, '%s\n', '**' );
+    % ---------------------------------------------------------------------
 end
 
 
 function printNsInterf( fid, nodecoorC, instanceName )
 % printNsInterf: print node set at the interface
+% Used by printMode1, printMode2
 %
 % usage:
-%   printNsInterf( fid, nodecoorC );
-%   printNsInterf( fid, nodecoorC, instanceName );
+%   printNsInterf( fid, nodecoorC );                % for printMode1
+%   printNsInterf( fid, nodecoorC, instanceName );  % for printMode2
 
     % ---------------------------------------------------------------------
     if nargin < 3
@@ -985,7 +1071,7 @@ function printNsInterf( fid, nodecoorC, instanceName )
     % ---------------------------------------------------------------------
     num_phase = length(nodecoorC);
     np = num_phase;
-    interfnode_cell = getInterf( nodecoorC );
+    interfnode_cell = getInterf3d( nodecoorC );
     % interfnode_cell{i,j} are nodes at interface i,j
 
     for i = 1: num_phase-1
@@ -1012,8 +1098,8 @@ function printUserNs( fid, nodeSet, instanceName )
 % printUserNs: print user-defined node set
 %
 % usage:
-%   printUserNs( fid, nodeSet )
-%   printUserNs( fid, nodeSet, instanceName );
+%   printUserNs( fid, nodeSet )                 % for printMode1
+%   printUserNs( fid, nodeSet, instanceName );  % for printMode2
 
     % ---------------------------------------------------------------------
     if nargin < 3
@@ -1027,7 +1113,7 @@ function printUserNs( fid, nodeSet, instanceName )
 	    if ~isempty( nodeSet{i}{1} ) && ~isempty( nodeSet{i}{2} )
             
             if isempty( instanceName )
-                fprintf( fid, ['*Nset, nset=Set-%s' '\n'], nodeSet{i}{1} );
+                fprintf( fid, ['*Nset, nseprintNsMaxMint=Set-%s' '\n'], nodeSet{i}{1} );
             else
                 fprintf( fid, ['*Nset, nset=Set-%s, instance=%s' '\n'], ...
                         nodeSet{i}{1}, instanceName );
@@ -1041,27 +1127,44 @@ function printUserNs( fid, nodeSet, instanceName )
     % ---------------------------------------------------------------------
 end
 
-function printNsMaxMinXParts( fid, nodecoorC )
+function printNsMaxMinXParts( fid, nodecoorC, ele, tolerance )
 % printNsMaxMinXParts: print node set at max min location for each part
 % Used by function printMode3
 % 
 
     % ---------------------------------------------------------------------
-    % get node set
-
+    % remove internal nodes in nodecoorC 
+    
     num_phase = length(nodecoorC);
     np = num_phase;
+    surface_node = int32( getSurfaceNode3d(ele) );  % index
+    
+    for i = 1: num_phase
+        % check
+        if size(nodecoorC{i}, 1) > intmax('int32')
+            error('Contact the author.')
+        end
+
+        pristine_node = int32( nodecoorC{i}(:,1) );  % index
+        tf_vec = ismember( pristine_node, surface_node);
+        nodecoorC{i} = nodecoorC{i}( tf_vec, : );
+    end
+
+    % ---------------------------------------------------------------------
+    % get node set
 
     % node set at xmin, xmax, ymin, ymax for each phase
     [ xmin_node_cell, xmax_node_cell, ...
-      ymin_node_cell, ymax_node_cell ] = getBCNode( nodecoorC );
+      ymin_node_cell, ymax_node_cell, ...
+      zmin_node_cell, zmax_node_cell ] = getBCNode3d( nodecoorC, tolerance );
 
     % ---------------------------------------------------------------------
-    % node set at xmin, xmax, ymin, ymax for each phase
+    % node set at xmin, xmax, ymin, ymax, zmin, zmax for each phase
     % ---------------------------------------------------------------------
-    if num_phase == 1
-        return
-    end
+%     if num_phase == 1
+%         return
+%     end
+    
     % ---------------------------------------------------------------------
     % xmin
     for i = 1: num_phase
@@ -1088,6 +1191,7 @@ function printNsMaxMinXParts( fid, nodecoorC )
     end
     
     fprintf( fid, '%s\n', '**' );
+
     % ---------------------------------------------------------------------
     % ymin
     for i = 1: num_phase
@@ -1114,6 +1218,33 @@ function printNsMaxMinXParts( fid, nodecoorC )
     end
     
     fprintf( fid, '%s\n', '**' );
+    
+    % ---------------------------------------------------------------------
+    % zmin
+    for i = 1: num_phase
+	    if ~isempty( zmin_node_cell{i} )
+            fprintf( fid, ...
+                    ['*Nset, nset=Set-Zmin-%s, instance=Instance-%s' '\n'], ...
+                    num2label(i,np), num2label(i,np) );
+    
+		    printSet( fid, zmin_node_cell{i} );
+	    end
+    end
+    
+    fprintf( fid, '%s\n', '**' );
+    % ---------------------------------------------------------------------
+    % zmax
+    for i = 1: num_phase
+	    if ~isempty( zmax_node_cell{i} )
+            fprintf( fid, ...
+                    ['*Nset, nset=Set-Zmax-%s, instance=Instance-%s' '\n'], ...
+                    num2label(i,np), num2label(i,np) );
+    
+		    printSet( fid, zmax_node_cell{i} );
+	    end
+    end
+    
+    fprintf( fid, '%s\n', '**' );
     % ---------------------------------------------------------------------
 end
 
@@ -1126,10 +1257,10 @@ function printNsInterfXParts( fid, nodecoorC )
     % ---------------------------------------------------------------------
     num_phase = length(nodecoorC);
     np = num_phase;
-    interfnode_cell = getInterf( nodecoorC );
+    interfnode_cell = getInterf3d( nodecoorC );
     % interfnode_cell{i,j} are nodes in part i at interface i,j
     % interfnode_cell{j,i} are nodes in part j at interface i,j
-
+    
     for i = 1: num_phase-1
 	    for j = i+1: num_phase
 		    if ~isempty( interfnode_cell{i,j} )

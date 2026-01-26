@@ -1,32 +1,32 @@
-function printBdf2d( vert, ele, tnum, ele_type, precision, file_name )
-% printBdf2d: write 2d finite element mesh (nodes and elements) to bdf 
+function printBdf3d( vert, ele, tnum, ele_type, precision, file_name )
+% printBdf3d: write 3d finite element mesh (nodes and elements) to bdf 
 % file (Nastran bulk data, compatible with COMSOL). 
 %           
-% Works for linear triangular and linear quadrilateral element.
+% Works for linear tetrahedral and linear hexahedral element.
 % Not work for quadratic element.
 %
-% Use functions: getNodeEle.m  fixOrdering.m
+% Use functions: getNodeEle3d.m
 %
 % See the link below for usage examples.
 %   https://github.com/mjx888/writeMesh/blob/main/README.md
 %
 % usage:
-%   printBdf2d( vert, ele );
-%   printBdf2d( vert, ele, [], [], [], file_name );
-%   printBdf2d( vert, ele, tnum );
-%   printBdf2d( vert, ele, tnum, [], precision );
-%   printBdf2d( vert, ele, tnum, [], precision, file_name );
+%   printBdf3d( vert, ele );
+%   printBdf3d( vert, ele, [], [], [], file_name );
+%   printBdf3d( vert, ele, tnum );
+%   printBdf3d( vert, ele, tnum, [], precision );
+%   printBdf3d( vert, ele, tnum, [], precision, file_name );
 %
 % input:
 %   ele_type, precision, file_name are optional.
 %
-%   vert: Mesh nodes. It’s a Nn-by-2 matrix, where 
+%   vert: Mesh nodes. It’s a Nn-by-3 matrix, where 
 %         Nn is the number of nodes in the mesh. Each row of vert 
-%         contains the x, y coordinates for that mesh node.
+%         contains the x, y, z coordinates for that mesh node.
 %     
 %   ele: Mesh elements. 
-%        For linear triangular elements, it s a Ne-by-3 matrix. 
-%        For linear quadrilateral elements, it s a Ne-by-4 matrix
+%        For linear tetrahedral elements, it s a Ne-by-4 matrix. 
+%        For linear hexahedral elements, it s a Ne-by-8 matrix
 %         
 %        Ne is the number of elements in the mesh. Each row in ele 
 %        contains the indices of the nodes for that mesh element.
@@ -63,12 +63,14 @@ function printBdf2d( vert, ele, tnum, ele_type, precision, file_name )
     % format of bdf file
     % ---------------------------------------------------------------------
     % BEGIN BULK
-    % GRID*,1,,0.50000000,0.50000000
-    % GRID*,2,,0.50000000,3.50000000
-    % CTRIA3*,1,1,1,3,*
-    % *,2
-    % CTRIA3*,2,1,2,3,*
-    % *,4
+    % GRID*,1,,0.50000000,0.50000000,*
+    % *,0.00000000
+    % GRID*,2,,0.50000000,3.50000000,*
+    % *,0.00000000
+    % CTETRA*,1,1,628,208,*
+    % *,59,246
+    % CTETRA*,2,1,665,671,*
+    % *,285,178
     % ENDDATA
     
     % ---------------------------------------------------------------------
@@ -97,9 +99,9 @@ function printBdf2d( vert, ele, tnum, ele_type, precision, file_name )
 
     % ---------------------------------------------------------------------
     % check input size
-    if size(vert,2) >= 3
-        warning("Z coordnates of mesh nodes will be ignored.");
-        vert = vert( :, 1:2 );
+    if size(vert,2) >= 4
+        warning("Only 1st to 3rd column in vert will be considered.");
+        vert = vert( :, 1:3 );
     end
     
     if ~isempty(tnum) && size(tnum,1) ~= size(ele,1)
@@ -141,7 +143,7 @@ function printBdf2d( vert, ele, tnum, ele_type, precision, file_name )
 
     % ---------------------------------------------------------------------
     % fix node ordering for elements with negative area
-    ele = fixOrdering( vert, ele );
+    % ele = fixOrdering3d( vert, ele );     % Under development
     
     % ---------------------------------------------------------------------
     % prepare for writing file
@@ -149,7 +151,7 @@ function printBdf2d( vert, ele, tnum, ele_type, precision, file_name )
     % Add node numbering and element numbering, and organize elements into 
     % cell array. eleC{i} represent elements in the i-th phase.
 
-    [nodecoor, ~, eleC] = getNodeEle( vert, ele, tnum );
+    [nodecoor, ~, eleC] = getNodeEle3d( vert, ele, tnum );
 
     % ---------------------------------------------------------------------
     numNode = size( nodecoor, 1 );
@@ -164,7 +166,7 @@ function printBdf2d( vert, ele, tnum, ele_type, precision, file_name )
     end
     
     % num_digits_of_int_part
-    numDigitsIntPart = 1 + floor( log10( max(nodecoor(end,2:3)) ) );
+    numDigitsIntPart = 1 + floor( log10( max(nodecoor(end,2:4)) ) );
                                                              % 182.9 -> 3
     if (numDigitsIntPart + precision + 1) > 16
         error('more than 16 digits')
@@ -186,9 +188,12 @@ function printBdf2d( vert, ele, tnum, ele_type, precision, file_name )
         ]);
     
     % print node
-    % GRID*,3,,0.5000,2.5000
+    % GRID*,3,,0.5000,2.5000,*
+    % *,3.5000
+
     fprintf( fid, ...
-            [ 'GRID*,%d,,', fmNodeCo, ',', fmNodeCo, '\n'], ...
+            [ 'GRID*,%d,,', fmNodeCo, ',', fmNodeCo, ',*\n', ...
+             '*,', fmNodeCo, '\n'], ...
             nodecoor' ...
             );
 
@@ -203,35 +208,37 @@ function printBdf2d( vert, ele, tnum, ele_type, precision, file_name )
 
     % ---------------------------------------------------------------------
     % print element
-    ele_wid =  size( eleC{1}, 2 ) -1;
+    ele_wid = size( eleC{1}, 2 ) -1;
     
-    if ele_wid == 3
-        % linear triangular element
-        % CTRIA3*,5,1,40,46,*
-        % *,47
+    if ele_wid == 4
+        % linear tetrahedral element
+        % CTETRA*,5,1,40,46,*
+        % *,47,73
 
         for i = 1: num_phase
             fprintf( fid, ...
-                ['CTRIA3*,%d,%d,%d,%d', ',*\n', ...
-                 '*,', '%d\n'], ...
-                [ eleC{i}(:,1), i * ones(size(eleC{i},1),1), eleC{i}(:,2:4) ]' ...
-                );
-        end
-        
-    elseif ele_wid == 4
-        % linear quadrilateral element
-        % CQUAD4*,5,1,40,46,*
-        % *,17,11
-
-        for i = 1: num_phase
-            fprintf( fid, ...
-                [ 'CQUAD4*,%d,%d,%d,%d', ',*\n', ...
-                 '*,', '%d,%d\n' ], ...
+                ['CTETRA*,%d,%d,%d,%d', ',*\n', ...
+                 '*,', '%d,%d\n'], ...
                 [ eleC{i}(:,1), i * ones(size(eleC{i},1),1), eleC{i}(:,2:5) ]' ...
                 );
         end
+        
+    elseif ele_wid == 8
+        % linear hexahedral element
+        % CHEXA*,5,1,40,46,*
+        % *,47,41,10,16,*
+        % *,17,11
+        
+        for i = 1: num_phase
+            fprintf( fid, ...
+                ['CHEXA*,%d,%d,%d,%d', ',*\n', ...
+                 '*,', '%d,%d,%d,%d', ',*\n', ...
+                 '*,', '%d,%d\n'], ...
+                [ eleC{i}(:,1), i * ones(size(eleC{i},1),1), eleC{i}(:,2:9) ]' ...
+                );
+        end
     else
-        error('Function printBdf2d do not support quadratic elements.');
+        error('Function printBdf3d do not support quadratic elements.');
     end
     
     % ---------------------------------------------------------------------
@@ -240,6 +247,6 @@ function printBdf2d( vert, ele, tnum, ele_type, precision, file_name )
     % ---------------------------------------------------------------------
     fclose(fid);
 	
-	disp('printBdf2d Done! Check the bdf file!');
+	disp('printBdf3d Done! Check the bdf file!');
     % ---------------------------------------------------------------------
 end
