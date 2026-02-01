@@ -57,6 +57,7 @@ function [vert,ele,tnum,vert2,ele2] = voxelMesh( im, opt )
 
     %----------------------------------------------------------------------
     % check the number of inputs
+    %----------------------------------------------------------------------
     if nargin == 1
         opt = [];
     elseif nargin == 2
@@ -70,6 +71,7 @@ function [vert,ele,tnum,vert2,ele2] = voxelMesh( im, opt )
 
     %----------------------------------------------------------------------
     % pre-process
+    %----------------------------------------------------------------------
     im = flip( flip( im, 1 ), 3 );  % FEM software use right-hand coordinate
     
     num_row = size( im, 1 );
@@ -79,8 +81,9 @@ function [vert,ele,tnum,vert2,ele2] = voxelMesh( im, opt )
 
     %----------------------------------------------------------------------
     % get unique intensities from image
-    intensity = unique( im );     % column vector
-
+    %----------------------------------------------------------------------
+    intensity = unique( im(:) );     % column vector
+    
     % select phase
     if isempty(opt.select_phase)
         % = do nothing = all phases will be chosen
@@ -94,54 +97,56 @@ function [vert,ele,tnum,vert2,ele2] = voxelMesh( im, opt )
     end
 
     %----------------------------------------------------------------------
-    % total number of elements
-    num_phase = length( intensity );
-    num_ele = 0;
-    for i = 1: num_phase
-        num_ele = num_ele + sum(sum(sum( im==intensity(i) )));
-    end
-    
-    % initialize ele, tnum
-    ele = zeros( num_ele, 8, integer_type );
-    tnum = zeros( num_ele, 1, 'uint8' );
-    
-    %----------------------------------------------------------------------
     % get 8-node numbering of each element
-    m = 1;  % counter
-    for i = 1: num_row
-        for j = 1: num_col
-            for k = 1: num_sli
-                row = i;
-                col = j;
-                sli = k;
-                
-                % check intensity
-                if ~ismember( im(row,col,sli), intensity )
-                    continue
-                end
-                
-                % node numbering of 8 corner 
-                Lind_8corner = [ 
-                                 (col-1)*(num_row+1) + row + (num_row+1)*(num_col+1)*(sli-1), ...
-                                 col*(num_row+1) + row + (num_row+1)*(num_col+1)*(sli-1), ...
-                                 col*(num_row+1) + row + 1 + (num_row+1)*(num_col+1)*(sli-1), ...
-                                 (col-1)*(num_row+1) + row + 1 + (num_row+1)*(num_col+1)*(sli-1), ...
-                                 (col-1)*(num_row+1) + row + (num_row+1)*(num_col+1)*sli, ...
-                                 col*(num_row+1) + row + (num_row+1)*(num_col+1)*sli, ...
-                                 col*(num_row+1) + row + 1 + (num_row+1)*(num_col+1)*sli, ...
-                                 (col-1)*(num_row+1) + row + 1 + (num_row+1)*(num_col+1)*sli
-                                 ];
-                
-                ele(m,:) = Lind_8corner;
-                tnum(m,:) = find( im(row,col,sli) == intensity );
-                
-                m = m + 1;
-            end
-        end
+    % This section is improved by Gemini based on my own code.
+    % My own code is easier to understand but much slower. :D
+    %----------------------------------------------------------------------
+    % Find indices of all voxels belonging to the target phases
+    % 'ismember' returns a mask of the same size as 'im'
+    mask = ismember( im, intensity );
+    valid_lin_ind = find( mask );
+    num_ele = length( valid_lin_ind );
+    
+    % Calculate Phase IDs (tnum)
+    % Use the 2nd output of ismember to map image values to phase indices
+    [~, loc] = ismember( im(valid_lin_ind), intensity );
+    tnum = cast(loc, 'uint8'); 
+    
+    % Calculate Nodal Connectivity (ele)
+    if num_ele > 0
+        % Convert linear indices to subscripts [row, col, sli]
+        [r, c, s] = ind2sub([num_row, num_col, num_sli], valid_lin_ind);
+        
+        % Define strides (increments) for the node grid (num_row+1 x num_col+1)
+        stride_row = 1;
+        stride_col = num_row + 1;
+        stride_sli = (num_row + 1) * (num_col + 1);
+        
+        % Calculate the linear index of the first corner (Node 1) for EVERY
+        % element. Formula: (c-1)*stride_col + r + (s-1)*stride_sli
+        n1 = (c-1)*stride_col + r + (s-1)*stride_sli;
+        
+        % Define offsets for the 8 corners relative to Node 1
+        node_offsets = [0, ...                                           % Node 1
+                        stride_col, ...                                  % Node 2
+                        stride_col + stride_row, ...                     % Node 3
+                        stride_row, ...                                  % Node 4
+                        stride_sli, ...                                  % Node 5
+                        stride_sli + stride_col, ...                     % Node 6
+                        stride_sli + stride_col + stride_row, ...        % Node 7
+                        stride_sli + stride_row];                        % Node 8
+        
+        % Use implicit expansion (broadcasting) to create the element 
+        % matrix. n1 is (NumEle x 1), offsets is (1 x 8) -> Result is 
+        % (NumEle x 8)
+        ele = cast(n1 + node_offsets, integer_type);
+    else
+        error('Num of element < 1')
     end
     
     %----------------------------------------------------------------------
-    % get all node numbering 
+    % get all node numbering
+    %----------------------------------------------------------------------
     unique_node_ind_v = unique(ele);
 
     % get list of node coordinates, corresponding to unique_node_ind_v
@@ -151,15 +156,16 @@ function [vert,ele,tnum,vert2,ele2] = voxelMesh( im, opt )
     %----------------------------------------------------------------------
     % update node numbering in ele by mapping: nodecoor_list(i,1) -> i
     % so we can safely discard the 1st column of nodecoor_list in next step
-%     new_ele = ele;
-% 
-%     for i = 1: size(nodecoor_list,1)
-%         old_ind = nodecoor_list(i,1);
-%         new_ind = i;
-%         new_ele( ele == old_ind ) = new_ind;
-%     end
-%     
-%     ele = new_ele;
+    %----------------------------------------------------------------------
+    % new_ele = ele;
+    % 
+    % for i = 1: size(nodecoor_list,1)
+    %     old_ind = nodecoor_list(i,1);
+    %     new_ind = i;
+    %     new_ele( ele == old_ind ) = new_ind;
+    % end
+    % 
+    % ele = new_ele;
 
     %----------------------------------------------------------------------
     % speed up the above process
@@ -180,10 +186,12 @@ function [vert,ele,tnum,vert2,ele2] = voxelMesh( im, opt )
 
     %----------------------------------------------------------------------
     % x y z coordinates of vertices
+    %----------------------------------------------------------------------
     vert = nodecoor_list(:,2:4);
 
     %----------------------------------------------------------------------
     % convert linear to quadratic element
+    %----------------------------------------------------------------------
     [vert2, ele2] = insertNode3d(vert, ele);
     
     %----------------------------------------------------------------------
@@ -245,44 +253,34 @@ function integer_type = getIntType( num_col, num_row, num_sli )
 end
 
 function nodecoor_list = getNodelist( unique_node_ind_v, num_col, num_row, num_sli )
-% getNodelist: get list of all nodes
+% getNodelist: Vectorized calculation of node coordinates
+% This function is improved by Gemini based on my own code.
+% My own code is easier to understand but slower. :D
 %
-% nodecoor_list(i,:) = [ node_number, x, y, z ]
+% Inputs:
+%   unique_node_ind_v: Vector of unique linear node indices
+%   num_col, num_row, num_sli: Dimensions of the voxel grid (elements)
 %
-% Revision history:
-%   Jiexian Ma, mjx0799@gmail.com, Nov 2019
-
-    % generate x y z coordinate of all nodes
-    % can be accessed by X( row, col, sli ), Y( row, col, sli ), 
-    % Z( row, col, sli )
-    xs = 0.5: num_col+0.5;
-    ys = 0.5: num_row+0.5;
-    zs = 0.5: num_sli+0.5;
-    [ X, Y, Z ] = meshgrid( xs, ys, zs );
     
-    % reshape into vector
-    % can be accessed by X(i), Y(i), Z(i)
-    X = X(:);
-    Y = Y(:);
-    Z = Z(:);
+    % Ensure input is a column vector
+    unique_node_ind_v = unique_node_ind_v(:);
     
-    % extract certain nodes
-    X = X( unique_node_ind_v );
-    Y = Y( unique_node_ind_v );
-    Z = Z( unique_node_ind_v );
+    % Define the grid dimensions for nodes.
+    % Note: A grid of RxCxS elements has (R+1)x(C+1)x(S+1) nodes.
+    dim_nodes = [num_row + 1, num_col + 1, num_sli + 1];
     
-    num_node = length( unique_node_ind_v );
-    % temporary list for parfor
-    temp_list = zeros( num_node, 3 );
+    % Convert linear indices to Grid Subscripts (r, c, s)
+    [r, c, s] = ind2sub(dim_nodes, unique_node_ind_v);
     
-    for i = 1: num_node
-        temp_list( i, : ) = [ X(i), Y(i), Z(i) ];
-    end
+    % Map subscripts to physical coordinates. Formula: Coord = Index - 0.5
+    % This means Index 1 -> 0.5, Index 2 -> 1.5, etc.
+    % Meshgrid maps Row indices (dim 1) to Y and Col indices (dim 2) to X.
+    y = r - 0.5; 
+    x = c - 0.5; 
+    z = s - 0.5; 
     
-    % create point list, storing x y z coordinate of all nodes
-    % nodecoor_list(i,:) = [ node_number, x, y, z ]
-    nodecoor_list = zeros( num_node, 4 );
-    nodecoor_list( :, 1 ) = unique_node_ind_v;
-    nodecoor_list( :, 2:4 ) = temp_list;
+    % Combine into final list: [node_ID, x, y, z]
+    % Concatenate the vectors directly.
+    nodecoor_list = [unique_node_ind_v, x, y, z];
 
 end
