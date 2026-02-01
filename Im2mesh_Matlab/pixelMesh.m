@@ -8,7 +8,24 @@ function [vert,quad,tnum,vert2,quad2] = pixelMesh( im, opt )
 %   opt.select_phase = [1 3];
 %   [vert,quad,tnum,vert2,quad2] = pixelMesh( im, opt );
 %
-% input: im - is grayscale uint8 2d image.
+% input: 
+%   im - is grayscale uint8 2d image.
+%
+%   opt - a structure array. It is the options for pixelMesh.
+%         It stores parameter settings for pixelMesh.
+%
+%   opt.select_phase - Select phase for meshing
+%                      Parameter type: vector
+%                      If 'select_phase' is [], all the phases will be
+%                      chosen to perform meshing
+%                      'select_phase' is an index vector for sorted 
+%                      grayscales (ascending order) in an image.
+%                      For example, an image with grayscales of 40, 90,
+%                      200, 240, 255. If u're interested in 40, 200, and
+%                      240, then set 'select_phase' as [1 3 4]. Those 
+%                      phases corresponding to grayscales of 40, 200, 
+%                      and 240 will be chosen to perform meshing.
+%                      Default value: []
 %
 % Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
 % Distributed under the terms of the GNU General Public License (version 3)
@@ -209,10 +226,7 @@ function nodecoor_list = getNodelist( unique_node_ind_v, num_col, num_row )
 %
 % Revision history:
 %   Jiexian Ma, mjx0799@gmail.com, Nov 2019
-% Cite As:
-%   Jiexian Ma (2023). pixelMesh (pixel-based mesh) (https://www.mathworks.
-%   com/matlabcentral/fileexchange/104715-pixelmesh-pixel-based-mesh), MATL
-%   AB Central File Exchange. Retrieved January 12, 2023.
+%
 
     % generate x y coordinate of all nodes
     % can be accessed by X( row, col, sli ), Y( row, col, sli ), 
