@@ -145,15 +145,16 @@ function [vert,ele,tnum,vert2,ele2] = pixelMesh( im, opt )
     %----------------------------------------------------------------------
     % update node numbering in ele by mapping: nodecoor_list(i,1) -> i
     % so we can safely discard the 1st column of nodecoor_list in next step
-%     new_ele = ele;
-% 
-%     for i = 1: size(nodecoor_list,1)
-%         old_ind = nodecoor_list(i,1);
-%         new_ind = i;
-%         new_ele( ele == old_ind ) = new_ind;
-%     end
-%     
-%     ele = new_ele;
+    
+    % new_ele = ele;
+    % 
+    % for i = 1: size(nodecoor_list,1)
+    %     old_ind = nodecoor_list(i,1);
+    %     new_ind = i;
+    %     new_ele( ele == old_ind ) = new_ind;
+    % end
+    % 
+    % ele = new_ele;
 
     %----------------------------------------------------------------------
     % speed up the above process
