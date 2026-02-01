@@ -1,12 +1,12 @@
-function [vert,quad,tnum,vert2,quad2] = pixelMesh( im, opt )
+function [vert,ele,tnum,vert2,ele2] = pixelMesh( im, opt )
 % pixelMesh: Convert 2d multi-phase image to pixel-based finite element 
-% mesh (4-node quadrilateral element)
+% mesh (4-node quadrilateral element). See demo12 for usage example.
 %
 % usage:
-%   [vert,quad,tnum,vert2,quad2] = pixelMesh( im );
+%   [vert,ele,tnum,vert2,ele2] = pixelMesh( im );
 %   % OR
 %   opt.select_phase = [1 3];
-%   [vert,quad,tnum,vert2,quad2] = pixelMesh( im, opt );
+%   [vert,ele,tnum,vert2,ele2] = pixelMesh( im, opt );
 %
 % input: 
 %   im - is grayscale uint8 2d image.
@@ -26,6 +26,28 @@ function [vert,quad,tnum,vert2,quad2] = pixelMesh( im, opt )
 %                      phases corresponding to grayscales of 40, 200, 
 %                      and 240 will be chosen to perform meshing.
 %                      Default value: []
+%                      See demo09 for usage example.
+%
+% output:
+%   vert, ele define linear elements. vert2, ele2 define 2nd order elements.
+%
+%     vert: Mesh nodes (for linear element). It’s a Nn-by-2 matrix, where 
+%           Nn is the number of nodes in the mesh. Each row of vert 
+%           contains the x, y coordinates for that mesh node.
+%     
+%     ele: Mesh elements (for linear element). For quadrilateral elements, 
+%           it s a Ne-by-4 matrix, where Ne is the number of elements in 
+%           the mesh. Each row in ele contains the indices of the nodes 
+%           for that mesh element.
+%     
+%     tnum: Label of phase. Ne-by-1 array, where Ne is the number of 
+%           elements
+%       tnum(j,1) = k; means the j-th element belongs to the k-th phase.
+%     
+%     vert2: Mesh nodes (for quadratic element). It’s a Nn-by-2 matrix.
+%     
+%     ele2: Mesh elements (for quadratic element). For quadrilateral 
+%           elements, it s a Ne-by-8 matrix.
 %
 % Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
 % Distributed under the terms of the GNU General Public License (version 3)
@@ -80,8 +102,8 @@ function [vert,quad,tnum,vert2,quad2] = pixelMesh( im, opt )
         num_ele = num_ele + sum(sum( im==intensity(i) ));
     end
     
-    % initialize quad, tnum
-    quad = zeros( num_ele, 4, integer_type );
+    % initialize ele, tnum
+    ele = zeros( num_ele, 4, integer_type );
     tnum = zeros( num_ele, 1, 'uint8' );
 
     %----------------------------------------------------------------------
@@ -105,7 +127,7 @@ function [vert,quad,tnum,vert2,quad2] = pixelMesh( im, opt )
                              (col-1)*(num_row+1) + row + 1
                              ];
             
-            quad(k,:) = Lind_4corner;
+            ele(k,:) = Lind_4corner;
             tnum(k,:) = find( im(row,col) == intensity );
             
             k = k + 1;
@@ -114,24 +136,24 @@ function [vert,quad,tnum,vert2,quad2] = pixelMesh( im, opt )
 
     %----------------------------------------------------------------------
     % get all node numbering 
-    unique_node_ind_v = unique(quad);
+    unique_node_ind_v = unique(ele);
 
     % get list of node coordinates, corresponding to unique_node_ind_v
     % nodecoor_list(i,:) = [ node_numbering, x, y ]
     nodecoor_list = getNodelist( unique_node_ind_v, num_col, num_row );
     
     %----------------------------------------------------------------------
-    % update node numbering in quad by mapping: nodecoor_list(i,1) -> i
+    % update node numbering in ele by mapping: nodecoor_list(i,1) -> i
     % so we can safely discard the 1st column of nodecoor_list in next step
-%     new_quad = quad;
+%     new_ele = ele;
 % 
 %     for i = 1: size(nodecoor_list,1)
 %         old_ind = nodecoor_list(i,1);
 %         new_ind = i;
-%         new_quad( quad == old_ind ) = new_ind;
+%         new_ele( ele == old_ind ) = new_ind;
 %     end
 %     
-%     quad = new_quad;
+%     ele = new_ele;
 
     %----------------------------------------------------------------------
     % speed up the above process
@@ -143,10 +165,10 @@ function [vert,quad,tnum,vert2,quad2] = pixelMesh( im, opt )
         mapping( ind_vec(i) ) = i;
     end
     
-    numE = size(quad,1);
+    numE = size(ele,1);
     for i = 1: numE
         for j = 1: 4
-            quad(i,j) = mapping( quad(i,j) );
+            ele(i,j) = mapping( ele(i,j) );
         end
     end
 
@@ -156,7 +178,7 @@ function [vert,quad,tnum,vert2,quad2] = pixelMesh( im, opt )
 
     %----------------------------------------------------------------------
     % convert linear to quadratic element
-    [vert2, quad2] = insertNode(vert, quad);
+    [vert2, ele2] = insertNode(vert, ele);
     
     %----------------------------------------------------------------------
 end
