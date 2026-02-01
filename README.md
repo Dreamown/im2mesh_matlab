@@ -16,7 +16,7 @@ Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part
 **News:**
 
 - Version 2.49 can generate and export tetrahedral mesh (see demo18).
-- Version 2.45 can export polygonal boundaries as `dxf` file (CAD).
+- Version 2.45 can export image boundaries as `dxf` file (CAD).
 - Version 2.2.0 can use Gmsh as mesh generator (unstructured quadrilateral mesh).
 - Version 2.1.6 updates the DOI. Im2mesh is now citable.
 
