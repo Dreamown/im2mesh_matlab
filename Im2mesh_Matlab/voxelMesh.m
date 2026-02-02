@@ -78,7 +78,7 @@ function [vert,ele,tnum,vert2,ele2] = voxelMesh( im, opt )
     num_col = size( im, 2 );
     num_sli = size( im, 3 );    % slice
     integer_type = getIntType( num_col, num_row, num_sli );
-
+    
     %----------------------------------------------------------------------
     % get unique intensities from image
     %----------------------------------------------------------------------
