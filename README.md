@@ -116,5 +116,5 @@ This project incorporates code from the following open-source projects. I apprec
 
 ## Other related projects
 
-- [writeMesh (write mesh to inp, bdf, and msh files)](https://www.mathworks.com/matlabcentral/fileexchange/180415-writemesh-write-mesh-to-inp-bdf-and-msh-files)
+- [writeMesh (write mesh to inp, bdf, and msh files)](https://github.com/mjx888/writeMesh)
 
