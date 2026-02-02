@@ -72,7 +72,7 @@ function [vert,ele,tnum,vert2,ele2] = voxelMesh( im, opt )
     %----------------------------------------------------------------------
     % pre-process
     %----------------------------------------------------------------------
-    im = flip( flip( im, 1 ), 3 );  % FEM software use right-hand coordinate
+    im = flip( flip( im, 1 ), 3 ); % FEM software use right-hand coordinate
     
     num_row = size( im, 1 );
     num_col = size( im, 2 );
@@ -166,7 +166,7 @@ function [vert,ele,tnum,vert2,ele2] = voxelMesh( im, opt )
     % end
     % 
     % ele = new_ele;
-
+    
     %----------------------------------------------------------------------
     % speed up the above process
     ind_vec = nodecoor_list(:,1);
@@ -183,7 +183,7 @@ function [vert,ele,tnum,vert2,ele2] = voxelMesh( im, opt )
             ele(i,j) = mapping( ele(i,j) );
         end
     end
-
+    
     %----------------------------------------------------------------------
     % x y z coordinates of vertices
     %----------------------------------------------------------------------
@@ -281,6 +281,6 @@ function nodecoor_list = getNodelist( unique_node_ind_v, num_col, num_row, num_s
     
     % Combine into final list: [node_ID, x, y, z]
     % Concatenate the vectors directly.
-    nodecoor_list = [unique_node_ind_v, x, y, z];
+    nodecoor_list = [double(unique_node_ind_v), x, y, z];
 
 end
