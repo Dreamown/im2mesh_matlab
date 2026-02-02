@@ -1,15 +1,15 @@
-function [vert,ele,tnum,vert2,ele2] = pixelMesh( im, opt )
-% pixelMesh: Convert 2d multi-phase image to pixel-based finite element 
-% mesh (4-node quadrilateral element). See demo12 for usage example.
+function [vert,ele,tnum,vert2,ele2] = voxelMeshSlow( im, opt )
+% voxelMesh: Convert 3d multi-phase image to voxel-based finite element 
+% mesh (8-node brick element). See demo19 for usage example.
 %
 % usage:
-%   [vert,ele,tnum,vert2,ele2] = pixelMesh( im );
+%   [vert,ele,tnum,vert2,ele2] = voxelMesh( im );
 %   % OR
 %   opt.select_phase = [1 3];
-%   [vert,ele,tnum,vert2,ele2] = pixelMesh( im, opt );
+%   [vert,ele,tnum,vert2,ele2] = voxelMesh( im, opt );
 %
 % input: 
-%   im - is grayscale uint8 2d image.
+%   im - is grayscale uint8 3d image.
 %
 %   opt - a structure array. It is the options for pixelMesh.
 %         It stores parameter settings for pixelMesh.
@@ -35,8 +35,8 @@ function [vert,ele,tnum,vert2,ele2] = pixelMesh( im, opt )
 %           Nn is the number of nodes in the mesh. Each row of vert 
 %           contains the x, y coordinates for that mesh node.
 %     
-%     ele: Mesh elements (for linear element). For quadrilateral elements, 
-%           it s a Ne-by-4 matrix, where Ne is the number of elements in 
+%     ele: Mesh elements (for linear element). For brick elements, 
+%           it s a Ne-by-8 matrix, where Ne is the number of elements in 
 %           the mesh. Each row in ele contains the indices of the nodes 
 %           for that mesh element.
 %     
@@ -46,8 +46,8 @@ function [vert,ele,tnum,vert2,ele2] = pixelMesh( im, opt )
 %     
 %     vert2: Mesh nodes (for quadratic element). It’s a Nn-by-2 matrix.
 %     
-%     ele2: Mesh elements (for quadratic element). For quadrilateral 
-%           elements, it s a Ne-by-8 matrix.
+%     ele2: Mesh elements (for quadratic element). For brick 
+%           elements, it s a Ne-by-20 matrix.
 %
 % Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
 % Distributed under the terms of the GNU General Public License (version 3)
@@ -70,14 +70,13 @@ function [vert,ele,tnum,vert2,ele2] = pixelMesh( im, opt )
 
     %----------------------------------------------------------------------
     % pre-process
-    im = flip(im,1);	% in FEM software using right-hand coordinate, 
-                        % to coincide with that, must flip in row direction
-                        % so the origin of coordinates is at bottom-left
-
+    im = flip( flip( im, 1 ), 3 );  % FEM software use right-hand coordinate
+    
     num_row = size( im, 1 );
     num_col = size( im, 2 );
-    integer_type = getIntType( num_col, num_row );
-    
+    num_sli = size( im, 3 );    % slice
+    integer_type = getIntType( num_col, num_row, num_sli );
+
     %----------------------------------------------------------------------
     % get unique intensities from image
     intensity = unique( im );     % column vector
@@ -99,62 +98,68 @@ function [vert,ele,tnum,vert2,ele2] = pixelMesh( im, opt )
     num_phase = length( intensity );
     num_ele = 0;
     for i = 1: num_phase
-        num_ele = num_ele + sum(sum( im==intensity(i) ));
+        num_ele = num_ele + sum(sum(sum( im==intensity(i) )));
     end
     
     % initialize ele, tnum
-    ele = zeros( num_ele, 4, integer_type );
+    ele = zeros( num_ele, 8, integer_type );
     tnum = zeros( num_ele, 1, 'uint8' );
-
+    
     %----------------------------------------------------------------------
-    % get 4-node numbering of each element
-    k = 1; % counter
+    % get 8-node numbering of each element
+    m = 1;  % counter
     for i = 1: num_row
         for j = 1: num_col
-            row = i;
-            col = j;
-            
-            % check intensity
-            if ~ismember( im(row,col), intensity )
-                continue
+            for k = 1: num_sli
+                row = i;
+                col = j;
+                sli = k;
+                
+                % check intensity
+                if ~ismember( im(row,col,sli), intensity )
+                    continue
+                end
+                
+                % node numbering of 8 corner 
+                Lind_8corner = [ 
+                                 (col-1)*(num_row+1) + row + (num_row+1)*(num_col+1)*(sli-1), ...
+                                 col*(num_row+1) + row + (num_row+1)*(num_col+1)*(sli-1), ...
+                                 col*(num_row+1) + row + 1 + (num_row+1)*(num_col+1)*(sli-1), ...
+                                 (col-1)*(num_row+1) + row + 1 + (num_row+1)*(num_col+1)*(sli-1), ...
+                                 (col-1)*(num_row+1) + row + (num_row+1)*(num_col+1)*sli, ...
+                                 col*(num_row+1) + row + (num_row+1)*(num_col+1)*sli, ...
+                                 col*(num_row+1) + row + 1 + (num_row+1)*(num_col+1)*sli, ...
+                                 (col-1)*(num_row+1) + row + 1 + (num_row+1)*(num_col+1)*sli
+                                 ];
+                
+                ele(m,:) = Lind_8corner;
+                tnum(m,:) = find( im(row,col,sli) == intensity );
+                
+                m = m + 1;
             end
-            
-            % node numbering of 4 corner 
-            Lind_4corner = [ 
-                             (col-1)*(num_row+1) + row, ...
-                             col*(num_row+1) + row, ...
-                             col*(num_row+1) + row + 1, ...
-                             (col-1)*(num_row+1) + row + 1
-                             ];
-            
-            ele(k,:) = Lind_4corner;
-            tnum(k,:) = find( im(row,col) == intensity );
-            
-            k = k + 1;
         end
     end
-
+    
     %----------------------------------------------------------------------
     % get all node numbering 
     unique_node_ind_v = unique(ele);
 
     % get list of node coordinates, corresponding to unique_node_ind_v
     % nodecoor_list(i,:) = [ node_numbering, x, y ]
-    nodecoor_list = getNodelist( unique_node_ind_v, num_col, num_row );
+    nodecoor_list = getNodelist( unique_node_ind_v, num_col, num_row, num_sli );
     
     %----------------------------------------------------------------------
     % update node numbering in ele by mapping: nodecoor_list(i,1) -> i
     % so we can safely discard the 1st column of nodecoor_list in next step
-    
-    % new_ele = ele;
-    % 
-    % for i = 1: size(nodecoor_list,1)
-    %     old_ind = nodecoor_list(i,1);
-    %     new_ind = i;
-    %     new_ele( ele == old_ind ) = new_ind;
-    % end
-    % 
-    % ele = new_ele;
+%     new_ele = ele;
+% 
+%     for i = 1: size(nodecoor_list,1)
+%         old_ind = nodecoor_list(i,1);
+%         new_ind = i;
+%         new_ele( ele == old_ind ) = new_ind;
+%     end
+%     
+%     ele = new_ele;
 
     %----------------------------------------------------------------------
     % speed up the above process
@@ -168,22 +173,21 @@ function [vert,ele,tnum,vert2,ele2] = pixelMesh( im, opt )
     
     numE = size(ele,1);
     for i = 1: numE
-        for j = 1: 4
+        for j = 1: 8
             ele(i,j) = mapping( ele(i,j) );
         end
     end
 
     %----------------------------------------------------------------------
-    % x y coordinates of vertices
-    vert = nodecoor_list(:,2:3);
+    % x y z coordinates of vertices
+    vert = nodecoor_list(:,2:4);
 
     %----------------------------------------------------------------------
     % convert linear to quadratic element
-    [vert2, ele2] = insertNode(vert, ele);
+    [vert2, ele2] = insertNode3d(vert, ele);
     
     %----------------------------------------------------------------------
 end
-
 
 function new_opt = setOption( opt )
 % setOption: verify field names in opt and set values in new_opt according
@@ -220,11 +224,10 @@ function new_opt = setOption( opt )
 
 end
 
-
-function integer_type = getIntType( num_col, num_row )
+function integer_type = getIntType( num_col, num_row, num_sli )
 % get the suitable integer type for storing node number
 
-    total_num_node = (num_row+1)*(num_col+1);
+    total_num_node = (num_row+1)*(num_col+1)*(num_sli+1);
     if total_num_node >0 && total_num_node < 2^64
         
         if total_num_node < 2^8
@@ -241,50 +244,45 @@ function integer_type = getIntType( num_col, num_row )
     end
 end
 
-
-function nodecoor_list = getNodelist( unique_node_ind_v, num_col, num_row )
+function nodecoor_list = getNodelist( unique_node_ind_v, num_col, num_row, num_sli )
 % getNodelist: get list of all nodes
 %
-% nodecoor_list(i,:) = [ node_number, x, y ]
+% nodecoor_list(i,:) = [ node_number, x, y, z ]
 %
 % Revision history:
 %   Jiexian Ma, mjx0799@gmail.com, Nov 2019
-%
 
-    % generate x y coordinate of all nodes
+    % generate x y z coordinate of all nodes
     % can be accessed by X( row, col, sli ), Y( row, col, sli ), 
+    % Z( row, col, sli )
     xs = 0.5: num_col+0.5;
     ys = 0.5: num_row+0.5;
-    [ X, Y ] = meshgrid( xs, ys );
+    zs = 0.5: num_sli+0.5;
+    [ X, Y, Z ] = meshgrid( xs, ys, zs );
     
     % reshape into vector
-    % can be accessed by X(i), Y(i)
+    % can be accessed by X(i), Y(i), Z(i)
     X = X(:);
     Y = Y(:);
+    Z = Z(:);
     
     % extract certain nodes
     X = X( unique_node_ind_v );
     Y = Y( unique_node_ind_v );
+    Z = Z( unique_node_ind_v );
     
     num_node = length( unique_node_ind_v );
-    % temporary list
-    temp_list = zeros( num_node, 2 );
+    % temporary list for parfor
+    temp_list = zeros( num_node, 3 );
     
     for i = 1: num_node
-        temp_list( i, : ) = [ X(i), Y(i) ];
+        temp_list( i, : ) = [ X(i), Y(i), Z(i) ];
     end
     
-    % create point list, storing x y coordinate of all nodes
-    % nodecoor_list(i,:) = [ node_number, x, y ]
-    nodecoor_list = zeros( num_node, 3 );
+    % create point list, storing x y z coordinate of all nodes
+    % nodecoor_list(i,:) = [ node_number, x, y, z ]
+    nodecoor_list = zeros( num_node, 4 );
     nodecoor_list( :, 1 ) = unique_node_ind_v;
-    nodecoor_list( :, 2:3 ) = temp_list;
+    nodecoor_list( :, 2:4 ) = temp_list;
 
 end
-
-
-
-
-
-
-
