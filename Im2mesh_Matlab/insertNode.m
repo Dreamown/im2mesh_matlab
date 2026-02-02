@@ -77,7 +77,7 @@ function [vertU, triaU] = insertNodeTria(vert, tria)
     %    which unique index it corresponds to in vertU.
     % -------------------------------------------------------------
     [vertU, ~, ic] = unique(V2, 'stable', 'rows');
-    %
+    ic = convert2uint( ic );
     % The first occurrence of any coordinate is kept, in the
     % order they appear in V2.
 
@@ -125,6 +125,7 @@ function [vertU, triaU] = insertNodeQuad(vert, tria)
 
     % 4) Remove duplicates with "stable" to replicate original order
     [vertU, ~, ic] = unique(V2, 'stable', 'rows');
+    ic = convert2uint( ic );
 
     % 5) Construct the final 6-node connectivity "triaU"
     % Vector-map the original corners:
