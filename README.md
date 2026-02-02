@@ -15,7 +15,7 @@ Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part
 
 **News:**
 
-- Version 2.49 can generate and export tetrahedral mesh (see demo18).
+- Version 2.51 can generate and export voxel-based hexahedral mesh (brick element). See demo19.
 - Version 2.45 can export image boundaries as `dxf` file (CAD).
 - Version 2.2.0 can use Gmsh as mesh generator (unstructured quadrilateral mesh).
 - Version 2.1.6 updates the DOI. Im2mesh is now citable.
@@ -60,7 +60,7 @@ After downloading Im2mesh package ([releases](https://github.com/mjx888/im2mesh/
 
 Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im2mesh_Octave". 16 examples are provided. 
 
-- If you're using MATLAB,  examples are live script `mlx` files (`demo01.mlx` ~ `demo18.mlx`). If you find some text in the `mlx` file is missing, please read the `html` file instead. Note that `demo02.mlx` requires MATLAB Partial Differential Equation (PDE) Toolbox. If you don't have PDE Toolbox, you can skip `demo02.mlx`.
+- If you're using MATLAB,  examples are live script `mlx` files (`demo01.mlx` ~ `demo19.mlx`). If you find some text in the `mlx` file is missing, please read the `html` file instead. Note that `demo02.mlx` requires MATLAB Partial Differential Equation (PDE) Toolbox. If you don't have PDE Toolbox, you can skip `demo02.mlx`.
 - If you're using Octave,  examples are `m` files (`demo01.m` ~ `demo10.m`).
 - Examples are also available as `html` files in the folder "demo_html".
 
@@ -68,7 +68,7 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 
 - [demo01](https://mjx888.github.io/im2mesh_demo_html/demo01.html) - Demonstrate function `im2mesh`, which use `MESH2D` as mesh generator.
 - [demo02](https://mjx888.github.io/im2mesh_demo_html/demo02.html) - Demonstrate function `im2meshBuiltIn`, which use MATLAB built-in function `generateMesh` as mesh generator.
-- [demo03](https://mjx888.github.io/im2mesh_demo_html/demo03.html) - Export: save mesh as `inp`, `bdf`, `msh` or, `stl` file; save geometry as `dxf` file, `geo` file, or PSLG data.
+- [demo03](https://mjx888.github.io/im2mesh_demo_html/demo03.html) - Export: save mesh as `inp`, `bdf`, `msh` or, `stl` file; save image boundary as `dxf` file, `geo` file, or PSLG data.
 - [demo04](https://mjx888.github.io/im2mesh_demo_html/demo04.html) - What is inside function `im2mesh`
 - [demo05](https://mjx888.github.io/im2mesh_demo_html/demo05.html) - Avoid sharp corner
 - [demo06](https://mjx888.github.io/im2mesh_demo_html/demo06.html) - Thresholds in polyline smoothing
@@ -84,6 +84,7 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 - [demo16](https://mjx888.github.io/im2mesh_demo_html/demo16.html) - Add mesh seeds/nodes
 - [demo17](https://mjx888.github.io/im2mesh_demo_html/demo17.html) - Refine mesh
 - [demo18](https://mjx888.github.io/im2mesh_demo_html/demo18.html) - Create tetrahedral mesh based on 2D image
+- [demo19](https://mjx888.github.io/im2mesh_demo_html/demo19.html) - Function `voxelMesh` (voxel-based hexahedral mesh)
 
 
 
