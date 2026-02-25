@@ -15,7 +15,7 @@ Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part
 
 **News:**
 
-- Version 2.51 can generate and export voxel-based hexahedral mesh (brick element). See demo19.
+- Version 2.60 is under development. This version is able to generate tetrahedral mesh based on 3D voxel image! I may release it before April 2026.
 - Version 2.45 can export image boundaries as `dxf` file (CAD).
 - Version 2.2.0 can use Gmsh as mesh generator (unstructured quadrilateral mesh).
 - Version 2.1.6 updates the DOI. Im2mesh is now citable.
