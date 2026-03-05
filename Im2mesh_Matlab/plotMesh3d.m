@@ -28,15 +28,16 @@ function plotMesh3d( vert, ele, tnum, color_code, opt )
 %   opt.edgeAlpha = 0.5;
 %   opt.beta = 0.5;
 %   opt.tf_gs = 0;
+%   opt.cutPlaneYZ = 30; % Keeps elements where x <= 30
 %
 %   plotMesh3d( vert,ele,tnum, color_code, opt )
 %
 % input:
 %   Argument tnum, color_code, and opt are optional.
 %
-%   vert: Mesh nodes. It’s a Nn-by-2 matrix, where 
+%   vert: Mesh nodes. It's a Nn-by-3 matrix, where 
 %         Nn is the number of nodes in the mesh. Each row of vert 
-%         contains the x, y coordinates for that mesh node.
+%         contains the x, y, z coordinates for that mesh node.
 %     
 %   ele: Mesh elements. 
 %        For linear triangular elements, it s a Ne-by-3 matrix. 
@@ -51,24 +52,24 @@ function plotMesh3d( vert, ele, tnum, color_code, opt )
 %         When omitted, assign one phase.
 %
 %   color_code: Color code for selecting colormap.
-%               Interger. Value: 0-10. Default value: 0
-%			    0: grayscale, 1: lines, 2: parula, 3: turbo, 4: jet, 5: hot
-%			    6: cool, 7: summer, 8: winter, 9: bone, 10: pink.
+%                Interger. Value: 0-10. Default value: 0
+%                0: grayscale, 1: lines, 2: parula, 3: turbo, 4: jet, 5: hot
+%                6: cool, 7: summer, 8: winter, 9: bone, 10: pink.
 %
 %   opt: a structure array. It is the extra options for plotMesh3d.
 %        It stores extra parameter settings for plotMesh3d.
 %
 %   opt.mode: display mode. Value: 1 or 2.
-% 			  When opt.mode=1, plot faces and edges. Slower.
-% 			  When opt.mode=2, plot edges only. Faster.
+%             When opt.mode=1, plot faces and edges. Slower.
+%             When opt.mode=2, plot edges only. Faster.
 %             Default value: 1
 %
-%	opt.wid: line width of the plotted edges. Positive value.
+%   opt.wid: line width of the plotted edges. Positive value.
 %            Default value: 0.5
 %
 %   opt.faceAlpha: face transparency. It's a scalar value in range [0,1].
 %              Default value: 1
-
+%
 %   opt.edgeAlpha: edge line transparency. It's a scalar value in range [0,1].
 %              Default value: 0.5
 %
@@ -82,6 +83,10 @@ function plotMesh3d( vert, ele, tnum, color_code, opt )
 %              plotting. For some computer hardwares, set opt.tf_gs to 0
 %              may plot mesh faster.
 %              Default value: 1
+%
+%   opt.cutPlaneYZ: Scalar value defining a cut plane parallel to the Y-Z plane.
+%                   Elements whose x-centroid is <= this value are kept.
+%                   Default value: [] (no cut).
 %
 %
 % Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
@@ -136,6 +141,34 @@ function plotMesh3d( vert, ele, tnum, color_code, opt )
         ele = ele( :, 1:8 );
     else
         error("ele - wrong size.")
+    end
+
+    %--------------------------------------------------------------------
+    % apply cutting plane if specified
+    if ~isempty(opt.cutPlaneYZ)
+        if ~isscalar(opt.cutPlaneYZ)
+            error('opt.cutPlaneYZ must be a scalar value.');
+        end
+        
+        % Calculate x-centroids of all elements
+        num_ele_nodes = size(ele, 2);
+        cx = zeros(size(ele, 1), 1);
+        
+        for k = 1:num_ele_nodes
+            cx = cx + vert(ele(:,k), 1);
+        end
+        cx = cx / num_ele_nodes;
+        
+        % Identify elements to keep (centroid x <= opt.cutPlaneYZ)
+        keep_idx = cx <= opt.cutPlaneYZ;
+        
+        % Filter elements and phases
+        ele = ele(keep_idx, :);
+        tnum = tnum(keep_idx);
+        
+        if isempty(ele)
+            warning('All elements were removed by the cutPlaneYZ.');
+        end
     end
 
     %--------------------------------------------------------------------
@@ -251,6 +284,7 @@ function new_opt = setOption( opt )
     new_opt.edgeAlpha = 0.5;
     new_opt.beta = 0;
     new_opt.tf_gs = 1;
+    new_opt.cutPlaneYZ = []; % default: no plane cut
     
     if isempty(opt)
         return
@@ -318,4 +352,3 @@ function F = getBoundaryFaces(ele)
     F = faces(isBoundary, :);
 
 end
-

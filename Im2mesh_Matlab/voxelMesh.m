@@ -72,7 +72,8 @@ function [vert,ele,tnum,vert2,ele2] = voxelMesh( im, opt )
     %----------------------------------------------------------------------
     % pre-process
     %----------------------------------------------------------------------
-    im = flip( flip( im, 1 ), 3 ); % FEM software use right-hand coordinate
+    im = flip( im, 1 ); % FEM software use right-hand coordinate
+    im = rot90(im, -1);
     
     num_row = size( im, 1 );
     num_col = size( im, 2 );
