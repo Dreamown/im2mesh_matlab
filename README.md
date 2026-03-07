@@ -7,10 +7,9 @@
 Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part geometry, aka multi-domain or multi-phase geometry (see demo14-17).
 
 <p align="center">
-  <img src = "https://mjx888.github.io/im2mesh_demo_html/example_tree.jpg" height="100"> &nbsp
-  <img src = "https://mjx888.github.io/im2mesh_demo_html/example_shape.jpg" height="100"> &nbsp
-  <img src = "https://mjx888.github.io/im2mesh_demo_html/example_concrete.jpg" height="100"> 
+  <img src = "https://mjx888.github.io/im2mesh_demo_html/cover_2602.jpg" height="220"> 
 </p>
+
 
 
 **News:**
