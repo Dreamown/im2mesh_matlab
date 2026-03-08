@@ -1,5 +1,5 @@
 function plotVolFaces( im )
-% plotVolFaces: visualizes the outer surfaces of a 3D volume (3d array).
+% plotVolFaces: plot the outer surfaces of a 3D volume (3d uint8 array).
 %
 % Plots the 6 outer faces of the 3D array im onto a rectangular cuboid in 
 % 3D space.
@@ -8,13 +8,29 @@ function plotVolFaces( im )
 %
 
     % ---------------------------------------------------------------------
-    % 3D Histogram Equalization
+    % Make grayscale evenly distributed for visualization
     % ---------------------------------------------------------------------
-    % Flatten the 3D volume to a 1D array to perform global histogram
-    % equalization, then reshape it back to the original 3D dimensions.
-    % This ensures the contrast enhancement is applied uniformly across all slices.
-    original_size = size(im);
-    im = reshape(histeq(im(:)), original_size);
+    % Distribute the unique grayscale values evenly across the 0-255 range
+    
+    % Find all unique grayscale values present in the volume
+    % Converted to double immediately to prevent uint8 integer saturation 
+    % when adding 1 for the mapping indices later.
+    unique_vals = double(unique(im));
+    num_vals = length(unique_vals);
+    
+    % Create an evenly spaced array of new grayscale values from 0 to 255
+    if num_vals > 1
+        evenly_spaced_vals = round(linspace(0, 255, num_vals));
+    else
+        evenly_spaced_vals = unique_vals; % Handle single-color case
+    end
+    
+    % Create a lookup table (mapping) for fast replacement
+    mapping = zeros(256, 1, 'uint8');
+    mapping(unique_vals + 1) = evenly_spaced_vals;
+    
+    % Apply the mapping to the entire 3D volume
+    im = reshape(mapping(double(im(:)) + 1), size(im));
 
     % ---------------------------------------------------------------------
     % FEM software use right-hand coordinate
