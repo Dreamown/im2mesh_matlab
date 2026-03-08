@@ -5,6 +5,9 @@ function labels = label_tetrahedrons(vert, ele, phaseFaces, V)
 %
     
     disp('//////////////// Phase labeling ////////////////');
+    
+    % Start timer
+    tic;
 
     % disp('  -> Calculating tetrahedron centroids...');
     v1 = vert(ele(:,1), :);
@@ -47,8 +50,12 @@ function labels = label_tetrahedrons(vert, ele, phaseFaces, V)
         
         labels(inPhase) = i; % Assign phase label
     end
-    
+
+    % Stop timer
+    labelTime = toc;
+
     disp('//////////////// Labeling complete! ////////////////');
+    fprintf('//////////////// Time = %.2fs ////////////////\n', labelTime);
 end
 
 function [cell_start, cell_end, sort_order, minPx, minPy, num_cells_X, num_cells_Y] = build_spatial_hash(P, grid_size)
