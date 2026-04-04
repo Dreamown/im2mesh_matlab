@@ -1,6 +1,11 @@
 function im = importImStack( file_name )
-% import image stack
+% importImStack: import a 3d image stack
 % input -  file_name is a string
+% 
+% example: 
+%         file_name = 'test_stacked_image.tif';
+%         im = importImStack( file_name );
+%         
 
     info_image = imfinfo( file_name );
     num_file = length( info_image );
