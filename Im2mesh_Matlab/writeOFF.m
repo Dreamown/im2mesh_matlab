@@ -1,5 +1,9 @@
 function writeOFF(filename, V, F)
 % writeOFF: Export shared-vertex mesh to Object File Format (.off)
+%
+% Copyright (C) 2019-2026 by Jiexian Ma, mjx0799@gmail.com
+% Distributed under the terms of the GNU General Public License (version 3)
+% 
 % Project website: https://github.com/mjx888/im2mesh
 %
 
