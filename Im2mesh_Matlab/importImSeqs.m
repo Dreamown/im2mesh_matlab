@@ -1,6 +1,10 @@
 function im = importImSeqs( folder )
-% import image sequences
+% importImSeqs: import 2d image sequences
 % input -  folder is a string
+%
+% example:
+%     folder_name = 'test_image_sequences';
+%     im = importImSeqs( folder_name );
 %
 % Revision history:
 %   Jiexian Ma, mjx0799@gmail.com, Nov 2019
