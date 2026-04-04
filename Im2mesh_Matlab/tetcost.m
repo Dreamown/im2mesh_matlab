@@ -1,5 +1,5 @@
 function [Q, Volume] = tetcost(vert, ele)
-% TETCOST Evaluates the quality of a tetrahedral finite element mesh.
+% tetcost: Evaluates the quality of a tetrahedral finite element mesh.
 %
 %   [Q, Volume] = tetcost(vert, ele)
 %
@@ -19,6 +19,9 @@ function [Q, Volume] = tetcost(vert, ele)
 %   This uses MATLAB's built-in metric, which heavily penalizes "slivers":
 %       Q = 18 * V / ( sqrt(sum(L_i^2)) * sqrt(sum(A_k^2)) )
 %
+% Copyright (C) 2019-2026 by Jiexian Ma, mjx0799@gmail.com
+% Distributed under the terms of the GNU General Public License (version 3)
+% 
 % Project website: https://github.com/mjx888/im2mesh
 %
 
