@@ -6,8 +6,11 @@ function im = importImSeqs( folder )
 %     folder_name = 'test_image_sequences';
 %     im = importImSeqs( folder_name );
 %
-% Revision history:
-%   Jiexian Ma, mjx0799@gmail.com, Nov 2019
+% Copyright (C) 2019-2026 by Jiexian Ma, mjx0799@gmail.com
+% Distributed under the terms of the GNU General Public License (version 3)
+% 
+% Project website: https://github.com/mjx888/im2mesh
+%
 
     file_struct = dir( folder );
 
