@@ -3,6 +3,8 @@ function labels = label_tetrahedrons(vert, ele, phaseFaces, V)
 % Hashes points ONCE, uses flat array memory (no cell arrays).
 % Project website: https://github.com/mjx888/im2mesh
 %
+
+    warning("label_tetrahedrons is deprecated. Please use function labelTet instead.");
     
     disp('//////////////// Phase labeling ////////////////');
     
