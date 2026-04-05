@@ -24,58 +24,46 @@ Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part
 **Features (for 2d):**
 
 - Accurately preserve the contact details between different phases. 
-
 - Incorporates polyline smoothing and simplification
-
 - Able to edit polygonal boundary before mesh generation.
-
 - Support phase selection and local mesh refinement.
-
 - 4 mesh generators are available for selection: [MESH2D](https://github.com/dengwirda/mesh2d), [generateMesh](https://www.mathworks.com/help/pde/ug/pde.pdemodel.generatemesh.html), [Gmsh](https://gmsh.info/), and pixelMesh.
-
 - Graphical user interface (GUI) version is available as a MATLAB app and as a standalone desktop application.
 
-  <p align="center">
-    <img src = "https://mjx888.github.io/im2mesh_demo_html/GUI.png" height="300"> 
-  </p>
+
+<p align="center">
+  <img src = "https://mjx888.github.io/im2mesh_demo_html/GUI.png" height="300"> 
+</p>
 
 
 
 **Generated mesh can be exported as:** 
 
 - `inp` file with boundary node set (Abaqus)
-
 - `bdf` file (Nastran bulk data, compatible with COMSOL)
-
 - `msh` file (Gmsh mesh format)
-
 - `stl` file
-
 - MATLAB PDE model object
-
 - For other formats (such as `vtk`), you can import the generated `msh` file into software Gmsh and then export.
 
-  
+
 
 ## Dependencies
 
 - When using Im2mesh package or Im2mesh_GUI in MATLAB, you need to install MATLAB and the following MATLAB toolboxes: Image Processing Toolbox, Mapping Toolbox.
-
 - When using Im2mesh_GUI as a standalone desktop application, there is no need to install MATLAB or any MATLAB toolboxes. You can download the installer for standalone desktop app from: [link](https://mjx888.github.io/others/Installer_Im2mesh_GUI.zip)
-
 - When running `demo20` of Im2mesh, we need to install fTetWild. No need to install any MATLAB toolboxes for `demo20`.
 
-  
+
 
 ## Version compatibility
 
 - Im2mesh_GUI: MATLAB R2017b or later; version higher than R2018b is preferred.
-
 - Im2mesh package: MATLAB R2017b or later. GNU Octave 9.3.0 or later.
-
 - Gmsh: tested with version 4.13.1.
 
-  
+
+
 
 ## How to start
 
@@ -90,46 +78,27 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 **Examples:**
 
 - [demo01](https://mjx888.github.io/im2mesh_demo_html/demo01.html) - Demonstrate function `im2mesh`, which use `MESH2D` as mesh generator.
-
 - [demo02](https://mjx888.github.io/im2mesh_demo_html/demo02.html) - Demonstrate function `im2meshBuiltIn`, which use MATLAB built-in function `generateMesh` as mesh generator.
-
 - [demo03](https://mjx888.github.io/im2mesh_demo_html/demo03.html) - Export: save mesh as `inp`, `bdf`, `msh` or, `stl` file; save image boundary as `dxf` file, Gmsh `geo` file, or PSLG data.
-
 - [demo04](https://mjx888.github.io/im2mesh_demo_html/demo04.html) - What is inside function `im2mesh`
-
 - [demo05](https://mjx888.github.io/im2mesh_demo_html/demo05.html) - Avoid sharp corner
-
 - [demo06](https://mjx888.github.io/im2mesh_demo_html/demo06.html) - Thresholds in polyline smoothing
-
 - [demo07](https://mjx888.github.io/im2mesh_demo_html/demo07.html) - Parameter `hmax` and `grad_limit` in mesh generation
-
 - [demo08](https://mjx888.github.io/im2mesh_demo_html/demo08.html) - Function `plotMeshes`
-
 - [demo09](https://mjx888.github.io/im2mesh_demo_html/demo09.html) - How to select phases for meshing
-
 - [demo10](https://mjx888.github.io/im2mesh_demo_html/demo10.html) - Different polyline smoothing techniques
-
 - [demo11](https://mjx888.github.io/im2mesh_demo_html/demo11.html) - Find node sets at the interface and boundary
-
 - [demo12](https://mjx888.github.io/im2mesh_demo_html/demo12.html) - Function `pixelMesh` (pixel-based quadrilateral mesh)
-
 - [demo13](https://mjx888.github.io/im2mesh_demo_html/demo13.html) - Use `Gmsh` as mesh generator
-
 - [demo14](https://mjx888.github.io/im2mesh_demo_html/demo14.html) - Use polyshape to define geometry for mesh generation
-
 - [demo15](https://mjx888.github.io/im2mesh_demo_html/demo15.html) - Edit polygonal boundaries before meshing
-
 - [demo16](https://mjx888.github.io/im2mesh_demo_html/demo16.html) - Add mesh seeds/nodes
-
 - [demo17](https://mjx888.github.io/im2mesh_demo_html/demo17.html) - Refine mesh
-
 - [demo18](https://mjx888.github.io/im2mesh_demo_html/demo18.html) - 2D image to tetrahedral mesh
-
 - [demo19](https://mjx888.github.io/im2mesh_demo_html/demo19.html) - Function `voxelMesh` (voxel-based hexahedral mesh)
-
 - [demo20](https://mjx888.github.io/im2mesh_demo_html/demo20.html) - 3D voxel image to tetrahedral mesh
 
-  
+
 
 ## Author
 
