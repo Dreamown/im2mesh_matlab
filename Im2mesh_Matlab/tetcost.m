@@ -1,7 +1,10 @@
 function [Q, Volume] = tetcost(vert, ele)
 % tetcost: Evaluates the quality of a tetrahedral finite element mesh.
 %
-%   [Q, Volume] = tetcost(vert, ele)
+% example:
+%   tetcost(vert, ele);
+%
+%   [Q, Volume] = tetcost(vert, ele);
 %
 %   INPUTS:
 %       vert - Nn-by-3 matrix of vertex coordinates [x, y, z].
