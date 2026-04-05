@@ -23,6 +23,11 @@ function [convertedArray, selectedType] = convert2uint( inputArray )
 %   - Non-integer values will be rounded to the nearest integer.
 %   - Values larger than intmax('uint64') will saturate to that maximum.
 %
+% Copyright (C) 2019-2026 by Jiexian Ma, mjx0799@gmail.com
+% Distributed under the terms of the GNU General Public License (version 3)
+% 
+% Project website: https://github.com/mjx888/im2mesh
+%
 
     % Validate input
     if ~isnumeric(inputArray)

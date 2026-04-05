@@ -1,5 +1,36 @@
 function Vout = graph_smooth_taubin(Vin, F, feat, ntype, geom, lamda, mu, num_iters)
-% graph_smooth_taubin
+% graph_smooth_taubin: Applies constraint Taubin smoothing to a mesh
+%
+% This function performs volume-preserving Taubin smoothing on a given mesh.
+% Unlike standard Laplacian smoothing which tends to shrink the mesh, Taubin
+% smoothing alternates between a shrinking step (controlled by lamda) and an
+% expanding step (controlled by mu). This removes high-frequency noise while
+% preserving the overall volume and shape of the geometry. 
+% The smoothing is highly customizable and can be selectively applied or 
+% weighted based on specific mesh features, node types, and geometric 
+% constraints.
+%
+% Inputs:
+%   Vin       - [N x 3] matrix of the input vertex coordinates.
+%   F         - [M x 3] matrix of face connectivities (vertex indices forming triangles).
+%   feat      - String specifying the target feature type to smooth 
+%               (e.g., 'ext_triple', 'int_triple', 'bound'). Used to set weights.
+%   ntype     - [N x 1] numeric array of node/vertex classifications. Used to 
+%               determine which vertices are fixed (pinned) vs. smoothed.
+%   geom      - [N x D] matrix of geometric weighting factors per vertex that 
+%               modulate the intensity of the smoothing steps.
+%   lamda     - Scalar step size for the inward/shrinking smoothing step 
+%               (typically a positive value, e.g., 0.5).
+%   mu        - Scalar step size for the outward/expanding smoothing step 
+%               (typically a negative value, e.g., -0.53).
+%   num_iters - Integer defining the total number of smoothing iterations to perform.
+%
+% Outputs:
+%   Vout      - [N x 3] matrix of the final, smoothed vertex coordinates.
+%
+% Copyright (C) 2019-2026 by Jiexian Ma, mjx0799@gmail.com
+% Distributed under the terms of the GNU General Public License (version 3)
+% 
 % Project website: https://github.com/mjx888/im2mesh
 %
 

@@ -1,5 +1,6 @@
 function [nodes, elements] = readMsh( filename )
-% READ_MSH Reads a Gmsh .msh file (Format 2.2) and extracts nodes/elements.
+% readMsh: Reads a Gmsh .msh file (Format 2.2) and extracts nodes/elements.
+% Only works for tetrahedral mesh with one phase.
 %
 % Usage:
 %   [vert, ele] = readMsh('mesh.msh');
@@ -11,6 +12,9 @@ function [nodes, elements] = readMsh( filename )
 %   nodes    - [N x 3] matrix containing the x, y, z coordinates of the nodes
 %   elements - [E x 4] matrix containing the node indices of the tetrahedrons
 %
+% Copyright (C) 2019-2026 by Jiexian Ma, mjx0799@gmail.com
+% Distributed under the terms of the GNU General Public License (version 3)
+% 
 % Project website: https://github.com/mjx888/im2mesh
 %
 

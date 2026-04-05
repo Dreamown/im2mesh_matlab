@@ -1,16 +1,44 @@
-function labels = label_tetrahedrons(vert, ele, phaseFaces, V)
+function [vert, ele, labels] = labelTet(vert, ele, phaseFaces, V)
+% labelTet: assigns a phase label and remove background tetrahedrons
+%
+% This function assigns a phase label to each tetrahedron in a 3D mesh 
+% based on whether its centroid falls inside the boundary of a given phase.
+% It utilizes a highly optimized Spatial-Hash Ray Caster to perform 
+% point-in-polygon tests, applying an irrational rotation to avoid 
+% edge/vertex degeneracy during ray casting. Background tetrahedrons 
+% and redundant vertices are automatically removed.
+%
+% INPUTS:
+%   vert       - [N x 3] matrix of vertex coordinates for the tetrahedral mesh.
+%   ele        - [M x 4] matrix of element connectivity (indices into 'vert' 
+%                that form each tetrahedron).
+%   phaseFaces - Cell array where each cell contains the face connectivity 
+%                [K x 3] of a specific phase boundary surface mesh.
+%   V          - [P x 3] matrix of vertices corresponding to the faces 
+%                defined in 'phaseFaces'.
+%
+% OUTPUTS:
+%   vert       - [N_new x 3] Updated matrix of vertex coordinates (redundant ones removed).
+%   ele        - [M_new x 4] Updated matrix of element connectivity (background removed).
+%   labels     - [M_new x 1] vector containing the integer phase label assigned 
+%                to each remaining tetrahedron.
+%
 % Applies an Spatial-Hash Ray Caster for phase labeling
 % Hashes points ONCE, uses flat array memory (no cell arrays).
+%
+% Copyright (C) 2019-2026 by Jiexian Ma, mjx0799@gmail.com
+% Distributed under the terms of the GNU General Public License (version 3)
+% 
 % Project website: https://github.com/mjx888/im2mesh
 %
 
-    warning("label_tetrahedrons is deprecated. Please use function labelTet instead.");
-    
+    % ---------------------------------------------------------------------
     disp('//////////////// Phase labeling ////////////////');
     
     % Start timer
     tic;
 
+    % ---------------------------------------------------------------------
     % disp('  -> Calculating tetrahedron centroids...');
     v1 = vert(ele(:,1), :);
     v2 = vert(ele(:,2), :);
@@ -53,15 +81,42 @@ function labels = label_tetrahedrons(vert, ele, phaseFaces, V)
         labels(inPhase) = i; % Assign phase label
     end
 
+    % ---------------------------------------------------------------------
+    % Remove background tetrahedrons
+    idx = (labels == 0);
+    ele(idx, :) = [];
+    labels(idx) = [];
+    [ vert, ele ] = delRedundantVertex( vert, ele );
+    
+    % ---------------------------------------------------------------------
     % Stop timer
     labelTime = toc;
 
     disp('//////////////// Labeling complete! ////////////////');
     fprintf('//////////////// Time = %.2fs ////////////////\n', labelTime);
+    % ---------------------------------------------------------------------
 end
 
 function [cell_start, cell_end, sort_order, minPx, minPy, num_cells_X, num_cells_Y] = build_spatial_hash(P, grid_size)
+% BUILD_SPATIAL_HASH
+% 
+% INPUTS:
+%   P           - [N x 3] or [N x 2] matrix of point coordinates to be hashed.
+%   grid_size   - Scalar value specifying the spatial dimension of each grid cell.
+%
+% OUTPUTS:
+%   cell_start  - [num_cells_X * num_cells_Y x 1] array storing the start index 
+%                 in 'sort_order' for the points in a given linear grid cell ID.
+%   cell_end    - [num_cells_X * num_cells_Y x 1] array storing the end index 
+%                 in 'sort_order' for the points in a given linear grid cell ID.
+%   sort_order  - [N x 1] array of point indices sorted by their grid location.
+%   minPx       - Minimum X coordinate of the grid bounding box.
+%   minPy       - Minimum Y coordinate of the grid bounding box.
+%   num_cells_X - Total number of generated grid columns.
+%   num_cells_Y - Total number of generated grid rows.
+%
 % Replaces slow `accumarray` cell lists with hyper-fast sorted flat arrays
+
     numP = size(P, 1);
     minPx = min(P(:,1)) - grid_size;
     minPy = min(P(:,2)) - grid_size;
@@ -88,6 +143,25 @@ function [cell_start, cell_end, sort_order, minPx, minPy, num_cells_X, num_cells
 end
 
 function in = fast_Z_raycast_hashed(F, V_rot, P_rot, grid_size, cell_start, cell_end, sort_order, minPx, minPy, num_cells_X, num_cells_Y)
+% FAST_Z_RAYCAST_HASHED
+% 
+% INPUTS:
+%   F           - [K x 3] matrix of face connectivity defining the closed phase boundary.
+%   V_rot       - [P x 3] matrix of rotated vertices of the boundary mesh.
+%   P_rot       - [N x 3] matrix of rotated test points (tetrahedron centroids).
+%   grid_size   - Scalar size of each 2D hash grid cell.
+%   cell_start  - Start indices for each cell ID in 'sort_order'.
+%   cell_end    - End indices for each cell ID in 'sort_order'.
+%   sort_order  - Mapping array from sorted flat structure back to original point indices.
+%   minPx       - Minimum X boundary coordinate of the spatial hash.
+%   minPy       - Minimum Y boundary coordinate of the spatial hash.
+%   num_cells_X - Number of spatial hash columns.
+%   num_cells_Y - Number of spatial hash rows.
+%
+% OUTPUTS:
+%   in          - [N x 1] logical array where TRUE indicates the corresponding point 
+%                 in 'P_rot' lies completely inside the boundary mesh defined by 'F' and 'V_rot'.
+
     % Inner Raycaster, heavily vectorized and memory-preallocated
     numP = size(P_rot, 1);
     numF = size(F, 1);

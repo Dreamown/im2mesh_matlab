@@ -1,8 +1,27 @@
 function [allNodes, allTriangles, phaseIDs] = extractPhaseMesh(voxelData, voxelSpacing)
-% extractPhaseMesh: separate phases and generate exact voxel mesh (triangle)
+% extractPhaseMesh: Extracts separate surface meshes for each distinct phase in a 3D voxel volume.
+% This function identifies all unique phases/materials in the input voxel data, isolates them 
+% one by one, and generates an exact, blocky triangular mesh for each phase based on the voxel boundaries.
+%
+% Inputs:
+%   voxelData    - 3D numeric array representing the voxel volume. Different integer values
+%                  represent different phases or materials.
+%   voxelSpacing - 1x3 numeric array specifying the physical dimension of a single voxel 
+%                  in the [x, y, z] directions (e.g., [1, 1, 1]).
+%
+% Outputs:
+%   allNodes     - A cell array (size: numPhases x 1) where each cell contains an Nx3 matrix 
+%                  of node (vertex) coordinates for the corresponding phase's mesh.
+%   allTriangles - A cell array (size: numPhases x 1) where each cell contains an Mx3 matrix 
+%                  of triangle connectivity (indices into the node matrix) for the corresponding phase.
+%   phaseIDs     - A column vector containing the unique phase identifiers found in voxelData.
+%
+% Copyright (C) 2019-2026 by Jiexian Ma, mjx0799@gmail.com
+% Distributed under the terms of the GNU General Public License (version 3)
+% 
 % Project website: https://github.com/mjx888/im2mesh
 %
-    
+
     phaseIDs = unique(voxelData(:));
     numPhases = length(phaseIDs);
     
@@ -26,6 +45,20 @@ function [allNodes, allTriangles, phaseIDs] = extractPhaseMesh(voxelData, voxelS
 end
 
 function [nodes, triangles] = voxelToExactMesh(BW, spacing)
+% voxelToExactMesh: Generates an exact, blocky triangular surface mesh from a 3D binary mask.
+% It identifies the exposed faces of the foreground (true) voxels and converts these 
+% square faces into standard triangular elements.
+%
+% Inputs:
+%   BW      - 3D logical array (binary mask) where 1/true represents the phase volume of interest.
+%   spacing - 1x3 numeric array defining the physical dimensions of each voxel [dx, dy, dz].
+%             Defaults to [1, 1, 1] if not provided by the user.
+%
+% Outputs:
+%   nodes     - Nx3 matrix containing the [x, y, z] spatial coordinates of the mesh vertices.
+%   triangles - Mx3 matrix defining the triangular faces, where each row contains 
+%               three integer indices pointing to rows in the 'nodes' matrix.
+
     if nargin < 2, spacing = [1, 1, 1]; end
     [Nx, Ny, Nz] = size(BW);
 
