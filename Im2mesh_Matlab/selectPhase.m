@@ -21,6 +21,9 @@ function [Vnew, Fnew, flabelnew] = selectPhase( V, F, flabel, ind_vec )
 %     grayscale_we_like = [];
 %     [V, F, flabel] = selectPhase( V, F, flabel, grayscale_we_like );
 %
+% Copyright (C) 2019-2026 by Jiexian Ma, mjx0799@gmail.com
+% Distributed under the terms of the GNU General Public License (version 3)
+% 
 % Project website: https://github.com/mjx888/im2mesh
 %
 
