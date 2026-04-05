@@ -1,15 +1,50 @@
 function [finalNodes, finalTriangles, nodeTypes, faceLabels] = convert2dream3d(allNodes, allTriangles, phaseIDs)
-% convert2dream3d: 
-% highly optimized conversion for large datasets
+% convert2dream3d: convert individual phase meshes into a global DREAM.3D 
+% compatible surface mesh.
 %
-% 'nodeTypes', N-by-1 array, is the label for node type. The label is as follows.
-% 2: Normal Vertex
-% 3: Triple Line
-% 4: Quadruple Point
-% 12: Normal Vertex on the outer surface
-% 13: Triple Line on the outer surface
-% 14: Quadruple Point on the outer surface
-    
+% This function takes independently generated surface meshes (nodes and triangles) 
+% for multiple individual phases (or grains) and combines them into a single, 
+% globally unified mesh. It removes duplicate nodes, resolves shared faces 
+% between adjacent phases, assigns phase labels to both sides of each face, 
+% and classifies the topological type of every node based on phase connectivity 
+% and boundary proximity.
+%
+% Inputs:
+%   allNodes     - A 1D cell array of length numPhases. Each cell contains an 
+%                  N_i-by-3 numeric array of node (vertex) coordinates [X, Y, Z] 
+%                  for phase i.
+%   allTriangles - A 1D cell array of length numPhases. Each cell contains an 
+%                  M_i-by-3 numeric array of triangle connectivities for phase i, 
+%                  referencing local nodes within the corresponding allNodes cell.
+%   phaseIDs     - A 1D numeric array of length numPhases containing the unique 
+%                  identifiers (e.g., Grain IDs or Phase IDs) for each mesh group.
+%
+% Outputs:
+%   finalNodes     - A K-by-3 numeric array of all unique global node coordinates.
+%   finalTriangles - An L-by-3 numeric array of global triangle connectivities 
+%                    referencing the row indices of finalNodes.
+%   nodeTypes      - A K-by-1 numeric array labeling the topological type of each node:
+%                       2: Normal Vertex (touches 1 or 2 phases)
+%                       3: Triple Line (touches 3 phases)
+%                       4: Quadruple Point (touches 4 or more phases)
+%                      12: Normal Vertex on the outer boundary surface
+%                      13: Triple Line on the outer boundary surface
+%                      14: Quadruple Point on the outer boundary surface
+%   faceLabels     - An L-by-2 numeric array where each row contains the phaseIDs 
+%                    of the two phases sharing the corresponding triangle in 
+%                    finalTriangles. If the face is on an outer boundary 
+%                    (unshared), the second column will be -1.
+%
+% Notes:
+%   Highly optimized conversion for large datasets utilizing sparse matrices, 
+%   integer coordinate matching, and single-pass topological compilation.
+%
+% Copyright (C) 2019-2026 by Jiexian Ma, mjx0799@gmail.com
+% Distributed under the terms of the GNU General Public License (version 3)
+% 
+% Project website: https://github.com/mjx888/im2mesh
+%
+
     numPhases = length(phaseIDs);
     
     % --- OPTIMIZATION 1: Preallocate global arrays ---
@@ -107,6 +142,6 @@ function [finalNodes, finalTriangles, nodeTypes, faceLabels] = convert2dream3d(a
     isOuterNode = (finalNodes(:,1) <= minX + tol) | (finalNodes(:,1) >= maxX - tol) | ...
                   (finalNodes(:,2) <= minY + tol) | (finalNodes(:,2) >= maxY - tol) | ...
                   (finalNodes(:,3) <= minZ + tol) | (finalNodes(:,3) >= maxZ - tol);
-                   
+                    
     nodeTypes(isOuterNode) = nodeTypes(isOuterNode) + 10;
 end
