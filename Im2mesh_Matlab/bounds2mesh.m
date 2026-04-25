@@ -73,6 +73,13 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
 %                  specifying mesh size at multiple points.
 %                  Default value: []
 %
+%   opt.tf_preserve - Boolean. Value: 0 or 1. Whether preserve the
+%                     input edges with minimal refinement. When this option
+%                     is set as 1, MESH2D attempts to retain the initial 
+%                     edges without further subdivision, and edges are 
+%                     split only to satisfy basic geomertical conformance.
+%                     Default value: 0
+%
 % output:
 %   vert, tria define linear elements. vert2, tria2 define 2nd order elements.
 %
@@ -214,7 +221,12 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
     
     hfun = @trihfn2;
     
+    % set opt for refine2
     optRef.disp = opt.disp;
+    if opt.tf_preserve == 1
+        optRef.ref1 = 'preserve';
+    end
+
     [vert,etri,tria,tnum] = refine2(node,edge,part,optRef,hfun, ...
                                     vlfs,tlfs,slfs,hlfs);
     
@@ -276,6 +288,7 @@ function new_opt = setOption( opt )
     new_opt.interior_poly = {};
     new_opt.disp = 10;
     new_opt.hinitial = [];
+    new_opt.tf_preserve = false;
 
     if isempty(opt)
         return
