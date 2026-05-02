@@ -11,6 +11,13 @@ Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part
 </p>
 
 
+**Downloads:**
+
+- [Im2mesh package](https://github.com/mjx888/im2mesh/releases)
+- [GUI version](https://mjx888.github.io/others/Im2mesh_GUI.mlappinstall) (MATLAB app)
+- [GUI version](https://mjx888.github.io/others/Installer_Im2mesh_GUI.zip) (Standalone desktop application & No need to install MATLAB)
+
+
 
 **News:**
 
@@ -67,7 +74,7 @@ Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part
 
 ## How to start
 
-After downloading Im2mesh package ([releases](https://github.com/mjx888/im2mesh/releases)), I suggest you start with [Im2mesh_GUI app](https://github.com/mjx888/im2mesh/tree/main/Im2mesh_GUI%20app) in the folder, which will help you understand the workflow and parameters of Im2mesh. A detailed tutorial is provided in [Im2mesh_GUI Tutorial.pdf](https://github.com/mjx888/im2mesh/blob/main/Im2mesh_GUI%20Tutorial.pdf). Note that Im2mesh_GUI is for 2D images. 
+After downloading Im2mesh package ([releases](https://github.com/mjx888/im2mesh/releases)), I suggest you start with [Im2mesh_GUI app](https://github.com/mjx888/im2mesh/tree/main/Im2mesh_GUI%20app) in the folder, which will help you understand the workflow and parameters of Im2mesh. A detailed tutorial is provided in [Im2mesh_GUI Tutorial.pdf](https://github.com/mjx888/im2mesh/blob/main/Im2mesh_GUI%20Tutorial.pdf). **Note that Im2mesh_GUI is for 2D images.** 
 
 Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im2mesh_Octave". 20 examples are provided. `demo01` ~ `demo18` are for 2D images. `demo19` and `demo20` are for 3D voxel images.
 
