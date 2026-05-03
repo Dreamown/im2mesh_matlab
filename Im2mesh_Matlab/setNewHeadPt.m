@@ -1,9 +1,11 @@
 function new_poly = setNewHeadPt( poly, head_index )
 % rearrange polygon to new head point / different start vertex
 % note: number of vertices in poly is n, but the size of poly is (n+1)*2
+%
 % example: 
 %     poly=[1 2; 3 4; 5 6; 7 8; 9 10; 1 2];
 %     new_poly = setNewHeadPt( poly, 2 );
+%
 % Revision history:
 %   mjx0799@gmail.com, May 2019
 

@@ -3,6 +3,9 @@ function poly = taubinSmooth(poly, lambda, mu, iters)
 % detail: https://pypi.org/project/shapelysmooth/#taubin
 % 		  https://www.cse.wustl.edu/~taoju/cse554/lectures/lect06_Fairing.pdf
 %
+% usage:
+%	poly = taubinSmooth(poly, lambda, mu, iters)
+%
 % inputs:
 %    poly: N-by-2 array of (x,y)
 %    lambda    : forward Laplacian factor   (0 < lambda < 1)

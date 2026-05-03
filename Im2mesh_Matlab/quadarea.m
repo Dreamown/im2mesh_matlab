@@ -4,7 +4,8 @@ function area = quadarea(vert, ele)
 %   - Counterclockwise ordering yields a positive area.
 %   - Clockwise ordering yields a negative area.
 %
-%   area = quadarea(vert, ele)
+% usage:
+%   area = quadarea(vert, ele);
 %
 % INPUTS:
 %   vert : Nn-by-2 matrix of (x, y) coordinates for the Nn mesh nodes.

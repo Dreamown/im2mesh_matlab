@@ -1,5 +1,9 @@
 function [ vert, ele ] = delRedundantVertex( vert, ele )
 % delRedundantVertex: delete redundant vertex in 'vert' and update 'ele'
+% 
+% usage:
+%	[ vert, ele ] = delRedundantVertex( vert, ele );
+%
 
     % Find all node indices that the mesh actually uses
     keep = unique(ele(:));     % column vector of used node IDs

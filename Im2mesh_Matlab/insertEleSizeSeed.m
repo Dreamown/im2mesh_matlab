@@ -1,8 +1,12 @@
 function xyNew = insertEleSizeSeed( xy, targetLen )
 % insertEleSizeSeed: insert equally spaced seeds to polyline (edges)
 %
-% xy - n-by-2 array. Each row is a vertex for polyline.
-% targetLen - space between seeds
+% usage:
+%	xyNew = insertEleSizeSeed( xy, targetLen );
+%
+% input:
+% 	xy - n-by-2 array. Each row is a vertex for polyline.
+% 	targetLen - space between seeds
 %
 % Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
 % Distributed under the terms of the GNU General Public License (version 3)

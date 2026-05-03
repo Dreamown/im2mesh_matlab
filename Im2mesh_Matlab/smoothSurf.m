@@ -8,6 +8,9 @@ function V = smoothSurf( V, F, ntype, num_iters, lamda, mu)
 % and boundaries, while constraining the vertices within their original 
 % bounding box.
 %
+% usage:
+%	V = smoothSurf( V, F, ntype, num_iters, lamda, mu);
+%
 % INPUTS:
 %   V - N x 3 numeric array. The original vertex coordinates of the mesh.
 %   F - M x 3 numeric array. The face connectivity matrix.

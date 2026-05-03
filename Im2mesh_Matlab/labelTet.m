@@ -8,6 +8,9 @@ function [vert, ele, labels] = labelTet(vert, ele, phaseFaces, V)
 % edge/vertex degeneracy during ray casting. Background tetrahedrons 
 % and redundant vertices are automatically removed.
 %
+% usage:
+%	[vert, ele, labels] = labelTet(vert, ele, phaseFaces, V);
+%
 % INPUTS:
 %   vert       - [N x 3] matrix of vertex coordinates for the tetrahedral mesh.
 %   ele        - [M x 4] matrix of element connectivity (indices into 'vert' 

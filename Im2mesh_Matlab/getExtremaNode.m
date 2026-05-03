@@ -2,6 +2,9 @@ function node_cell = getExtremaNode( nodecoor_cell, xyzchar, fHandle, tolerance 
 % getExtremaNode: get nodes with extrema coordinates, such as x min, x max
 % xyzchar - 'x', 'y', or 'z'
 %
+% usage:
+%	node_cell = getExtremaNode( nodecoor_cell, xyzchar, fHandle, tolerance );
+%
 % example:
 %     xyzchar = 'z';
 %     tolerance = 0.1;

@@ -1,7 +1,11 @@
 function [allNodes, allTriangles, phaseIDs] = extractPhaseMesh(voxelData, voxelSpacing)
 % extractPhaseMesh: Extracts separate surface meshes for each distinct phase in a 3D voxel volume.
+%
 % This function identifies all unique phases/materials in the input voxel data, isolates them 
 % one by one, and generates an exact, blocky triangular mesh for each phase based on the voxel boundaries.
+%
+% usage:
+%	[allNodes, allTriangles, phaseIDs] = extractPhaseMesh(voxelData, voxelSpacing);
 %
 % Inputs:
 %   voxelData    - 3D numeric array representing the voxel volume. Different integer values

@@ -4,6 +4,7 @@ function [vertU, eleU] = insertNode3d(vert, ele)
 %
 % Works for tetrahedral and hexahedral element.
 %
+% usage:
 %   [vertU, eleU] = insertNode(vert, ele);
 %
 % input:

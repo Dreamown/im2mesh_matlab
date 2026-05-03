@@ -9,6 +9,9 @@ function printDxf( bounds, file_name )
 % the phases, with different phases storing in different draw layer. The
 % other 4 dxf files are for each phase in 'bounds'.
 %
+% usage:
+%	printDxf( bounds, file_name );
+%
 % input:
 %   bounds - A nested cell array of 2d polygonal boundaries.
 %            Polygons in bounds{i} belong to the i-th part or phase.

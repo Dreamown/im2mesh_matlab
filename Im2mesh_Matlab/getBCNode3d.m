@@ -3,6 +3,11 @@ function [ xmin_node_cell, xmax_node_cell, ...
            zmin_node_cell, zmax_node_cell ] = getBCNode3d( nodecoor_cell, tolerance )
 % getBCNode3d: get node set for boundary condition (BC)
 % 
+% usage:
+% 	[ xmin_node_cell, xmax_node_cell, ...
+%	   ymin_node_cell, ymax_node_cell, ...
+%	   zmin_node_cell, zmax_node_cell ] = getBCNode3d( nodecoor_cell, tolerance );
+%
 % input:
 %   tolerance - tolerance for coordinates when searching boundary node set 
 %               (at max & min location). Sub-routine will automatically 

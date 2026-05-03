@@ -3,6 +3,9 @@ function [ phaseLoops, phaseTria ] = tria2Surface( vert,conn,tria,tnum )
 % 
 % A surface is defined by line loops or curve loops of boundary edges
 %
+% usage:
+%	[ phaseLoops, phaseTria ] = tria2Surface( vert,conn,tria,tnum );
+%
 % input:
 %   vert: Mesh nodes (for linear element). It’s a Nn-by-2 matrix, where 
 %           Nn is the number of nodes in the mesh. Each row of vert 

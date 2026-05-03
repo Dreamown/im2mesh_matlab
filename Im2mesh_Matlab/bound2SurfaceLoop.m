@@ -2,6 +2,9 @@ function [ phaseLoops, vertex, newEdge ] = bound2SurfaceLoop( bounds )
 % bound2SurfaceLoop: convert a cell array of polygonal boundaries to a 
 % nesting cell array for storing multiple loops (Gmsh).
 %
+% usage:
+%   [ phaseLoops, vertex, newEdge ] = bound2SurfaceLoop( bounds );
+%
 % input:
 %   bounds - a nested cell array of 2d polygonal boundaries.
 %            Polygons in bounds{i} belong to the i-th part or phase.

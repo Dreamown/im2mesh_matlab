@@ -2,6 +2,8 @@ function [ node_cell, edge_cell ] = getPolyNodeEdge( bounds )
 % getPolyNodeEdge: get nodes and edges of polygonal boundary. Nodes and
 % edges is in format of planar straight-line graph
 % 
+% usage:
+%	[ node_cell, edge_cell ] = getPolyNodeEdge( bounds );
 %
 % input:
 %   bounds - a nested cell array of 2d polygonal boundaries.

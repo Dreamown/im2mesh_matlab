@@ -1,6 +1,9 @@
 function [vert,conn,tria,tnum] = deltri1( node, edge, part )
 % deltri1: the simpfied version of deltri2 (revised by Jiexian Ma)
 %
+% usage:
+%	[vert,conn,tria,tnum] = deltri1( node, edge, part );
+%
 % deltri2 compute a constrained 2-simplex Delaunay triangula-
 % tion in the two-dimensional plane.
 %   Darren Engwirda : 2017 --
