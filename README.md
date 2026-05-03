@@ -15,7 +15,7 @@ Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part
 
 - [Im2mesh package](https://github.com/mjx888/im2mesh/releases)
 - [GUI version for 2D image](https://mjx888.github.io/others/Im2mesh_GUI.mlappinstall) (MATLAB app)
-- [GUI version for 2D image](https://mjx888.github.io/others/Installer_Im2mesh_GUI.zip) (Standalone desktop application & No need to install MATLAB)
+- [GUI version for 2D image](https://mjx888.github.io/others/Installer_Im2mesh_GUI.zip) (Standalone desktop application & no need to install MATLAB)
 
 
 
@@ -57,7 +57,7 @@ Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part
 
 - When using Im2mesh package or Im2mesh_GUI in MATLAB, you need to install MATLAB and the following MATLAB toolboxes: Image Processing Toolbox, Mapping Toolbox.
 - When using Im2mesh_GUI as a standalone desktop application, there is no need to install MATLAB or any MATLAB toolboxes. 
-- When running `demo20` of Im2mesh, we need to install fTetWild. No need to install any MATLAB toolboxes for `demo20`.
+- When running demo20 of Im2mesh, we need to install fTetWild. No need to install any MATLAB toolboxes for demo20.
 
 
 
