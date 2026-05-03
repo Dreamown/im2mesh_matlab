@@ -14,14 +14,14 @@ Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part
 **Downloads:**
 
 - [Im2mesh package](https://github.com/mjx888/im2mesh/releases)
-- [GUI version for 2D image](https://mjx888.github.io/others/Im2mesh_GUI.mlappinstall) (MATLAB app)
-- [GUI version for 2D image](https://mjx888.github.io/others/Installer_Im2mesh_GUI.zip) (Standalone desktop application & no need to install MATLAB)
+- [GUI version](https://mjx888.github.io/others/Im2mesh_GUI.mlappinstall) (MATLAB app)
+- [GUI version](https://mjx888.github.io/others/Installer_Im2mesh_GUI.zip) (standalone desktop application & no need to install MATLAB)
 
 
 
 **News:**
 
-- Version 2.60 can generate tetrahedral mesh based on 3D voxel image! See [demo20](https://mjx888.github.io/im2mesh_demo_html/demo20.html) and [Gallery](https://mjx888.github.io/im2mesh_demo_html/gallery.html).
+- Version 2.60 can generate tetrahedral mesh based on 3D voxel image! See [demo20](https://mjx888.github.io/im2mesh_demo_html/demo20.html).
 - Version 2.45 can export image boundaries as `dxf` file (CAD).
 - Version 2.2.0 can use Gmsh as mesh generator (quadrilateral mesh).
 
