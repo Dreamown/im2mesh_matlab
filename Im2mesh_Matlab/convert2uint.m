@@ -2,7 +2,8 @@ function [convertedArray, selectedType] = convert2uint( inputArray )
 % convert2uint: Converts double array to the smallest possible 
 % unsigned integer type.
 %
-% [convertedArray, selectedType] = smart_uint_converter(inputArray)
+% usage:
+% 	[convertedArray, selectedType] = smart_uint_converter(inputArray);
 % 
 % Inputs:
 %   inputArray - An array of doubles (can be any dimension).

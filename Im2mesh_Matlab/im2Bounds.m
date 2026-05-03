@@ -2,6 +2,9 @@ function bounds = im2Bounds( im )
 % im2Bounds: extract exact polygonal boundaries from grayscale segmented 
 % image using getExactBounds.m
 %
+% usage:
+%	bounds = im2Bounds( im );
+%
 % input:
 %   im - grayscale segmented image, type: uint8 matrix
 %

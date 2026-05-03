@@ -4,6 +4,7 @@ function plotBounds2( boundsA, boundsB )
 % usage:
 %   plotBounds2( boundsA, boundsB );
 %
+% input:
 %   bounds - a nested cell array of 2d polygonal boundaries.
 %            Polygons in bounds{i} belong to the i-th part or phase.
 %            bounds{i}{j} is one of the polygons in the i-th part.

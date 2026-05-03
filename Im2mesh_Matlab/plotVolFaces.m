@@ -4,6 +4,9 @@ function plotVolFaces( im )
 % Plots the 6 outer faces of the 3D array im onto a rectangular cuboid in 
 % 3D space.
 % 
+% usage:
+%	plotVolFaces( im );
+%
 % Copyright (C) 2019-2026 by Jiexian Ma, mjx0799@gmail.com
 % Distributed under the terms of the GNU General Public License (version 3)
 % 

@@ -2,6 +2,9 @@ function bounds = polyshape2bound( pC )
 % polyshape2bound: Convert a cell array of polyshape objects to a cell 
 % array of polygonal boundaries
 %
+% usage:
+%	bounds = polyshape2bound( pC );
+%
 % input:
 % pC - cell array of polyshape objects. pC{i} is a polyshape object, which 
 %      corresponds to polygons in bounds{i}

@@ -4,6 +4,9 @@ function [ xmin_node_cell, xmax_node_cell, ...
 % e.g., find xmin first, then get node number, whose x coordinate is equal 
 %       to xmin
 %
+% usage:
+%	[ xmin_node_cell, xmax_node_cell, ymin_node_cell, ymax_node_cell ] = getBCNode( nodecoor_cell );
+%
 % Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
 % Distributed under the terms of the GNU General Public License (version 3)
 % 

@@ -4,6 +4,7 @@ function [vertU, triaU] = insertNode(vert, tria)
 %
 % Works for triangular and quadrilateral element
 %
+% usage:
 %   [vertU, triaU] = insertNode(vert, tria);
 %
 % input:

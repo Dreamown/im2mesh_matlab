@@ -1,6 +1,9 @@
 function interfnode_cell = getInterf3d( nodecoor_cell )
 % getInterf3d: get interface node between phase nodecoor_cell{i} and nodecoor_cell{j}
 %
+% usage:
+%	interfnode_cell = getInterf3d( nodecoor_cell );
+%
 % interfnode_cell - n*n cell array. If nodecoor_cell{i} and
 %                   nodecoor_cell{j} don't contact,  interfnode_cell{i,j}
 %                   would be []. interfnode_cell{i,j} stores interfacial

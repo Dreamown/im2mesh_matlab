@@ -1,6 +1,9 @@
 function [V, F, ntype, flabel] = im2surf(im, voxelSpacing)
 % im2surf: 3d voxel image to 3d triangular surface mesh
 %
+% usage:
+%	[V, F, ntype, flabel] = im2surf(im, voxelSpacing);
+%
 % Inputs:
 %   im - 3D numeric array representing the voxel volume. Different integer values
 %        represent different phases or materials.

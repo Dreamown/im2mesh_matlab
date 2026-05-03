@@ -2,6 +2,9 @@ function [ nodeU, edgeU, part ] = regroup( poly_node, poly_edge )
 % regroup: organize cell array poly_node, poly_edge into array nodeU, edgeU
 % & a cell array 'part'
 %
+% usage:
+%	[ nodeU, edgeU, part ] = regroup( poly_node, poly_edge );
+%
 % input:
 %   poly_node, poly_edge - cell array, nodes and edges of polygonal boundary
 %   poly_node{i}, poly_edge{i} corresponds to polygons in the i-th phase.

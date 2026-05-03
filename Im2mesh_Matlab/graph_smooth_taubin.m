@@ -10,6 +10,9 @@ function Vout = graph_smooth_taubin(Vin, F, feat, ntype, geom, lamda, mu, num_it
 % weighted based on specific mesh features, node types, and geometric 
 % constraints.
 %
+% usage:
+% 	Vout = graph_smooth_taubin(Vin, F, feat, ntype, geom, lamda, mu, num_iters);
+%
 % Inputs:
 %   Vin       - [N x 3] matrix of the input vertex coordinates.
 %   F         - [M x 3] matrix of face connectivities (vertex indices forming triangles).

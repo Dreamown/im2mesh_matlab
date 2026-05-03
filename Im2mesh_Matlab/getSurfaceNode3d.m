@@ -3,6 +3,9 @@ function nodes = getSurfaceNode3d( ele )
 % Works for tetrahedral and hexahedral mesh.
 % Works for linear and quadratic element.
 %
+% usage:
+%	nodes = getSurfaceNode3d( ele );
+%
 % Input:
 %   ele - Mesh elements. 
 %

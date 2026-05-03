@@ -2,6 +2,9 @@ function Bs = getExactBounds( bw )
 % getExactBounds: get the exact boundaries (polygonal) of binary image
 % sub-function: outerboundary.m and holeboundary.m
 % 
+% usage:
+%	Bs = getExactBounds( bw );
+%
 % input bw - binary image
 % ouput Bs - stores column (x) and row (y) coordinates of exact polygonal 
 %           boundaries. Bs is a p-by-1 cell array, where p is the number of

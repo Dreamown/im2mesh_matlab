@@ -9,20 +9,27 @@ function [finalNodes, finalTriangles, nodeTypes, faceLabels] = convert2dream3d(a
 % and classifies the topological type of every node based on phase connectivity 
 % and boundary proximity.
 %
+% usage:
+%	[finalNodes, finalTriangles, nodeTypes, faceLabels] = convert2dream3d(allNodes, allTriangles, phaseIDs);
+%
 % Inputs:
 %   allNodes     - A 1D cell array of length numPhases. Each cell contains an 
 %                  N_i-by-3 numeric array of node (vertex) coordinates [X, Y, Z] 
 %                  for phase i.
+%
 %   allTriangles - A 1D cell array of length numPhases. Each cell contains an 
 %                  M_i-by-3 numeric array of triangle connectivities for phase i, 
 %                  referencing local nodes within the corresponding allNodes cell.
+%
 %   phaseIDs     - A 1D numeric array of length numPhases containing the unique 
 %                  identifiers (e.g., Grain IDs or Phase IDs) for each mesh group.
 %
 % Outputs:
 %   finalNodes     - A K-by-3 numeric array of all unique global node coordinates.
+%
 %   finalTriangles - An L-by-3 numeric array of global triangle connectivities 
 %                    referencing the row indices of finalNodes.
+%
 %   nodeTypes      - A K-by-1 numeric array labeling the topological type of each node:
 %                       2: Normal Vertex (touches 1 or 2 phases)
 %                       3: Triple Line (touches 3 phases)
@@ -30,6 +37,7 @@ function [finalNodes, finalTriangles, nodeTypes, faceLabels] = convert2dream3d(a
 %                      12: Normal Vertex on the outer boundary surface
 %                      13: Triple Line on the outer boundary surface
 %                      14: Quadruple Point on the outer boundary surface
+%
 %   faceLabels     - An L-by-2 numeric array where each row contains the phaseIDs 
 %                    of the two phases sharing the corresponding triangle in 
 %                    finalTriangles. If the face is on an outer boundary 

@@ -2,6 +2,9 @@ function [Vnew, Fnew, flabelnew] = selectPhase( V, F, flabel, ind_vec )
 % selectPhase: modify surface mesh faces and labels based on a vector of 
 % phase indices.
 %
+% usage:
+%	[Vnew, Fnew, flabelnew] = selectPhase( V, F, flabel, ind_vec );
+%
 % Inputs:
 %   V      - Vertices
 %   F      - Faces

@@ -2,6 +2,9 @@ function p = bound2polyshape(bounds)
 % bound2polyshape: Convert a cell array of polygonal boundaries to a cell 
 % array of polyshape objects.
 %
+% usage:
+%   p = bound2polyshape(bounds);
+%
 % input:
 %   bounds - a nested cell array of 2d polygonal boundaries.
 %            Polygons in bounds{i} belong to the i-th part or phase.

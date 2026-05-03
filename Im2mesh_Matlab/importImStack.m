@@ -3,8 +3,8 @@ function im = importImStack( file_name )
 % input -  file_name is a string
 % 
 % example: 
-%         file_name = 'test_stacked_image.tif';
-%         im = importImStack( file_name );
+%	file_name = 'test_stacked_image.tif';
+%	im = importImStack( file_name );
 %
 % Copyright (C) 2019-2026 by Jiexian Ma, mjx0799@gmail.com
 % Distributed under the terms of the GNU General Public License (version 3)

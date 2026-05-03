@@ -14,8 +14,8 @@ Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part
 **Downloads:**
 
 - [Im2mesh package](https://github.com/mjx888/im2mesh/releases)
-- [GUI version](https://mjx888.github.io/others/Im2mesh_GUI.mlappinstall) (MATLAB app)
-- [GUI version](https://mjx888.github.io/others/Installer_Im2mesh_GUI.zip) (Standalone desktop application & No need to install MATLAB)
+- [GUI version for 2D image](https://mjx888.github.io/others/Im2mesh_GUI.mlappinstall) (MATLAB app)
+- [GUI version for 2D image](https://mjx888.github.io/others/Installer_Im2mesh_GUI.zip) (Standalone desktop application & No need to install MATLAB)
 
 
 
@@ -23,8 +23,7 @@ Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part
 
 - Version 2.60 can generate tetrahedral mesh based on 3D voxel image! See [demo20](https://mjx888.github.io/im2mesh_demo_html/demo20.html) and [Gallery](https://mjx888.github.io/im2mesh_demo_html/gallery.html).
 - Version 2.45 can export image boundaries as `dxf` file (CAD).
-- Version 2.2.0 can use Gmsh as mesh generator (unstructured quadrilateral mesh).
-- Version 2.1.6 updates the DOI. Im2mesh is now citable.
+- Version 2.2.0 can use Gmsh as mesh generator (quadrilateral mesh).
 
 
 
@@ -50,15 +49,14 @@ Im2mesh can also be used as a mesh generation interface for MATLAB 2D multi-part
 - `bdf` file (Nastran bulk data, compatible with COMSOL)
 - `msh` file (Gmsh mesh format)
 - `stl` file
-- MATLAB PDE model object
-- For other formats (such as `vtk`), you can import the generated `msh` file into software Gmsh and then export.
+- For other formats, you can import the generated `msh` file into software Gmsh and then export.
 
 
 
 ## Dependencies
 
 - When using Im2mesh package or Im2mesh_GUI in MATLAB, you need to install MATLAB and the following MATLAB toolboxes: Image Processing Toolbox, Mapping Toolbox.
-- When using Im2mesh_GUI as a standalone desktop application, there is no need to install MATLAB or any MATLAB toolboxes. You can download the installer for standalone desktop app from: [link](https://mjx888.github.io/others/Installer_Im2mesh_GUI.zip)
+- When using Im2mesh_GUI as a standalone desktop application, there is no need to install MATLAB or any MATLAB toolboxes. 
 - When running `demo20` of Im2mesh, we need to install fTetWild. No need to install any MATLAB toolboxes for `demo20`.
 
 
@@ -81,6 +79,8 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 - If you're using MATLAB,  examples are live script `mlx` files (`demo01.mlx` ~ `demo20.mlx`). If you find some text in the `mlx` file is missing, please read the `html` file instead.
 - If you're using Octave,  examples are `m` files (`demo01.m` ~ `demo10.m`).
 - Examples are also available as `html` files in the folder "demo_html".
+- You can skip `demo04-06` and `demo10-11`, which are kept for historical reason.
+- If you're only interested in 3D voxel images, you can skip `demo01-18`.
 
 **Examples:**
 
@@ -103,7 +103,7 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 - [demo17](https://mjx888.github.io/im2mesh_demo_html/demo17.html) - Refine mesh
 - [demo18](https://mjx888.github.io/im2mesh_demo_html/demo18.html) - 2D image to tetrahedral mesh
 - [demo19](https://mjx888.github.io/im2mesh_demo_html/demo19.html) - Function `voxelMesh` (voxel-based hexahedral mesh)
-- [demo20](https://mjx888.github.io/im2mesh_demo_html/demo20.html) - 3D voxel image to tetrahedral mesh
+- [demo20](https://mjx888.github.io/im2mesh_demo_html/demo20.html) - 3D voxel image to tetrahedral mesh (via fTetWild)
 
 
 

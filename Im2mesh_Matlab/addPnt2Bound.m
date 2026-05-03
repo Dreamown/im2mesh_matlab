@@ -1,7 +1,11 @@
 function bounds = addPnt2Bound( points, bounds, tolerance )
 % addPnt2Bound: add points to polygonal boundaries.
+%
 % Check whether points are lying near polygon bounds{i}{j}.
 % If it is, add point to polygon bounds{i}{j}
+%
+% usage:
+%   bounds = addPnt2Bound( points, bounds, tolerance );
 %
 % input:
 %   points - a p-by-2 array for x y coordinates of p points

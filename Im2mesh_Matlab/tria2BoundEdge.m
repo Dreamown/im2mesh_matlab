@@ -1,6 +1,9 @@
 function [edge, phaseEdge] = tria2BoundEdge( tria, tnum )
 % tria2BoundEdge: convert triangular mesh to boundary edges of surfaces (Gmsh entities).
 %
+% usage:
+%	[edge, phaseEdge] = tria2BoundEdge( tria, tnum );
+%
 % input:
 %   tria: Mesh elements (for linear element). For triangular elements, 
 %           it s a Ne-by-3 matrix, where Ne is the number of elements in 

@@ -6,6 +6,9 @@ function phaseFaces = extractPhaseFaces(F, flabel)
 % into a cell array. Each cell will contain the corresponding faces that 
 % belong to a specific individual phase.
 %
+% usage:
+%	phaseFaces = extractPhaseFaces(F, flabel);
+%
 % Inputs:
 %   F      - An N x M numeric matrix representing the surface mesh faces. 
 %            N is the total number of faces, and M is the number of vertices 

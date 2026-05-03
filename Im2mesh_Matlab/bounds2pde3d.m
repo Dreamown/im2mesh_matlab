@@ -1,12 +1,16 @@
 function model3d = bounds2pde3d( bounds, height, scale_factor )
 % bounds2pde3d: create Matlab 3d pde model object based on polygonal
 % boundaries.
+%
 % What function bounds2pde3d does:
 %     create a 2d pde mode object
 %     extrude in the Z direction using 'height'
 %     add correct phase label
 %     scale node coordinates using 'scale_factor'
 %     create a 3d pde mode object
+%
+% usage:
+%	model3d = bounds2pde3d( bounds, height, scale_factor );
 %
 % input:
 %   bounds - A nested cell array of 2d polygonal boundaries.

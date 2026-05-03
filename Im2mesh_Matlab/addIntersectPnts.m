@@ -1,6 +1,9 @@
 function bounds = addIntersectPnts( bounds, tolerance )
 % addIntersectPnts: search and add intersect points (vertex)
 %
+% usage:
+%   bounds = addIntersectPnts( bounds, tolerance );
+%
 % input:
 %   bounds - a nested cell array of 2d polygonal boundaries.
 %            Polygons in bounds{i} belong to the i-th part or phase.

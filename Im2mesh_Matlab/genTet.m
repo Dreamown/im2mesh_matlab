@@ -5,6 +5,9 @@ function [vert, ele, cmdout] = genTet( dockerCmd, mshFilePath )
 % Docker command (typically running fTetWild), measures the execution time,
 % and then imports the resulting mesh (.msh file) into MATLAB.
 %
+% usage:
+%	[vert, ele, cmdout] = genTet( dockerCmd, mshFilePath );
+%
 % Inputs:
 %   dockerCmd   - A string containing the Docker command to execute the 
 %                 meshing tool (e.g., fTetWild).

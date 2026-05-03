@@ -5,7 +5,6 @@ function plotMesh3d( vert, ele, tnum, color_code, opt )
 % If the input is a quadractic mesh, it will be treated as a linear mesh.
 % Nodes must be FEM ordering in an element.
 %
-%
 % usage 1:
 %   plotMesh3d( vert, ele );        % one phase
 %   plotMesh3d( vert, ele, tnum );  % multiple phases

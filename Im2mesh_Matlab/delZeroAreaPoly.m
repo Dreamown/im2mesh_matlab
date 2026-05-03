@@ -1,6 +1,9 @@
 function bounds = delZeroAreaPoly( bounds )
 % delZeroAreaPoly: delete polygon with zero area
 %
+% usage:
+%	bounds = delZeroAreaPoly( bounds );
+%
 %   bounds - a nested cell array of 2d polygonal boundaries.
 %            Polygons in bounds{i} belong to the i-th part or phase.
 %            bounds{i}{j} is one of the polygons in the i-th part.
