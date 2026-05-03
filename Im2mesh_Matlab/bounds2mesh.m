@@ -17,9 +17,12 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
 %            plot( bounds{i}{j}(:,1), bounds{i}{j}(:,2) ) to view the
 %            polygon. Use plotBounds( bounds ) to view all polygons.
 %   
-%   hmax - Maximum mesh-size
+%   hmax - Maximum mesh edge lengths. This is an approximate upper bound
+%		   on the mesh edge lengths. Range: > 0
 %   
-%   grad_limit - Scalar gradient-limit for mesh
+%   grad_limit - A limit on the gradient of mesh-size function.
+%				 Range: > 0. Typical value: 0.15 - 0.5
+%				 http://persson.berkeley.edu/pub/persson04gradlim.pdf
 %
 %   opt - a structure array. It is the options for bounds2mesh.
 %         It stores extra parameter settings for bounds2mesh.
