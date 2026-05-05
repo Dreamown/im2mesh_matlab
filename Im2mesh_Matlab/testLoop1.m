@@ -102,12 +102,73 @@ loop1 = phaseLoops{1}{1}{1};
 %      8     9
 
 %%
-numP = length(loop1) +1;
-polyline = zeros( size(numP, 1), 2);
-polyline(1,:) = conn( loop1(1) );
+% numP = length(loop1) +1;
+% polyline = zeros( size(numP, 1), 2);
+% polyline(1,:) = conn( loop1(1) );
 
+%%
+% I have the following variables in Matlab.
+% vert: Mesh nodes. It’s a Nn-by-2 matrix, where Nn is the number of nodes in the mesh. Each row of vert contains the x, y coordinates for that mesh node.
+% ele: Mesh elements. It s a Ne-by-3 matrix. Ne is the number of elements in the mesh. Each row in ele contains the indices of the nodes for that mesh element.
+% conn: C-by-2 array of constraining edges, where each row defines an edge. 
+% loop1: stores the edge/line indices within a loop of edges. It's an N-by-1 array. Edge/Line indices are storing in variable 'conn'. Note that the loop is 100% closed and does no have missing edge. If loop1(i) is negative, it means the orientation of an edge is reversed to achieve "head to tail" sequences. Walking through the edges in 'loop1' will get a closed polyline.
+% 
+% I want to convert a loop of edges to a closed polyline. Write Matlab code to do this.
+% A loop of edges is represented by variable 'loop1'.
+% A closed polyline is represented by the x and y coordinates of the polyline.
+% 
+% An example of variable 'loop1':
+% 2
+% 7
+% 11
+% 12
+% -10
+% -5
+% -3
+% -1
 
+%%
+num_edges = length(loop1);
 
+% Preallocate an array for the node sequence.
+% A closed loop of N edges has N unique nodes, plus 1 to close the polyline visually.
+poly_nodes = zeros(num_edges + 1, 1);
+
+for i = 1:num_edges
+    edge_idx = loop1(i);
+    abs_edge_idx = abs(edge_idx);
+    
+    % Get the node indices for this edge from the connectivity array
+    nodes = conn(abs_edge_idx, :);
+    
+    if edge_idx > 0
+        % Positive index: Orientation is nodes(1) -> nodes(2)
+        % The "head" of this segment is the first node
+        poly_nodes(i) = nodes(1);
+    else
+        % Negative index: Orientation is nodes(2) -> nodes(1)
+        % The "head" of this reversed segment is the second node
+        poly_nodes(i) = nodes(2);
+    end
+end
+
+% Close the polyline by appending the very first node to the end of the sequence
+poly_nodes(end) = poly_nodes(1);
+
+% Extract the x and y coordinates from the 'vert' array using the node sequence
+polyline_coords = vert(poly_nodes, :); 
+
+% If you need them as separate x and y coordinate arrays:
+poly_x = polyline_coords(:, 1);
+poly_y = polyline_coords(:, 2);
+
+% Optional: Plot to verify the result
+figure;
+plot(poly_x, poly_y, 'b-o', 'LineWidth', 1.5, 'MarkerFaceColor', 'r');
+title('Closed Polyline');
+axis equal;
+
+%%
 
 
 
