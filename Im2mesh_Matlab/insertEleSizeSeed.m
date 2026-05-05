@@ -1,6 +1,11 @@
 function xyNew = insertEleSizeSeed( xy, targetLen )
 % insertEleSizeSeed: insert equally spaced seeds to polyline (edges)
 %
+% In the output, the spacing of the seeds does not exactly equal to 
+% targetLen. In each edge, the seeds are inserted according to the 
+% following number of segments.
+%    numSegment = round( len / targetLen );
+%
 % usage:
 %	xyNew = insertEleSizeSeed( xy, targetLen );
 %
