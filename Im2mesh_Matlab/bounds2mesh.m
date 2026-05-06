@@ -127,6 +127,13 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
     opt = setOption( opt );
 
     % ---------------------------------------------------------------------
+    % Add uniform seeds to the outer boundary according to opt.outerbound_size
+
+    if opt.outerbound_size > 0
+        bounds = refineOuterBoundary( bounds, opt.outerbound_size );
+    end
+
+    % ---------------------------------------------------------------------
     % Add uniform seeds to all boundaries according to opt.bound_size
     
     if opt.bound_size > 0
