@@ -2,6 +2,10 @@ function [isMatching, details] = checkPBCNode( vert )
 % checkPBCNodeMatching checks if a 2D mesh on a rectangular domain
 % satisfies node matching for Periodic Boundary Conditions (PBCs).
 %
+% usage:
+%   [isMatching, details] = checkPBCNode( vert );
+%   checkPBCNode( vert );
+%
 % Inputs:
 %   vert - Nn-by-2 matrix of node coordinates [x, y]
 %
