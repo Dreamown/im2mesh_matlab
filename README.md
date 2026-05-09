@@ -79,7 +79,7 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 - If you're using MATLAB,  examples are live script `mlx` files (`demo01.mlx` ~ `demo20.mlx`). If you find some text in the `mlx` file is missing, please read the `html` file instead.
 - If you're using Octave,  examples are `m` files (`demo01.m` ~ `demo10.m`).
 - Examples are also available as `html` files in the folder "demo_html".
-- You can skip demo04-06 and demo10-11, which are kept for historical reason.
+- You can skip demo04-06 and demo10-11. These several demo are kept for historical reason.
 - If you're only interested in 3D voxel images, you can skip demo01-18.
 
 **Examples:**
@@ -104,6 +104,7 @@ Then, you can learn to use Im2mesh package in the folder "Im2mesh_Matlab" or "Im
 - [demo18](https://mjx888.github.io/im2mesh_demo_html/demo18.html) - 2D image to tetrahedral mesh
 - [demo19](https://mjx888.github.io/im2mesh_demo_html/demo19.html) - Function `voxelMesh` (voxel-based hexahedral mesh)
 - [demo20](https://mjx888.github.io/im2mesh_demo_html/demo20.html) - 3D voxel image to tetrahedral mesh (via fTetWild)
+- [demo21](https://mjx888.github.io/im2mesh_demo_html/demo21.html) - 2D mesh for periodic boundary conditions
 
 
 

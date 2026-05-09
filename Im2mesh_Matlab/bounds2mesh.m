@@ -42,12 +42,21 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
 %                   Each triangle is split into four new sub-triangles.
 %                   Default value: 0
 %
+%   opt.outerbound_size - Element size at the outermost polygonal boundary.
+%                         This is used to refine mesh near outermost 
+%                         boundary.
+%                         Default value: 0
+%
 %   opt.bound_size - Element size at constraint edges (i.e., polygonal 
 %                    boundary). This is used to refine mesh near all 
 %                    polygonal boundary, which maybe useful in some cases.
 %                    If you don t need to refine mesh near boundary, you 
 %                    can set bound_size to 0.
 %                    Default value: 0
+%                    In each edge, the seeds are inserted according to the 
+%                    following equation. 'len' is the length of an edge.
+%                       numSegment = round( len / targetSize );
+%                       actualSize = len / numSegment;
 %
 %   opt.local_max - n-by-2 array, used to specify max mesh size in a part.
 %                   '[2, 0.5; 3, 0.15]' means that max mesh size in part 2
@@ -125,6 +134,13 @@ function [vert,tria,tnum,vert2,tria2,etri] = bounds2mesh( bounds, hmax, grad_lim
     % ---------------------------------------------------------------------
     % verify field names and set values for opt
     opt = setOption( opt );
+
+    % ---------------------------------------------------------------------
+    % Add uniform seeds to the outer boundary according to opt.outerbound_size
+
+    if opt.outerbound_size > 0
+        bounds = refineOuterBoundary( bounds, opt.outerbound_size );
+    end
 
     % ---------------------------------------------------------------------
     % Add uniform seeds to all boundaries according to opt.bound_size
@@ -285,6 +301,7 @@ function new_opt = setOption( opt )
     new_opt.mesh_kind = 'delaunay';
     new_opt.tf_smooth = true;
     new_opt.num_split = 0;
+    new_opt.outerbound_size = 0;
     new_opt.bound_size = 0;
     new_opt.local_max = [];
     new_opt.pnt_size = [];

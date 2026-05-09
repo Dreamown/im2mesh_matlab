@@ -1,5 +1,6 @@
 function plotSurface( V, faces, color_code, opt )
-% plotSurface
+% plotSurface: plot surfaces
+% The second argument has to be an N-by-1 cell array.
 %
 % usage 1:
 %   plotSurface( V, faces );

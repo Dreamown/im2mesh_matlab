@@ -1,12 +1,18 @@
-function xyNew = insertEleSizeSeed( xy, targetLen )
+function xyNew = insertEleSizeSeed( xy, targetSpace )
 % insertEleSizeSeed: insert equally spaced seeds to polyline (edges)
 %
+% In the output, the spacing of the seeds does not exactly equal to 
+% targetSpace. In each edge, the seeds are inserted according to the 
+% following equation. 'len' is the length of an edge.
+%    numSegment = round( len / targetSpace );
+%    actualSpace = len / numSegment;
+%
 % usage:
-%	xyNew = insertEleSizeSeed( xy, targetLen );
+%	xyNew = insertEleSizeSeed( xy, targetSpace );
 %
 % input:
 % 	xy - n-by-2 array. Each row is a vertex for polyline.
-% 	targetLen - space between seeds
+% 	targetSpace - space between seeds
 %
 % Copyright (C) 2019-2025 by Jiexian Ma, mjx0799@gmail.com
 % Distributed under the terms of the GNU General Public License (version 3)
@@ -20,8 +26,8 @@ function xyNew = insertEleSizeSeed( xy, targetLen )
     dy = diff(xy(:,2));
     len = sqrt(dx.^2 + dy.^2);      % vector
 
-    % calculate the number of future segments for each edge by rounding!
-    numSegment = round( len / targetLen );      % vector
+    % calculate the number of future segments for each edge by rounding
+    numSegment = round( len / targetSpace );      % vector
     
     % --------------------------------------------------------------------
     % insert

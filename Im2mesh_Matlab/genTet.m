@@ -42,6 +42,7 @@ function [vert, ele, cmdout] = genTet( dockerCmd, mshFilePath )
         fprintf('//////////////// Time = %.2fs ////////////////\n', executionTime);
     else
         disp('//////////////// Error occurred ////////////////');
+        error('fTetWild error');
     end
 
     % import the .msh file into MATLAB
