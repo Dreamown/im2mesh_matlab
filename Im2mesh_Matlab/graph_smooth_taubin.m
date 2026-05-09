@@ -1,5 +1,6 @@
 function Vout = graph_smooth_taubin(Vin, F, feat, ntype, geom, lamda, mu, num_iters)
-% graph_smooth_taubin: Applies constraint Taubin smoothing to a mesh
+% graph_smooth_taubin: Applies constraint Taubin smoothing to a triangular 
+% surface mesh
 %
 % This function performs volume-preserving Taubin smoothing on a given mesh.
 % Unlike standard Laplacian smoothing which tends to shrink the mesh, Taubin
